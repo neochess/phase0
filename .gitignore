@@ -1,0 +1,16 @@
+# no compiled, no jar
+*.jar
+*.class
+
+# no build
+build/
+
+.idea/workspace.xml
+.idea/tasks.xml
+
+*.iws
+
+.gradle/
+.gradletasknamecache
+neochess.phase0.client/src/test/
+neochess.phase0.server/src/test/
