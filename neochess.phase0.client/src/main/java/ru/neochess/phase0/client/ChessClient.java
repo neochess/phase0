@@ -1,4 +1,5 @@
-package ru.neochess.phase0.client;import javax.swing.*;
+package ru.neochess.phase0.client;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
