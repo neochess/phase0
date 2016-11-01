@@ -1,4 +1,6 @@
-package ru.neochess.phase0.client;public interface ChessMen
+package ru.neochess.phase0.client;
+
+public interface ChessMen
 {
     public static int WKING = 0;
     public static int WQUEEN = 1;
@@ -15,5 +17,6 @@ package ru.neochess.phase0.client;public interface ChessMen
     public static int NOTHING = 12;
     public static int BLACK = 13;
     public static int WHITE = 14;
+    public static int BSLON = 15;
 };
 
