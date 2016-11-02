@@ -75,11 +75,11 @@ M - nothing
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
         setBoard();
+        serverconnection = new ChessServerConnection(this);
 
         processCommand("@BLACK");
         processCommand("@TOKEN");
 
-        //serverconnection = new ChessServerConnection(this);
         grabbed_piece = ChessMen.NOTHING;
     }
 
@@ -95,8 +95,8 @@ M - nothing
         setBoard();
         repaint();
         String encoding = encodeBoard();
-        //serverconnection.send(encoding);
-        //serverconnection.send("@RESET");
+        serverconnection.send(encoding);
+        serverconnection.send("@RESET");
 
     }
 
