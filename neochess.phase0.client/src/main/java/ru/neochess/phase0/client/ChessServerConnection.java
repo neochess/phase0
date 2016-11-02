@@ -8,7 +8,7 @@ import java.net.Socket;
  */
 public class ChessServerConnection
 {
-    private static final int PORT = 1234;
+    private static final int PORT = 5000;
     private static final String HOST = "localhost";
     InputHandlerThread inputhandler;
 
