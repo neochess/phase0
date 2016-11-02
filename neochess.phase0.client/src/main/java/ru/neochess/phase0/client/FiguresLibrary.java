@@ -12,8 +12,16 @@ public class FiguresLibrary {
 
     private List<LibItem> items = new ArrayList<LibItem>() {
         {
-            add(new LibItem("A", "Слон", "/figures/wking.gif"));
-            add(new LibItem("Z", "Z", "Z"));
+            add(new LibItem("A", "Король", "/figures/wking.gif", (matrix, xy, figure)->{
+                matrix[xy.get("x")][xy.get("y")] = figure;
+                return matrix; } ));
+
+            add(new LibItem("S", "Слон", "/figures/bqueen.gif", (matrix, xy, figure)->{
+                matrix[xy.get("x")][xy.get("y")] = figure;
+                matrix[xy.get("x")+1][xy.get("y")] = figure;
+                matrix[xy.get("x")][xy.get("y")+1] = figure;
+                matrix[xy.get("x")+1][xy.get("y")+1] = figure;
+                return matrix; } ));
         }
     };
 
@@ -40,8 +48,8 @@ public class FiguresLibrary {
         return new Figure(this.getItemByCode(code));
     }
 
-    public Figure getEmptyFigure() {
-        return getFigureByCode("Z");
-    }
+//    public Figure getEmptyFigure() {
+//        return getFigureByCode("Z");
+//    }
 
 }

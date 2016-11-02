@@ -2,6 +2,8 @@ package ru.neochess.phase0.client;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Map;
+import java.util.function.BiFunction;
 
 /**
  * Created by for on 01.11.16.
@@ -51,6 +53,11 @@ public class Figure {
 
     public String encodeFigure() {
         return this.race+this.getCode()+this.state;
+    }
+
+    public Figure[][] placeOnBoard(Figure[][] boardMatrix, Map<String,Integer> xy) {
+        PlacementInterface pf = this.lib.getPlacementFunc();
+        return (Figure[][]) pf.operation(boardMatrix, xy, this);
     }
 
 }

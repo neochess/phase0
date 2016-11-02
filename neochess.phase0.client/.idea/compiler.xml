@@ -19,8 +19,8 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="neochess.phase0.client_main" target="1.5" />
-      <module name="neochess.phase0.client_test" target="1.5" />
+      <module name="neochess.phase0.client_main" target="1.8" />
+      <module name="neochess.phase0.client_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

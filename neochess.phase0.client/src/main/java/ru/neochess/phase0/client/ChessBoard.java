@@ -8,6 +8,8 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by for on 29.10.16.
@@ -95,15 +97,19 @@ M - nothing
         setBoard();
         repaint();
         String encoding = encodeBoard();
-        serverconnection.send(encoding);
-        serverconnection.send("@RESET");
 
+        try {
+            serverconnection.send(encoding);
+            serverconnection.send("@RESET");
+        } catch (Exception ex) {
+
+        }
     }
 
 
     private void setBoard() {
 
-        decodeBoard("WA1ZZZWA1ZZZWA1WA1WA1ZZZZZZWA1ZZZWA1ZZZWA1");
+        decodeBoard("WA1WS1WA1WA1ZZZZZZZZZZZZZZZZZZZZZWA1WA1WA1");
 
 //        for (int i=0; i<10; i++)
 //            for (int j=0; j<10; j++)
@@ -175,7 +181,9 @@ M - nothing
                 else gfx.setColor(Color.gray);
                 b = !b;
                 gfx.fillRect(x, y, 50, 50);
+
                 paintChessMan(chess_matrix[i][j], x, y, gfx);
+
                 x += 50;
 
             }
@@ -430,7 +438,11 @@ M - nothing
         String pieceCode;
         String pieceState;
 
+        Map<String,Integer> xy = new HashMap();
+
         //if (encoding.length() < 100) return;
+
+//        Figure prevF = null;
 
         for (int i = 0; i < 300; i += 3) {
             if (i >= encoding.length()) return;
@@ -444,10 +456,32 @@ M - nothing
             if (pieceCode.equalsIgnoreCase("Z")) {
                 chess_matrix[row][col] = null;
             } else {
-                Figure currentFigure = fl.getFigureByCode(pieceCode);
-                currentFigure.setState(pieceState);
-                currentFigure.setRace(pieceRace);
-                chess_matrix[row][col] = currentFigure;
+
+                if (chess_matrix[row][col] == null) {
+
+                    Figure currentFigure = fl.getFigureByCode(pieceCode);
+                    currentFigure.setState(pieceState);
+                    currentFigure.setRace(pieceRace);
+
+//                    if (currentFigure != null && currentFigure==prevF){
+//                        System.out.println("фигура в "+row+" "+col+"та же что и предыдущая --- и это ошибка!");
+//                    }
+//                    prevF = currentFigure;
+//                    if (currentFigure != null && currentFigure==prevF){
+//                        System.out.println("этот всегда должен сойтись");
+//                    }
+
+                    //chess_matrix[row][col] = currentFigure;
+
+                    xy.put("x", row);
+                    xy.put("y", col);
+                    currentFigure.placeOnBoard(chess_matrix, xy);
+
+                } else {
+//                    if (chess_matrix[row][col] != null && chess_matrix[row][col]==prevF){
+//                        System.out.println("фигура в "+row+" "+col+"та же что и предыдущая");
+//                    }
+                }
             }
 //            switch (piece)
 //            {
