@@ -3,8 +3,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-
-
 /* Chess client application class */
 
 public class ChessClient extends JFrame
@@ -12,14 +10,10 @@ public class ChessClient extends JFrame
 	private ChessBoard board;
 	private BorderLayout layout;
 
-
-
 	private JMenuBar bar = new JMenuBar();
 	private JMenu gameMenu = new JMenu("Game");
 	private JMenuItem resetItem = new JMenuItem("Reset");
 	private JMenuItem exitItem = new JMenuItem("Exit");
-	
-	
 
 	
 	public ChessClient()
@@ -48,8 +42,6 @@ public class ChessClient extends JFrame
 			}
 		});
 
-		
-
 		resetItem.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent e)
@@ -59,10 +51,8 @@ public class ChessClient extends JFrame
 		}); 
 
 		setResizable(false);
-		setSize(400,445);
-		
+		setSize(500,545);
 	}
-
 
 
 	public static void main(String[] args)
