@@ -12,17 +12,75 @@ public class FiguresLibrary {
 
     private List<LibItem> items = new ArrayList<LibItem>() {
         {
-            add(new LibItem("A", "Король", "/figures/wking.gif", (board, rc, figure)->{
+            add(new LibItem("A", "Агр", "/figures/animals/agr.gif", (board, rc, figure)->{
                 board.getCellByIndex(rc.get("row"), rc.get("col")).placeIn(figure);
                 return board; } ));
 
-            add(new LibItem("S", "Слон", "/figures/bSLON.png", (board, rc, figure)->{
+            add(new LibItem("B", "Дикобраз", "/figures/animals/dkbrz.gif", (board, rc, figure)->{
+                board.getCellByIndex(rc.get("row"), rc.get("col")).placeIn(figure);
+                return board; } ));
+
+            add(new LibItem("C", "Дракон", "/figures/animals/drakon.gif", (board, rc, figure)->{
+                board.getCellByIndex(rc.get("row"), rc.get("col")).placeIn(figure);
+                return board; } ));
+
+            add(new LibItem("D", "Конь", "/figures/animals/kon.gif", (board, rc, figure)->{
+                board.getCellByIndex(rc.get("row"), rc.get("col")).placeIn(figure);
+                return board; } ));
+
+            add(new LibItem("E", "Носорог", "/figures/animals/nosrg.gif", (board, rc, figure)->{
+                board.getCellByIndex(rc.get("row"), rc.get("col")).placeIn(figure);
+                return board; } ));
+
+            add(new LibItem("F", "Оборотень", "/figures/animals/obrtn.gif", (board, rc, figure)->{
+                board.getCellByIndex(rc.get("row"), rc.get("col")).placeIn(figure);
+                return board; } ));
+
+            add(new LibItem("G", "Вожак", "/figures/animals/vojak.gif", (board, rc, figure)->{
+                board.getCellByIndex(rc.get("row"), rc.get("col")).placeIn(figure);
+                return board; } ));
+
+            add(new LibItem("H", "Слон", "/figures/animals/slon.gif", (board, rc, figure)->{
                 board.getCellByIndex(rc.get("row"), rc.get("col")).placeIn(figure);
                 board.getCellByIndex(rc.get("row")+1, rc.get("col")).placeIn(figure);
                 board.getCellByIndex(rc.get("row"), rc.get("col")+1).placeIn(figure);
                 board.getCellByIndex(rc.get("row")+1, rc.get("col")+1).placeIn(figure);
-
                 return board; } ));
+
+// -------------------------------------
+
+            add(new LibItem("I", "Король", "/figures/humans/korol.gif", (board, rc, figure)->{
+                board.getCellByIndex(rc.get("row"), rc.get("col")).placeIn(figure);
+                return board; } ));
+
+            add(new LibItem("J", "Королева", "/figures/humans/krlva.gif", (board, rc, figure)->{
+                board.getCellByIndex(rc.get("row"), rc.get("col")).placeIn(figure);
+                return board; } ));
+
+            add(new LibItem("K", "Ладья", "/figures/humans/ladya.gif", (board, rc, figure)->{
+                board.getCellByIndex(rc.get("row"), rc.get("col")).placeIn(figure);
+                return board; } ));
+
+            add(new LibItem("L", "Лучник", "/figures/humans/luchnk.gif", (board, rc, figure)->{
+                board.getCellByIndex(rc.get("row"), rc.get("col")).placeIn(figure);
+                return board; } ));
+
+            add(new LibItem("M", "Монах", "/figures/humans/monah.gif", (board, rc, figure)->{
+                board.getCellByIndex(rc.get("row"), rc.get("col")).placeIn(figure);
+                return board; } ));
+
+            add(new LibItem("N", "Офицер", "/figures/humans/ofcr.gif", (board, rc, figure)->{
+                board.getCellByIndex(rc.get("row"), rc.get("col")).placeIn(figure);
+                return board; } ));
+
+            add(new LibItem("O", "Пешка", "/figures/humans/peshka.gif", (board, rc, figure)->{
+                board.getCellByIndex(rc.get("row"), rc.get("col")).placeIn(figure);
+                return board; } ));
+
+            add(new LibItem("P", "Ловушка", "/figures/humans/lvshk.gif", (board, rc, figure)->{
+                board.getCellByIndex(rc.get("row"), rc.get("col")).placeIn(figure);
+                return board; } ));
+
         }
     };
 

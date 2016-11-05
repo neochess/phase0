@@ -38,33 +38,6 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
     FiguresLibrary fl = FiguresLibrary.init();
 
-    /*
-Piece codes:
-A - wking
-B - wqueen
-C - wrook
-D - wbishop
-E - wknight
-F - wpawn
-G - bking
-H - bqueen
-I - brook
-J - bbishop
-K - bknight
-L - bpawn
-N - bSLON
-
-M - nothing
-*/
-    private String chessmen_files[] = {
-            "/figures/wking.gif", "/figures/wqueen.gif", "/figures/wrook.gif",
-            "/figures/wbishop.gif", "/figures/wknight.gif", "/figures/wpawn.gif",
-            "/figures/bking.gif", "/figures/bqueen.gif", "/figures/brook.gif",
-            "/figures/bbishop.gif", "/figures/bknight.gif", "/figures/bpawn.gif",
-            "", "", "", // это 12 13 и 14
-            "/figures/bSLON.png"
-    };
-
     private ImageIcon chessmen_images[] = new ImageIcon[16];
 
 
@@ -85,15 +58,9 @@ M - nothing
         processCommand("@TOKEN");
 
         grabbed_piece = ChessMen.NOTHING;
+
     }
 
-//    private void initChessMatrix() {
-//        for (int i = 0; i < 10; i++) {
-//            for (int j = 0; j < 10; j++) {
-//                chess_matrix[i][j] = null; //fl.getEmptyFigure();
-//            }
-//        }
-//    }
 
     public void resetBoard() {
         setBoard();
@@ -117,42 +84,20 @@ M - nothing
         //
 
 //        decodeBoard("WA1WS1WA1WA1ZZZZZZZZZZZZZZZZZZZZZ");
-        decodeBoard("WA1WS1WS1WA1ZZZZZZZZZZZZZZZZZZZZZ");
+        //decodeBoard("WA1WS1WS1WA1ZZZZZZZZZZZZZZZZZZZZZ");
 
-
-//        for (int i=0; i<10; i++)
-//            for (int j=0; j<10; j++)
-//                chess_matrix[i][j] = ChessMen.NOTHING;
-//
-//        chess_matrix[0][0] = ChessMen.BROOK;
-//        chess_matrix[0][1] = ChessMen.BKNIGHT;
-//        chess_matrix[0][2] = ChessMen.BBISHOP;
-//        chess_matrix[0][3] = ChessMen.BQUEEN;
-//        chess_matrix[0][4] = ChessMen.BKING;
-//        chess_matrix[0][5] = ChessMen.BBISHOP;
-//        chess_matrix[0][6] = ChessMen.BKNIGHT;
-//        chess_matrix[0][7] = ChessMen.BROOK;
-//
-//        chess_matrix[0][8] = ChessMen.BSLON;
-//        //chess_matrix[0][9] = ChessMen.BSLON;
-//        //chess_matrix[1][8] = ChessMen.BSLON;
-//        //chess_matrix[1][9] = ChessMen.BSLON;
-//
-//        for (int i=0; i<8; i++)
-//        {
-//            chess_matrix[1][i] = ChessMen.BPAWN;
-//            chess_matrix[8][i] = ChessMen.WPAWN;
-//        }
-//
-//
-//        chess_matrix[9][0] = ChessMen.WROOK;
-//        chess_matrix[9][1] = ChessMen.WKNIGHT;
-//        chess_matrix[9][2] = ChessMen.WBISHOP;
-//        chess_matrix[9][3] = ChessMen.WQUEEN;
-//        chess_matrix[9][4] = ChessMen.WKING;
-//        chess_matrix[9][5] = ChessMen.WBISHOP;
-//        chess_matrix[9][6] = ChessMen.WKNIGHT;
-//        chess_matrix[9][7] = ChessMen.WROOK;
+        decodeBoard(
+                    "BE1BD1BF1BG1BC1BB1BF1BD1BH1BH1"+
+                    "BA1BA1BA1BA1BA1BA1BA1BA1BH1BH1"+
+                    "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+
+                    "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+
+                    "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+
+                    "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+
+                    "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+
+                    "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+
+                    "WO1WO1WO1WO1WO1WO1WO1WO1WO1WO1"+
+                    "WK1WP1WN1WL1WJ1WI1WL1WN1WM1WK1"
+        );
     }
 
 
@@ -222,15 +167,6 @@ M - nothing
 
         }
 
-    }
-
-
-    private void CreateChessmenImages() {
-        for (int i = 0; i < chessmen_images.length; i++) {
-            //URL imageURL = getClass().getResource("/figures/bbishop.gif");
-            //System.out.println(imageURL);
-            chessmen_images[i] = new ImageIcon(getClass().getResource(chessmen_files[i]));
-        }
     }
 
 
@@ -377,27 +313,6 @@ M - nothing
     }
 
 
-    public int getPieceType(int piece) {
-        switch (piece) {
-            case ChessMen.WKING:
-            case ChessMen.WQUEEN:
-            case ChessMen.WROOK:
-            case ChessMen.WBISHOP:
-            case ChessMen.WKNIGHT:
-            case ChessMen.WPAWN:
-                return ChessMen.WHITE;
-            case ChessMen.BKING:
-            case ChessMen.BQUEEN:
-            case ChessMen.BROOK:
-            case ChessMen.BBISHOP:
-            case ChessMen.BKNIGHT:
-            case ChessMen.BPAWN:
-                return ChessMen.BLACK;
-        }
-        return ChessMen.NOTHING;
-    }
-
-
     boolean isLegalMove(int piece, int from_row, int from_col, int to_row, int to_col) {
 
         return true;
@@ -446,22 +361,7 @@ M - nothing
     }
 
 
-    /*
-   Piece codes:
-   A - wking
-   B - wqueen
-   C - wrook
-   D - wbishop
-   E - wknight
-   F - wpawn
-   G - bking
-   H - bqueen
-   I - brook
-   J - bbishop
-   K - bknight
-   L - bpawn
-   M - nothing
-   */
+
     public String encodeBoard() {
         String encoding = "";
         for (int i = 0; i < 10; i++)
@@ -474,22 +374,6 @@ M - nothing
                     encoding += "ZZZ";
                 }
 
-//                switch(chess_matrix[i][j])
-//                {
-//                    case ChessMen.WKING: 	encoding += "A"; break;
-//                    case ChessMen.WQUEEN: 	encoding += "B"; break;
-//                    case ChessMen.WROOK: 	encoding += "C"; break;
-//                    case ChessMen.WBISHOP: 	encoding += "D"; break;
-//                    case ChessMen.WKNIGHT: 	encoding += "E"; break;
-//                    case ChessMen.WPAWN: 	encoding += "F"; break;
-//                    case ChessMen.BKING: 	encoding += "G"; break;
-//                    case ChessMen.BQUEEN: 	encoding += "H"; break;
-//                    case ChessMen.BROOK: 	encoding += "I"; break;
-//                    case ChessMen.BBISHOP: 	encoding += "J"; break;
-//                    case ChessMen.BKNIGHT: 	encoding += "K"; break;
-//                    case ChessMen.BPAWN: 	encoding += "L"; break;
-//                    case ChessMen.NOTHING: 	encoding += "M"; break;
-//                }
             }
 
         return encoding;
@@ -549,22 +433,6 @@ M - nothing
 //                    }
                 }
             }
-//            switch (piece)
-//            {
-//                case 'A': chess_matrix[row][col] = ChessMen.WKING; break;
-//                case 'B': chess_matrix[row][col] = ChessMen.WQUEEN; break;
-//                case 'C': chess_matrix[row][col] = ChessMen.WROOK; break;
-//                case 'D': chess_matrix[row][col] = ChessMen.WBISHOP; break;
-//                case 'E': chess_matrix[row][col] = ChessMen.WKNIGHT; break;
-//                case 'F': chess_matrix[row][col] = ChessMen.WPAWN; break;
-//                case 'G': chess_matrix[row][col] = ChessMen.BKING; break;
-//                case 'H': chess_matrix[row][col] = ChessMen.BQUEEN; break;
-//                case 'I': chess_matrix[row][col] = ChessMen.BROOK; break;
-//                case 'J': chess_matrix[row][col] = ChessMen.BBISHOP; break;
-//                case 'K': chess_matrix[row][col] = ChessMen.BKNIGHT; break;
-//                case 'L': chess_matrix[row][col] = ChessMen.BPAWN; break;
-//                case 'M': chess_matrix[row][col] = ChessMen.NOTHING; break;
-//            }
 
         }
 

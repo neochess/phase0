@@ -23,6 +23,9 @@ public class Figure {
     public Figure(LibItem lib) {
         this.lib = lib;
         this.code = lib.getCode();
+//        if(this.code == "L") {
+//            System.out.println("archer detected");
+//        }
         try {
             this.img = new ImageIcon(getClass().getResource(lib.getImgPath()));
         } catch (Exception e) {
