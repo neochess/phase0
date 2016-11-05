@@ -91,8 +91,19 @@ public class Figure {
         System.out.println(mess);
     }
 
-    public void removeFromBoard() {
-        cells.clear();
+    public void beaten() {
+        // говорит всем своим клеткам очиститься
+        // каждая клетка в свою очередь скажет этой фигуре removeFromCell
+
+        //копия массива клеток
+        ArrayList<BoardCell> copy = (ArrayList)cells.clone();
+
+        for(Iterator<BoardCell> it = copy.iterator(); it.hasNext();) {
+            BoardCell nextC = it.next();
+            nextC.clear();
+        }
+
+        copy = null;
     }
 
     public void removeFromCell(BoardCell c){

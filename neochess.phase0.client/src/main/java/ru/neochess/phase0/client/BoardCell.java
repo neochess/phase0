@@ -22,6 +22,11 @@ public class BoardCell {
     // вызывать только из FiguresLibrary
     // в остальных случаях фигура ставится на поле через Figure.placeOnBoard()
     public void placeIn(Figure fig) {
+        // фигура, которая уже находится в этой клетке, будет побита
+        if(this.figure!=null){
+            this.figure.beaten();
+        }
+
         fig.intoCell(this);
         this.figure = fig;
     }
