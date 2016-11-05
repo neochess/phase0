@@ -34,6 +34,8 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 //    private String chess_matrix[][] = new String[3][3];
     private Figure chess_matrix[][] = new Figure[10][10];
 
+    private Board board = new Board();
+
     FiguresLibrary fl = FiguresLibrary.init();
 
     /*
@@ -70,7 +72,7 @@ M - nothing
         chessclient = cc;
         this.setSize(500, 500);
 
-        initChessMatrix();
+//        initChessMatrix();
 
         //CreateChessmenImages();
         image_buffer = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
@@ -85,13 +87,13 @@ M - nothing
         grabbed_piece = ChessMen.NOTHING;
     }
 
-    private void initChessMatrix() {
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                chess_matrix[i][j] = null; //fl.getEmptyFigure();
-            }
-        }
-    }
+//    private void initChessMatrix() {
+//        for (int i = 0; i < 10; i++) {
+//            for (int j = 0; j < 10; j++) {
+//                chess_matrix[i][j] = null; //fl.getEmptyFigure();
+//            }
+//        }
+//    }
 
     public void resetBoard() {
         setBoard();
@@ -109,7 +111,14 @@ M - nothing
 
     private void setBoard() {
 
-        decodeBoard("WA1WS1WA1WA1ZZZZZZZZZZZZZZZZZZZZZWA1WA1WA1");
+        //  1     2        3       4    5   6   7   8   9   10
+        // King Queen King(error) King  Z   Z   Z   Z   Z   Z
+        //  Z
+        //
+
+//        decodeBoard("WA1WS1WA1WA1ZZZZZZZZZZZZZZZZZZZZZ");
+        decodeBoard("WA1WS1WS1WA1ZZZZZZZZZZZZZZZZZZZZZ");
+
 
 //        for (int i=0; i<10; i++)
 //            for (int j=0; j<10; j++)
@@ -161,11 +170,16 @@ M - nothing
 
     private void drawOffscreen() {
         Graphics2D gfx = image_buffer.createGraphics();
+
         renderChessBoard(gfx);
+
 //        if (grabbed_piece != ChessMen.NOTHING)
-        if (grabbed_figure != null)
+        if (grabbed_figure != null) {
 //            gfx.drawImage(chessmen_images[grabbed_piece].getImage(), x - 22, y - 22, this);
             gfx.drawImage(grabbed_figure.getImage(), x - 22, y - 22, this);
+        }
+
+
     }
 
 
@@ -182,13 +196,17 @@ M - nothing
                 b = !b;
                 gfx.fillRect(x, y, 50, 50);
 
-                paintChessMan(chess_matrix[i][j], x, y, gfx);
+                //paintChessMan(board.getCellByIndex(i,j).getFigure(), x, y, gfx);
+                //paintChessMan(chess_matrix[i][j], x, y, gfx);
 
                 x += 50;
 
             }
             y += 50;
         }
+
+        board.paintFigures(gfx, this);
+
     }
 
 
@@ -234,7 +252,10 @@ M - nothing
         if (from_col < 0 || from_col > 9) return;
 
 //        grabbed_piece = chess_matrix[from_row][from_col];
-        grabbed_figure = chess_matrix[from_row][from_col];
+//        grabbed_figure = chess_matrix[from_row][from_col];
+        grabbed_figure = board.getCellByIndex(from_row, from_col).getFigure();
+
+        if(grabbed_figure==null) return;
 
 //        if ((getPieceType(grabbed_piece) != myColor) || !myTurn)
 //        {
@@ -242,7 +263,10 @@ M - nothing
 //            return;
 //        }
 
-        chess_matrix[from_row][from_col] = null; //fl.getEmptyFigure(); //ChessMen.NOTHING;
+//        chess_matrix[from_row][from_col] = null; //fl.getEmptyFigure(); //ChessMen.NOTHING;
+
+        board.removeFigure(grabbed_figure);
+
         x = e.getX();
         y = e.getY();
 
@@ -251,6 +275,9 @@ M - nothing
 
 
     public void mouseReleased(MouseEvent e) {
+
+        Map<String,Integer> row_col = new HashMap();
+
 //        if (grabbed_piece == ChessMen.NOTHING) return;
         if(grabbed_figure == null) return;
 
@@ -258,7 +285,16 @@ M - nothing
         to_col = e.getX() / 50;
 
         if (to_row < 0 || to_row > 9 || to_col < 0 || to_col > 9) {
-            chess_matrix[from_row][from_col] = grabbed_figure; //grabbed_piece;
+//            chess_matrix[from_row][from_col] = grabbed_figure; //grabbed_piece;
+
+            //board.getCellByIndex(from_row, from_col).placeIn(grabbed_figure);
+
+//        public Board placeOnBoard(Board board, Map<String,Integer> row_col) {
+
+            row_col.put("row", from_row);
+            row_col.put("col", from_col);
+            grabbed_figure.placeOnBoard(board, row_col);
+
             //grabbed_piece = ChessMen.NOTHING;
             grabbed_figure = null;
 
@@ -269,17 +305,43 @@ M - nothing
         if ((from_row == to_row && from_col == to_col)
                 ||
                 !isLegalMove(grabbed_piece, from_row, from_col, to_row, to_col)) {
-            chess_matrix[from_row][from_col] = grabbed_figure; //grabbed_piece;
+//            chess_matrix[from_row][from_col] = grabbed_figure; //grabbed_piece;
+            board.saveFigure(grabbed_figure);
+            //board.getCellByIndex(from_row, from_col).placeIn(grabbed_figure);
+
+            row_col.put("row", from_row);
+            row_col.put("col", from_col);
+            grabbed_figure.placeOnBoard(board, row_col);
+
+
             //grabbed_piece = ChessMen.NOTHING;
             grabbed_figure = null;
             repaint();
             return;
         }
 
-        if (isLegalMove(grabbed_piece, from_row, from_col, to_row, to_col))
-            chess_matrix[to_row][to_col] = grabbed_figure; //grabbed_piece;
-        else
-            chess_matrix[from_row][from_col] = grabbed_figure; // grabbed_piece;
+        if (isLegalMove(grabbed_piece, from_row, from_col, to_row, to_col)) {
+//            chess_matrix[to_row][to_col] = grabbed_figure; //grabbed_piece;
+            board.saveFigure(grabbed_figure);
+            //board.getCellByIndex(to_row, to_col).placeIn(grabbed_figure);
+
+            row_col.put("row", to_row);
+            row_col.put("col", to_col);
+            grabbed_figure.placeOnBoard(board, row_col);
+
+        } else {
+//            chess_matrix[from_row][from_col] = grabbed_figure; // grabbed_piece;
+            board.saveFigure(grabbed_figure);
+            //board.getCellByIndex(from_row, from_col).placeIn(grabbed_figure);
+
+            row_col.put("row", from_row);
+            row_col.put("col", from_col);
+            grabbed_figure.placeOnBoard(board, row_col);
+
+        }
+
+        //System.out.println(grabbed_figure.getDesc()+" : x="+grabbed_figure.getxCoord()/50+", y="+grabbed_figure.getyCoord()/50);
+        grabbed_figure.printCells();
 
         //grabbed_piece = ChessMen.NOTHING;
         grabbed_figure = null;
@@ -287,6 +349,7 @@ M - nothing
         repaint();
 
         String encoding = encodeBoard();
+        System.out.println(encoding);
 
         try {
             serverconnection.send(encoding);
@@ -404,8 +467,9 @@ M - nothing
         for (int i = 0; i < 10; i++)
             for (int j = 0; j < 10; j++) {
 
-                if (chess_matrix[i][j] != null) {
-                    encoding += chess_matrix[i][j].encodeFigure();
+                Figure f = board.getCellByIndex(i, j).getFigure();
+                if (f != null) {
+                    encoding += f.encodeFigure();
                 } else {
                     encoding += "ZZZ";
                 }
@@ -438,7 +502,7 @@ M - nothing
         String pieceCode;
         String pieceState;
 
-        Map<String,Integer> xy = new HashMap();
+        Map<String,Integer> row_col = new HashMap();
 
         //if (encoding.length() < 100) return;
 
@@ -454,10 +518,11 @@ M - nothing
             pieceState = encoding.substring(i + 2, i + 3); //encoding.charAt(i+2);
 
             if (pieceCode.equalsIgnoreCase("Z")) {
-                chess_matrix[row][col] = null;
+                //chess_matrix[row][col] = null;
+                board.getCellByIndex(row, col).clear();
             } else {
 
-                if (chess_matrix[row][col] == null) {
+                if (board.getCellByIndex(row, col).getFigure() == null) {
 
                     Figure currentFigure = fl.getFigureByCode(pieceCode);
                     currentFigure.setState(pieceState);
@@ -473,9 +538,10 @@ M - nothing
 
                     //chess_matrix[row][col] = currentFigure;
 
-                    xy.put("x", row);
-                    xy.put("y", col);
-                    currentFigure.placeOnBoard(chess_matrix, xy);
+                    row_col.put("row", row);
+                    row_col.put("col", col);
+                    board.saveFigure(currentFigure);
+                    currentFigure.placeOnBoard(board, row_col);
 
                 } else {
 //                    if (chess_matrix[row][col] != null && chess_matrix[row][col]==prevF){

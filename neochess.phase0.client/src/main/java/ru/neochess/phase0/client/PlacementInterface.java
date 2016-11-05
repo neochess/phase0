@@ -8,5 +8,5 @@ import java.util.Map;
 
 @FunctionalInterface
 public interface PlacementInterface {
-    public Figure[][] operation(Figure[][] matrix, Map<String,Integer> xy, Figure f);
+    public Board operation(Board board, Map<String,Integer> row_col, Figure f);
 }

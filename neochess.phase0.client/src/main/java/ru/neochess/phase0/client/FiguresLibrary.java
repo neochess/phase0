@@ -12,16 +12,17 @@ public class FiguresLibrary {
 
     private List<LibItem> items = new ArrayList<LibItem>() {
         {
-            add(new LibItem("A", "Король", "/figures/wking.gif", (matrix, xy, figure)->{
-                matrix[xy.get("x")][xy.get("y")] = figure;
-                return matrix; } ));
+            add(new LibItem("A", "Король", "/figures/wking.gif", (board, rc, figure)->{
+                board.getCellByIndex(rc.get("row"), rc.get("col")).placeIn(figure);
+                return board; } ));
 
-            add(new LibItem("S", "Слон", "/figures/bqueen.gif", (matrix, xy, figure)->{
-                matrix[xy.get("x")][xy.get("y")] = figure;
-                matrix[xy.get("x")+1][xy.get("y")] = figure;
-                matrix[xy.get("x")][xy.get("y")+1] = figure;
-                matrix[xy.get("x")+1][xy.get("y")+1] = figure;
-                return matrix; } ));
+            add(new LibItem("S", "Слон", "/figures/bSLON.png", (board, rc, figure)->{
+                board.getCellByIndex(rc.get("row"), rc.get("col")).placeIn(figure);
+                board.getCellByIndex(rc.get("row")+1, rc.get("col")).placeIn(figure);
+                board.getCellByIndex(rc.get("row"), rc.get("col")+1).placeIn(figure);
+                board.getCellByIndex(rc.get("row")+1, rc.get("col")+1).placeIn(figure);
+
+                return board; } ));
         }
     };
 

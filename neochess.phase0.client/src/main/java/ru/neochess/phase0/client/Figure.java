@@ -2,6 +2,8 @@ package ru.neochess.phase0.client;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.function.BiFunction;
 
@@ -13,6 +15,8 @@ public class Figure {
     private String code;
     private String race;
     private String state;
+
+    private ArrayList<BoardCell> cells = new ArrayList<>(); // массив клеток, которые занимает фигура
 
     private LibItem lib;
 
@@ -55,9 +59,52 @@ public class Figure {
         return this.race+this.getCode()+this.state;
     }
 
-    public Figure[][] placeOnBoard(Figure[][] boardMatrix, Map<String,Integer> xy) {
+    public int getxCoord() {
+        int minX = 10*50; // правый столбец
+        for(BoardCell c : cells){
+            minX = c.getCol()*50 < minX ? c.getCol()*50 : minX;
+        }
+        return minX;
+    }
+
+    public int getyCoord() {
+        int maxY = 10*50; // нижняя строка
+        for(BoardCell c : cells){
+            maxY = c.getRow()*50 < maxY ? c.getRow()*50 : maxY;
+        }
+        return maxY;
+    }
+
+    public void intoCell(BoardCell c){
+        this.cells.add(c);
+    }
+
+    public void printCells() {
+        String mess = ""+this.getDesc()+", Клетки:";
+
+        if(cells==null || cells.isEmpty()) { mess += "клеток нет"; return; }
+
+        for(BoardCell c : cells) {
+            mess += "  "+c.getRow()+":"+c.getCol();
+        }
+
+        System.out.println(mess);
+    }
+
+    public void removeFromBoard() {
+        cells.clear();
+    }
+
+    public void removeFromCell(BoardCell c){
+        for(Iterator<BoardCell> it = cells.iterator(); it.hasNext();) {
+            BoardCell nextC = it.next();
+            if (c == nextC) { it.remove(); }
+        }
+    }
+
+    public Board placeOnBoard(Board board, Map<String,Integer> row_col) {
         PlacementInterface pf = this.lib.getPlacementFunc();
-        return (Figure[][]) pf.operation(boardMatrix, xy, this);
+        return (Board) pf.operation(board, row_col, this);
     }
 
 }
