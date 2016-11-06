@@ -1,16 +1,18 @@
-package ru.neochess.phase0.client;import java.io.BufferedReader;
+package ru.neochess.phase0.client;
+import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+
 
 /**
  * Created by for on 29.10.16.
  */
 public class ChessServerConnection
 {
-    private static final int PORT = 5000;
-    private static final String HOST = "localhost";
-    InputHandlerThread inputhandler;
+    private static final int PORT = Integer.parseInt(UtiliteChess.getInstance().getPort());
+    private static final String HOST = UtiliteChess.getInstance().getHost();
+    private InputHandlerThread inputhandler;
 
 
     ChessBoard chessboard;
