@@ -85,7 +85,11 @@ public class Figure {
     public void printCells() {
         String mess = ""+this.getDesc()+", Клетки:";
 
-        if(cells==null || cells.isEmpty()) { mess += "клеток нет"; return; }
+        if(cells==null || cells.isEmpty()) {
+            mess += "клеток нет";
+            System.out.println(mess);
+            return;
+        }
 
         for(BoardCell c : cells) {
             mess += "  "+c.getRow()+":"+c.getCol();
