@@ -54,8 +54,8 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
         setBoard();
         serverconnection = new ChessServerConnection(this);
 
-        //processCommand("@BLACK");
-        //processCommand("@TOKEN");
+        processCommand("@BLACK");
+        processCommand("@TOKEN");
 
         grabbed_piece = ChessMen.NOTHING;
 
