@@ -58,7 +58,7 @@ public class ClientHandler extends Thread
                 else
                 {
                     System.out.println("Client msg: " + line);
-//                    server.broadcastLine(clientSock, line);
+                    server.broadcastLine(clientSock, line);
                 }
             }
         }
