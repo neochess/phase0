@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/neochess.iml" filepath="$PROJECT_DIR$/.idea/modules/neochess.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/neochess.phase0.client.iml" filepath="$PROJECT_DIR$/.idea/modules/neochess.phase0.client.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/neochess.phase0.client_main.iml" filepath="$PROJECT_DIR$/.idea/modules/neochess.phase0.client_main.iml" group="neochess.phase0.client" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/neochess.phase0.client_test.iml" filepath="$PROJECT_DIR$/.idea/modules/neochess.phase0.client_test.iml" group="neochess.phase0.client" />

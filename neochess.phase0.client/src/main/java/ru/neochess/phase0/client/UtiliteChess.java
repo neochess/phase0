@@ -23,10 +23,10 @@ public class UtiliteChess {
 
         _properties = new Properties();
 
-        try {
+        try(InputStream is = new FileInputStream("config.properties")) {
 
-            InputStream is = new FileInputStream("config.properties");
             _properties.load(is);
+
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -54,6 +54,7 @@ public class UtiliteChess {
         try {
             output = new FileOutputStream("config.properties");
             _properties.store(output, null);
+            output.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

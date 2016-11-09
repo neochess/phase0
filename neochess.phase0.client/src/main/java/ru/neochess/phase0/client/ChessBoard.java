@@ -363,20 +363,20 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
 
     public String encodeBoard() {
-        String encoding = "";
+        StringBuilder encoding = new StringBuilder();
         for (int i = 0; i < 10; i++)
             for (int j = 0; j < 10; j++) {
 
                 Figure f = board.getCellByIndex(i, j).getFigure();
                 if (f != null) {
-                    encoding += f.encodeFigure();
+                    encoding.append(f.encodeFigure());
                 } else {
-                    encoding += "ZZZ";
+                    encoding.append("ZZZ");
                 }
 
             }
 
-        return encoding;
+        return encoding.toString();
     }
 
 
