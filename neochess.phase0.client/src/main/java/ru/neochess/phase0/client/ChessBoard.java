@@ -136,8 +136,12 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
             x = 0;
             b = i % 2 == 0;
             for (int j = 0; j < 10; j++) {
-                if (b) gfx.setColor(Color.white);
-                else gfx.setColor(Color.gray);
+                if (b) {
+                    gfx.setColor(Color.white);
+                }
+                else {
+                    gfx.setColor(Color.gray);
+                }
                 b = !b;
                 gfx.fillRect(x, y, 50, 50);
 
@@ -364,7 +368,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
     public String encodeBoard() {
         StringBuilder encoding = new StringBuilder();
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
 
                 Figure f = board.getCellByIndex(i, j).getFigure();
@@ -375,6 +379,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
                 }
 
             }
+        }
 
         return encoding.toString();
     }
