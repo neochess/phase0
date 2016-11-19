@@ -169,7 +169,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
 
     public void mouseClicked(MouseEvent e) {
-        if(e.getButton() == MouseEvent.BUTTON3)
+        if(e.getButton() == MouseEvent.BUTTON3 && myTurn)
         {
             Map<String,Integer> row_col = new HashMap();
             Figure selectFigure;
@@ -181,10 +181,13 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
             if (from_row < 0 || from_row > 9) return;
             if (from_col < 0 || from_col > 9) return;
 
+
+
             selectFigure = board.getCellByIndex(from_row, from_col).getFigure();
 
             //обычная пешка
-            if (selectFigure != null && selectFigure.getCode().compareTo("O") == 0) {
+            if (selectFigure != null &&
+                    selectFigure.getCode().compareTo("O") == 0) {
 
                     newFigure = fl.getFigureByCode("R"); //Боевая пешка
                     newFigure.setState(selectFigure.getState());
@@ -196,6 +199,8 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
                     board.saveFigure(newFigure);
 
                     board.removeFigure(selectFigure);
+
+                    myTurn = false; // изменнение пешки считается ходом.
                     repaint();
 
             }
