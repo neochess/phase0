@@ -69,9 +69,6 @@ public class Figure {
         return state;
     }
 
-    public String getRace (){
-        return  race;
-    }
 
     public String encodeFigure() {
         return this.race+this.getCode()+this.state;
