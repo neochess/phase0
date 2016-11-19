@@ -286,6 +286,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
         //grabbed_piece = ChessMen.NOTHING;
         grabbed_figure = null;
+        myTurn = false;
 
         repaint();
 
@@ -319,6 +320,8 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
 
     boolean isLegalMove(int piece, int from_row, int from_col, int to_row, int to_col) {
+
+        if (myTurn == false) return false;
 
         if (grabbed_figure.getRace().equals(myRace) == false) return false;
 
@@ -354,6 +357,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
         }
         decodeBoard(line);
         repaint();
+        myTurn = true;
 
     }
 
