@@ -38,9 +38,12 @@ public class Figure {
         setState(state);
     }
 
+
     public void setRace(String race) {
         this.race = race;
     }
+
+    public String getRace() { return this.race;}
 
     public void setState(String state) {
         this.state = state;

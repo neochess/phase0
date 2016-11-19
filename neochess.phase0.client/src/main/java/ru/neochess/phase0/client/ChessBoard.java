@@ -24,11 +24,16 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
     private ChessClient chessclient;
 
     private int myColor;
+    private String myRace;
 
     private boolean myTurn;
 
+   // private currentRace
+
     private int grabbed_piece, from_row, from_col, to_row, to_col;
+
     private Figure grabbed_figure;
+    private Figure replaced_figure;
 
     //    private int chess_matrix[][] = new int[10][10];
 //    private String chess_matrix[][] = new String[3][3];
@@ -314,6 +319,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
         //grabbed_piece = ChessMen.NOTHING;
         grabbed_figure = null;
+        myTurn = false;
 
         repaint();
 
@@ -348,7 +354,19 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
     boolean isLegalMove(int piece, int from_row, int from_col, int to_row, int to_col) {
 
-        return true;
+        if (myTurn == false) return false;
+
+        if (grabbed_figure.getRace().equals(myRace) == false) return false;
+
+        replaced_figure = board.getCellByIndex(to_row, to_col).getFigure();
+
+        if (replaced_figure != null) {
+
+            if (grabbed_figure.getRace().equals(replaced_figure.getRace())) return false;
+
+        }
+
+       // piece.getRace();
 
 //        if (getPieceType(piece) == getPieceType(chess_matrix[to_row][to_col])) return false;
 //
@@ -361,7 +379,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 //            case ChessMen.BPAWN:
 //        }
 //
-//        return true;
+        return true;
     }
 
 
@@ -372,6 +390,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
         }
         decodeBoard(line);
         repaint();
+        myTurn = true;
 
     }
 
@@ -379,11 +398,13 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
     private void processCommand(String command) {
         if (command.compareTo("@BLACK") == 0) {
             myColor = ChessMen.BLACK;
+            myRace = "B";
             chessclient.setTitle("Chess Client - BLACK");
             resetBoard();
         } else if (command.compareTo("@WHITE") == 0) {
             System.out.println("I am WHITE");
             myColor = ChessMen.WHITE;
+            myRace = "W";
             chessclient.setTitle("Chess Client - WHITE");
             resetBoard();
             myTurn = true;
