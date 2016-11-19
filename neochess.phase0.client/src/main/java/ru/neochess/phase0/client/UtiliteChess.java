@@ -13,6 +13,17 @@ public class UtiliteChess {
      */
     protected Properties _properties;
 
+    private String _initialBoard =  "BE1BD1BF1BG1BC1BB1BF1BD1BH1BH1"+
+                                    "BA1BA1BA1BA1BA1BA1BA1BA1BH1BH1"+
+                                    "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+
+                                    "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+
+                                    "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+
+                                    "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+
+                                    "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+
+                                    "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+
+                                    "WO1WO1WO1WO1WO1WO1WO1WO1WO1WO1"+
+                                    "WK1WP1WN1WL1WJ1WI1WL1WN1WM1WK1";
+
     private static UtiliteChess ourInstance = new UtiliteChess();
 
     public static UtiliteChess getInstance() {
@@ -46,10 +57,15 @@ public class UtiliteChess {
         return _properties.getProperty("Host");
     }
 
+    public String getInitialBoard(){
+        return _properties.getProperty("InitialBoard", _initialBoard);
+    }
+
     protected void createDefaultProperties()
     {
         _properties.setProperty("Port", "5000");
         _properties.setProperty("Host", "localhost");
+        _properties.setProperty("Initial", _initialBoard);
         OutputStream output;
         try {
             output = new FileOutputStream("config.properties");

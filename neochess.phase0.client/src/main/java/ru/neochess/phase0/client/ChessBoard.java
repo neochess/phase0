@@ -7,7 +7,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
-import java.net.URL;
+import java.io.Console;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,7 +51,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
         image_buffer = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
-        setBoard();
+        setInitialBoard();
         serverconnection = new ChessServerConnection(this);
 
 //        processCommand("@BLACK");
@@ -63,7 +63,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
 
     public void resetBoard() {
-        setBoard();
+        setInitialBoard();
         repaint();
         String encoding = encodeBoard();
 
@@ -76,7 +76,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
     }
 
 
-    private void setBoard() {
+    private void setInitialBoard() {
 
         //  1     2        3       4    5   6   7   8   9   10
         // King Queen King(error) King  Z   Z   Z   Z   Z   Z
@@ -86,18 +86,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 //        decodeBoard("WA1WS1WA1WA1ZZZZZZZZZZZZZZZZZZZZZ");
         //decodeBoard("WA1WS1WS1WA1ZZZZZZZZZZZZZZZZZZZZZ");
 
-        decodeBoard(
-                    "BE1BD1BF1BG1BC1BB1BF1BD1BH1BH1"+
-                    "BA1BA1BA1BA1BA1BA1BA1BA1BH1BH1"+
-                    "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+
-                    "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+
-                    "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+
-                    "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+
-                    "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+
-                    "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+
-                    "WO1WO1WO1WO1WO1WO1WO1WO1WO1WO1"+
-                    "WK1WP1WN1WL1WJ1WI1WL1WN1WM1WK1"
-        );
+        decodeBoard( UtiliteChess.getInstance().getInitialBoard());
     }
 
 
@@ -175,6 +164,39 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
 
     public void mouseClicked(MouseEvent e) {
+        if(e.getButton() == MouseEvent.BUTTON3)
+        {
+            Map<String,Integer> row_col = new HashMap();
+            Figure selectFigure;
+            Figure newFigure;
+
+            from_row = e.getY() / 50;
+            from_col = e.getX() / 50;
+
+            if (from_row < 0 || from_row > 9) return;
+            if (from_col < 0 || from_col > 9) return;
+
+            selectFigure = board.getCellByIndex(from_row, from_col).getFigure();
+
+            //обычная пешка
+            if (selectFigure != null && selectFigure.getCode().compareTo("O") == 0) {
+
+                    newFigure = fl.getFigureByCode("R"); //Боевая пешка
+                    newFigure.setState(selectFigure.getState());
+                    newFigure.setRace(selectFigure.getRace());
+
+                    row_col.put("row", from_row);
+                    row_col.put("col", from_col);
+                    newFigure.placeOnBoard(board, row_col);
+                    board.saveFigure(newFigure);
+
+                    board.removeFigure(selectFigure);
+                    repaint();
+
+            }
+        }
+
+
     }
 
     public void mouseEntered(MouseEvent e) {
@@ -185,6 +207,9 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
 
     public void mousePressed(MouseEvent e) {
+        if (e.getButton() != MouseEvent.BUTTON1){
+            return;
+        }
         from_row = e.getY() / 50;
         from_col = e.getX() / 50;
 
@@ -215,6 +240,10 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
 
     public void mouseReleased(MouseEvent e) {
+
+        if (e.getButton() != MouseEvent.BUTTON1){
+            return;
+        }
 
         Map<String,Integer> row_col = new HashMap();
 
@@ -397,8 +426,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
 //        Figure prevF = null;
 
-        for (int i = 0; i < 300; i += 3) {
-            if (i >= encoding.length()) return;
+        for (int i = 0; i < encoding.length(); i += 3) {
 
             row = i / 30;
             col = (i / 3) % 10;

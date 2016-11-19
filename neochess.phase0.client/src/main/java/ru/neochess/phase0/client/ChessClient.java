@@ -34,21 +34,9 @@ public class ChessClient extends JFrame
 
 		bar.add(gameMenu);
 
-		exitItem.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				System.exit(0);
-			}
-		});
+		exitItem.addActionListener(e -> System.exit(0));
 
-		resetItem.addActionListener(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				board.resetBoard();	
-			}
-		}); 
+		resetItem.addActionListener(e -> board.resetBoard());
 
 		setResizable(false);
 		setSize(500,545);

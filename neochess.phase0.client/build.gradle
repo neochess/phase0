@@ -2,7 +2,7 @@ group 'ru.neochess'
 version '0.1'
 
 apply plugin: 'java'
-apply plugin: 'findbugs'
+
 
 sourceCompatibility = 1.8
 

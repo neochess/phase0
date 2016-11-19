@@ -46,6 +46,10 @@ public class Figure {
         this.state = state;
     }
 
+    public  void setCode(String code){
+        this.code = code;
+    }
+
     public String getCode() {
         return code;
     }
@@ -56,6 +60,14 @@ public class Figure {
 
     public String getDesc() {
         return this.lib.getDesc();
+    }
+
+    public String getState(){
+        return state;
+    }
+
+    public String getRace (){
+        return  race;
     }
 
     public String encodeFigure() {
@@ -105,16 +117,15 @@ public class Figure {
         //копия массива клеток
         ArrayList<BoardCell> copy = (ArrayList)cells.clone();
 
-        for(Iterator<BoardCell> it = copy.iterator(); it.hasNext();) {
-            BoardCell nextC = it.next();
-            nextC.clear();
-        }
+
+        copy.forEach(boardCell -> boardCell.clear());
 
         copy = null;
     }
 
     public void removeFromCell(BoardCell c){
-        for(Iterator<BoardCell> it = cells.iterator(); it.hasNext();) {
+        Iterator<BoardCell> it;
+        for(it = cells.iterator(); it.hasNext();) {
             BoardCell nextC = it.next();
             if (c == nextC) { it.remove(); }
         }
