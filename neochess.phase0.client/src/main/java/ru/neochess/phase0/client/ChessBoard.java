@@ -29,6 +29,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
     private int grabbed_piece, from_row, from_col, to_row, to_col;
     private Figure grabbed_figure;
+    private Figure replaced_figure;
 
     //    private int chess_matrix[][] = new int[10][10];
 //    private String chess_matrix[][] = new String[3][3];
@@ -315,7 +316,15 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
     boolean isLegalMove(int piece, int from_row, int from_col, int to_row, int to_col) {
 
-        return true;
+      replaced_figure = board.getCellByIndex(to_row, to_col).getFigure();
+
+        if (replaced_figure != null) {
+
+            if (grabbed_figure.getRace().equals(replaced_figure.getRace())) return false;
+
+        }
+
+       // piece.getRace();
 
 //        if (getPieceType(piece) == getPieceType(chess_matrix[to_row][to_col])) return false;
 //
@@ -328,7 +337,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 //            case ChessMen.BPAWN:
 //        }
 //
-//        return true;
+        return true;
     }
 
 
