@@ -169,7 +169,8 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
 
     public void mouseClicked(MouseEvent e) {
-        if((e.getButton() == MouseEvent.BUTTON3 || e.getButton() == MouseEvent.BUTTON2 ) && myTurn)
+        if((e.getButton() == MouseEvent.BUTTON3 || e.getButton() == MouseEvent.BUTTON2 ) )
+                //&& myTurn)
         {
             Map<String,Integer> row_col = new HashMap();
             Figure selectFigure;
@@ -360,7 +361,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
     boolean isLegalMove(int piece, int from_row, int from_col, int to_row, int to_col) {
 
-        if (myTurn == false) return false;
+        //if (myTurn == false) return false;
 
         if (grabbed_figure.getRace().equals(myRace) == false) return false;
 
