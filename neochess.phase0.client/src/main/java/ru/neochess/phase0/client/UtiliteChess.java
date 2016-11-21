@@ -22,7 +22,7 @@ public class UtiliteChess {
                                     "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+
                                     "ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ"+
                                     "WO1WO1WO1WO1WO1WO1WO1WO1WO1WO1"+
-                                    "WK1WP1WN1WL1WJ1WI1WL1WN1WM1WK1";
+                                    "WK1ZZZWN1WL1WJ1WI1WL1WN1ZZZWK1";
 
     private static UtiliteChess ourInstance = new UtiliteChess();
 
@@ -64,7 +64,7 @@ public class UtiliteChess {
     protected void createDefaultProperties()
     {
         _properties.setProperty("Port", "5000");
-        _properties.setProperty("Host", "localhost");
+        _properties.setProperty("Host", "neochess.divizdev.ru");
         _properties.setProperty("Initial", _initialBoard);
         OutputStream output;
         try {

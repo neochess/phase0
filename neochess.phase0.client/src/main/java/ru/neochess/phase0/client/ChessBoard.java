@@ -169,7 +169,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
 
     public void mouseClicked(MouseEvent e) {
-        if(e.getButton() == MouseEvent.BUTTON3 && myTurn)
+        if((e.getButton() == MouseEvent.BUTTON3 || e.getButton() == MouseEvent.BUTTON2 ) && myTurn)
         {
             Map<String,Integer> row_col = new HashMap();
             Figure selectFigure;
