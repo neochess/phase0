@@ -21,6 +21,7 @@ public class Board {
         }
     }
 
+
     public BoardCell getCellByIndex(int row, int col) {
         return this.cell_matrix[row][col];
     }

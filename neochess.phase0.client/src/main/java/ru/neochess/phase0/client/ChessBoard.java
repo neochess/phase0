@@ -255,6 +255,12 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 //        }
 
 //        chess_matrix[from_row][from_col] = null; //fl.getEmptyFigure(); //ChessMen.NOTHING;
+        if (grabbed_figure.getCode().equals("H"))
+        {
+            from_row = grabbed_figure.getRow();
+            from_col =  grabbed_figure.getCol();
+        }
+
 
         board.removeFigure(grabbed_figure);
 
@@ -376,14 +382,17 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
     boolean isLegalMove(int piece, int from_row, int from_col, int to_row, int to_col) {
 
         //if (myTurn == false) return false;
+        replaced_figure = board.getCellByIndex(to_row, to_col).getFigure();// на чье место мы хотим встать?
 
-        if (grabbed_figure.getRace().equals(myRace) == false) return false;
 
-        replaced_figure = board.getCellByIndex(to_row, to_col).getFigure();
+        if (!grabbed_figure.getRace().equals(myRace)) return false; //не трожь чужие фигурки
 
         if (replaced_figure != null) {
 
-            if (grabbed_figure.getRace().equals(replaced_figure.getRace())) return false;
+            if (grabbed_figure.getCode().equals("H") && replaced_figure.getCode().equals("H")) return true;
+            //все не так для слона - он может встать на место себя!!
+
+            if (grabbed_figure.getRace().equals(replaced_figure.getRace())) return false;// не руби свои фигурки
 
         }
 
@@ -461,6 +470,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
         String pieceRace;
         String pieceCode;
         String pieceState;
+        boolean slon = false;
 
         Map<String,Integer> row_col = new HashMap();
 
@@ -475,13 +485,17 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
             pieceRace = encoding.substring(i, i + 1); //encoding.charAt(i);
             pieceCode = encoding.substring(i + 1, i + 2); //encoding.charAt(i+1);
             pieceState = encoding.substring(i + 2, i + 3); //encoding.charAt(i+2);
+            if (pieceCode.equals("H"))
+            {if (!slon) slon = true;
+            else continue;}
 
             if (pieceCode.equalsIgnoreCase("Z")) {
                 //chess_matrix[row][col] = null;
                 board.getCellByIndex(row, col).clear();
             } else {
+                Figure oldFigure =  board.getCellByIndex(row, col).getFigure();
 
-                if (board.getCellByIndex(row, col).getFigure() == null) {
+                if (oldFigure == null) {
 
                     Figure currentFigure = fl.getFigureByCode(pieceCode);
                     currentFigure.setState(pieceState);
@@ -504,28 +518,26 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
                 } else {
 
-                    Figure oldFigure =  board.getCellByIndex(row, col).getFigure();
-                    if ((oldFigure.getRace().equals(pieceRace) == false)|| (oldFigure.getState().equals(pieceState) == false)|| oldFigure.getCode().equals(pieceCode) == false)
 
-                  //  Figure oldFigure = board.getCellByIndex(row, col).getFigure();
+                        //Figure oldFigure =  board.getCellByIndex(row, col).getFigure();
+                        if (!oldFigure.getRace().equals(pieceRace) || !oldFigure.getState().equals(pieceState) || !oldFigure.getCode().equals(pieceCode))
 
-                    {
-                        board.removeFigure(oldFigure);
+                        //  Figure oldFigure = board.getCellByIndex(row, col).getFigure();
 
-                        Figure currentFigure = fl.getFigureByCode(pieceCode);
-                        currentFigure.setState(pieceState);
-                        currentFigure.setRace(pieceRace);
+                        {
+                            board.removeFigure(oldFigure);
 
-                        row_col.put("row", row);
-                        row_col.put("col", col);
-                        board.saveFigure(currentFigure);
-                        currentFigure.placeOnBoard(board, row_col);
-                        row_col.put("row", row);
-                        row_col.put("col", col);
-                        board.saveFigure(currentFigure);
-                        currentFigure.placeOnBoard(board, row_col);
+                            Figure currentFigure = fl.getFigureByCode(pieceCode);
+                            currentFigure.setState(pieceState);
+                            currentFigure.setRace(pieceRace);
 
-                    }
+                            row_col.put("row", row);
+                            row_col.put("col", col);
+                            board.saveFigure(currentFigure);
+                            currentFigure.placeOnBoard(board, row_col);
+
+                        }
+
 //                    if (chess_matrix[row][col] != null && chess_matrix[row][col]==prevF){
 //                        System.out.println("фигура в "+row+" "+col+"та же что и предыдущая");
 //                    }

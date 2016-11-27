@@ -74,6 +74,22 @@ public class Figure {
         return this.race+this.getCode()+this.state;
     }
 
+    public int getCol() {
+        int Col = 9;
+        for(BoardCell c : cells){
+            Col = c.getCol() < Col ? c.getCol(): Col;
+        }
+        return Col;
+    }
+
+    public int getRow() {
+        int Row = 9;
+        for(BoardCell c : cells){
+            Row = c.getCol() < Row ? c.getRow(): Row;
+        }
+        return Row;
+    }
+
     public int getxCoord() {
         int minX = 10*50; // правый столбец
         for(BoardCell c : cells){
