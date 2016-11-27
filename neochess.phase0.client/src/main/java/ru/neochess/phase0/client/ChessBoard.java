@@ -205,7 +205,22 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
                     myTurn = false; // изменнение пешки считается ходом.
                     repaint();
 
+                newFigure.printCells();
+                newFigure = null;
+
+                //отправляем ход
+                String encoding = encodeBoard();
+                System.out.println(encoding);
+
+                try {
+                    serverconnection.send(encoding);
+                    serverconnection.send("@TOKEN");
+                } catch (Exception ex) {
+
+                }
             }
+
+
         }
 
 
@@ -216,7 +231,6 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
     public void mouseExited(MouseEvent e) {
     }
-
 
     public void mousePressed(MouseEvent e) {
         if (e.getButton() != MouseEvent.BUTTON1){
@@ -489,6 +503,29 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
                     currentFigure.placeOnBoard(board, row_col);
 
                 } else {
+
+                    Figure oldFigure =  board.getCellByIndex(row, col).getFigure();
+                    if ((oldFigure.getRace().equals(pieceRace) == false)|| (oldFigure.getState().equals(pieceState) == false)|| oldFigure.getCode().equals(pieceCode) == false)
+
+                  //  Figure oldFigure = board.getCellByIndex(row, col).getFigure();
+
+                    {
+                        board.removeFigure(oldFigure);
+
+                        Figure currentFigure = fl.getFigureByCode(pieceCode);
+                        currentFigure.setState(pieceState);
+                        currentFigure.setRace(pieceRace);
+
+                        row_col.put("row", row);
+                        row_col.put("col", col);
+                        board.saveFigure(currentFigure);
+                        currentFigure.placeOnBoard(board, row_col);
+                        row_col.put("row", row);
+                        row_col.put("col", col);
+                        board.saveFigure(currentFigure);
+                        currentFigure.placeOnBoard(board, row_col);
+
+                    }
 //                    if (chess_matrix[row][col] != null && chess_matrix[row][col]==prevF){
 //                        System.out.println("фигура в "+row+" "+col+"та же что и предыдущая");
 //                    }
