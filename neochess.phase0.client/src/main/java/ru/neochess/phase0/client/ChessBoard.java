@@ -10,6 +10,8 @@ import java.awt.image.ImageObserver;
 import java.io.Console;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringJoiner;
+import javafx.scene.text.Text;
 
 /**
  * Created by for on 29.10.16.
@@ -48,12 +50,12 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
     public ChessBoard(ChessClient cc) {
         chessclient = cc;
-        this.setSize(500, 500);
+        this.setSize(600, 600);
 
 //        initChessMatrix();
 
         //CreateChessmenImages();
-        image_buffer = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
+        image_buffer = new BufferedImage(600, 600, BufferedImage.TYPE_INT_RGB);
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
         setInitialBoard();
@@ -123,11 +125,54 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
 
     private void renderChessBoard(Graphics2D gfx) {
-        int x = 0, y = 0;
-        boolean b = false;
 
+        int gap = 50;
+
+        boolean b = false;
+        setBackground(Color.lightGray);
+        setForeground(Color.white);
+        //gfx.setBackground(Color.white);
+        int cellsize = 50;
+        int cellnum = 10;
+        int txtleft = 25;
+        int txtright = 15;
+        int txtop = 35;
+        int txtbottom = 20;
+        //gfx.setColor(Color.CYAN);
+
+     //   Text t = new Text (10, 20, "This is a text sample");
+       // Font trb = new Font("TimesRoman", Font.BOLD, 18);
+
+
+     //  gfx.drawString("jfkdjfdkjfjk", x, y);
+    //   FontMetrics metrics = gfx.getFontMetrics(trb);
+        int x = cellsize + cellsize/2;
+        int y = 0;
+        for (char a = 'A'; a <= 'J'; a++) {
+
+            gfx.drawString(String.valueOf(a).toString(), x, y + txtop);
+
+            gfx.drawString(String.valueOf(a).toString(), x, y + gap + cellsize * cellnum + txtbottom);
+
+            x += 50;
+
+        }
+
+        x = 0;
+        y = cellsize + cellsize/2;
+        for (int n = cellnum; n >= 1; n--) {
+
+            gfx.drawString(String.valueOf(n).toString(), x+ gap + cellsize * cellnum + txtright, y);
+
+            gfx.drawString(String.valueOf(n).toString(), x + txtleft, y);
+
+            y += 50;
+
+        }
+       // x = 50;
+        y = gap;
         for (int i = 0; i < 10; i++) {
-            x = 0;
+            x = gap;
             b = i % 2 == 0;
             for (int j = 0; j < 10; j++) {
                 if (b) {
@@ -154,18 +199,19 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
 
     //    private void paintChessMan(int piece, int x, int y, Graphics2D gfx)
-    private void paintChessMan(Figure fig, int x, int y, Graphics2D gfx) {
+   /* private void paintChessMan(Figure fig, int x, int y, Graphics2D gfx) {
+        int gap = 50;
         if (fig != null) {
 
             try {
-                gfx.drawImage(fig.getImage(), x + 2, y + 2, this);
+                gfx.drawImage(fig.getImage(), x + gap + 2, y + gap + 2, this);
             } catch (Exception ex) {
                 System.out.println("Не нашел картинку для фигуры " + fig.getDesc());
             }
 
         }
 
-    }
+    }*/
 
 
     public void mouseClicked(MouseEvent e) {

@@ -40,7 +40,7 @@ public class ChessClient extends JFrame
 		resetItem.addActionListener(e -> board.resetBoard());
 
 		setResizable(false);
-		setSize(500,545);
+		setSize(600,645);
 	}
 
 

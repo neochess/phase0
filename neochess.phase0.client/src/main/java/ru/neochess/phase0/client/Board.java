@@ -48,9 +48,11 @@ public class Board {
     }
 
     public void paintFigures(Graphics2D gfx, ChessBoard observer) {
+        int gap = 50;
         for(Figure f : figures) {
+
             try {
-                gfx.drawImage(f.getImage(), f.getxCoord() + 2, f.getyCoord() + 2, observer);
+                gfx.drawImage(f.getImage(), f.getxCoord() + gap + 2, f.getyCoord() + gap + 2, observer);
             } catch (Exception ex) {
                 System.out.println("Не нашел картинку для фигуры " + f.getDesc());
             }

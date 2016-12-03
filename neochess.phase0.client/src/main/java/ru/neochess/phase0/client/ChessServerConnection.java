@@ -14,14 +14,11 @@ public class ChessServerConnection
     private static final String HOST = UtiliteChess.getInstance().getHost();
     private InputHandlerThread inputhandler;
 
-
     ChessBoard chessboard;
 
     private Socket sock;
     private BufferedReader in;
     private PrintWriter out;
-
-
 
     public ChessServerConnection(ChessBoard cb)
     {
