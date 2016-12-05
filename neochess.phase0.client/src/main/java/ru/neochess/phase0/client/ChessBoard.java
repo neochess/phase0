@@ -7,11 +7,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
-import java.io.Console;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.StringJoiner;
-import javafx.scene.text.Text;
 
 /**
  * Created by for on 29.10.16.

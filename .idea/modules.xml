@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/neochess.phase0.server.iml" filepath="$PROJECT_DIR$/.idea/modules/neochess.phase0.server.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/neochess.phase0.server_main.iml" filepath="$PROJECT_DIR$/.idea/modules/neochess.phase0.server_main.iml" group="neochess.phase0.server" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/neochess.phase0.server_test.iml" filepath="$PROJECT_DIR$/.idea/modules/neochess.phase0.server_test.iml" group="neochess.phase0.server" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/src.iml" filepath="$PROJECT_DIR$/.idea/modules/src.iml" />
     </modules>
   </component>
 </project>
