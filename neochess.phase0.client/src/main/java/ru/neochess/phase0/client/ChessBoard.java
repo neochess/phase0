@@ -140,8 +140,12 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
 
         boolean b = false;
-        setBackground(Color.lightGray);
-        setForeground(Color.white);
+
+        gfx.setColor(Color.black);
+        gfx.fillRect(0, 0, boardsize, boardsize);
+
+      //  setBackground(Color.lightGray);
+      //  setForeground(Color.white);
         //gfx.setBackground(Color.white);
 
        /* int gap = 50;
@@ -159,8 +163,12 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
      //  gfx.drawString("jfkdjfdkjfjk", x, y);
     //   FontMetrics metrics = gfx.getFontMetrics(trb);
+
+        gfx.setColor(Color.white);
+
         int x = cellsize + cellsize/2;
         int y = 0;
+
         for (char a = 'A'; a <= 'J'; a++) {
 
             gfx.drawString(String.valueOf(a).toString(), x, y + txtop);
@@ -546,7 +554,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
             pieceState = encoding.substring(i + 2, i + 3); //encoding.charAt(i+2);
 
             //очищаем всю доску по завещанию Антана и перерисовываем все фигурки
-           board.getCellByIndex(row, col).clear();
+       /*    board.getCellByIndex(row, col).clear();
 
             if (!pieceCode.equalsIgnoreCase("Z")) {
                 Figure currentFigure = fl.getFigureByCode(pieceCode);
@@ -559,7 +567,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
                      else continue;}
                 board.saveFigure(currentFigure);
                 currentFigure.placeOnBoard(board, row_col);
-            }
+            }*/
 
 
 
@@ -570,7 +578,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
 
 
-          /*  if (pieceCode.equalsIgnoreCase("Z")) {
+           if (pieceCode.equalsIgnoreCase("Z")) {
                 //chess_matrix[row][col] = null;
                 board.getCellByIndex(row, col).clear();
             } else {
@@ -623,7 +631,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 //                        System.out.println("фигура в "+row+" "+col+"та же что и предыдущая");
 //                    }
                 }
-            }*/
+            }
 
         }
 
