@@ -6,8 +6,8 @@ package ru.neochess.phase0.client.State;
 public interface ClientState {
     public void sendMove();
     public void receiveMove();
-    public void receiveBoard();
-    public void sendBoard();
-
+    public void receiveState();
+    public void sendState();
+    public void recieveColor();
 
 }
