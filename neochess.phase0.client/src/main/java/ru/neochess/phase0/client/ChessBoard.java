@@ -1,5 +1,7 @@
 package ru.neochess.phase0.client;
 
+import ru.neochess.phase0.client.State.ClientStateWrapper;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -13,10 +15,10 @@ import java.util.Map;
 /**
  * Created by for on 29.10.16.
  */
-class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMotionListener {
+public class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMotionListener {
 
     BufferedImage image_buffer;
-    ChessServerConnection serverconnection;
+  //  ChessServerConnection serverconnection;
 
 
     //chessboard params
@@ -34,7 +36,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
     private int x, y;
 
-    private ChessClient chessclient;
+    public ChessClient chessclient;
 
     private int myColor;
     private String myRace;
@@ -58,8 +60,12 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
     private ImageIcon chessmen_images[] = new ImageIcon[16];
 
+    public ClientStateWrapper clientState;
+
 
     public ChessBoard(ChessClient cc) {
+
+        clientState = new ClientStateWrapper(this);
         chessclient = cc;
         this.setSize(boardsize , boardsize );
 
@@ -70,18 +76,18 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
         setInitialBoard();
-        serverconnection = new ChessServerConnection(this);
+       // serverconnection = new ChessServerConnection(this , clientState);
 
 //        processCommand("@BLACK");
 //        processCommand("@TOKEN");
 
         grabbed_piece = ChessMen.NOTHING;
 
+
     }
 
-
     public void resetBoard() {
-        setInitialBoard();
+      /*  setInitialBoard();
         repaint();
         String encoding = encodeBoard();
 
@@ -90,7 +96,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
             serverconnection.send("@RESET");
         } catch (Exception ex) {
 
-        }
+        }*/
     }
 
 
@@ -269,7 +275,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
                     board.removeFigure(selectFigure);
 
                     selectFigure = null;
-                    myTurn = false; // изменнение пешки считается ходом.
+                    //myTurn = false; // изменнение пешки считается ходом.
                     repaint();
 
                 newFigure.printCells();
@@ -279,12 +285,15 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
                 String encoding = encodeBoard();
                 System.out.println(encoding);
 
-                try {
+
+                clientState.getCurrent().sendMove( encoding);
+
+           /*     try {
                     serverconnection.send(encoding);
                     serverconnection.send("@TOKEN");
                 } catch (Exception ex) {
 
-                }
+                }*/
             }
 
 
@@ -413,19 +422,21 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
         //grabbed_piece = ChessMen.NOTHING;
         grabbed_figure = null;
-        myTurn = false;
+       // myTurn = false;
 
         repaint();
 
         String encoding = encodeBoard();
         System.out.println(encoding);
 
-        try {
+        clientState.getCurrent().sendMove( encoding);
+
+     /*   try {
             serverconnection.send(encoding);
             serverconnection.send("@TOKEN");
         } catch (Exception ex) {
 
-        }
+        }*/
 
         //myTurn = false;
 
@@ -449,10 +460,10 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
     boolean isLegalMove(int piece, int from_row, int from_col, int to_row, int to_col) {
 
         //if (myTurn == false) return false;
-        replaced_figure = board.getCellByIndex(to_row, to_col).getFigure();// на чье место мы хотим встать?
+    /*    replaced_figure = board.getCellByIndex(to_row, to_col).getFigure();// на чье место мы хотим встать?
 
 
-        if (!grabbed_figure.getRace().equals(myRace)) return false; //не трожь чужие фигурки
+       if (!grabbed_figure.getRace().equals(clientState.myRace)) return false; //не трожь чужие фигурки
 
         if (replaced_figure != null) {
 
@@ -461,7 +472,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
 
             if (grabbed_figure.getRace().equals(replaced_figure.getRace())) return false;// не руби свои фигурки
 
-        }
+        }*/
 
        // piece.getRace();
 
@@ -480,23 +491,30 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
     }
 
 
-    public synchronized void receiveData(String line) {
-        if (line.charAt(0) == '@') {
-            processCommand(line);
+  //  public synchronized void receiveData(String line) {
+
+
+  //   clientState.processMSG(line);
+
+      /* if (line.charAt(0) == '@') {
+
+
+           processCommand(line);
             return;
         }
         decodeBoard(line);
         repaint();
-        myTurn = true;
+        myTurn = true;*/
 
-    }
+   // }
 
 
-    private void processCommand(String command) {
+  /*private void processCommand(String command) {
         if (command.compareTo("@BLACK") == 0) {
+
             myColor = ChessMen.BLACK;
             myRace = "B";
-            chessclient.setTitle("Chess Client - BLACK");
+           // chessclient.setTitle("Chess Client - BLACK");
             resetBoard();
         } else if (command.compareTo("@WHITE") == 0) {
             System.out.println("I am WHITE");
@@ -509,8 +527,7 @@ class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMo
         if (command.compareTo("@RESET") == 0) {
             if (myColor == ChessMen.WHITE) myTurn = true;
         } else if (command.compareTo("@TOKEN") == 0) myTurn = true;
-    }
-
+    }*/
 
 
     public String encodeBoard() {

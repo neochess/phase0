@@ -74,6 +74,7 @@ public class Figure {
         return this.race+this.getCode()+this.state;
     }
 
+    //костыль для слоника
     public int getCol() {
         int Col = 9;
         for(BoardCell c : cells){
@@ -104,7 +105,7 @@ public class Figure {
             maxY = c.getRow()*50 < maxY ? c.getRow()*50 : maxY;
         }
         return maxY;
-    }
+    }    //костыль для слоника end
 
     public void intoCell(BoardCell c){
         this.cells.add(c);

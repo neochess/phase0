@@ -1,4 +1,6 @@
 package ru.neochess.phase0.client;
+import ru.neochess.phase0.client.State.ClientStateWrapper;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -14,23 +16,32 @@ public class ChessServerConnection
     private static final String HOST = UtiliteChess.getInstance().getHost();
     private InputHandlerThread inputhandler;
 
+
     ChessBoard chessboard;
+
 
     private Socket sock;
     private BufferedReader in;
     private PrintWriter out;
+   private ClientStateWrapper clientState;
 
-    public ChessServerConnection(ChessBoard cb)
+    public ChessServerConnection(ChessBoard cb , ClientStateWrapper cs)
     {
         chessboard = cb;
+        clientState = cs;
+
+
+        System.out.println(HOST);
 
         try
         {
+
             sock = new Socket(HOST, PORT);
             in  = new BufferedReader(new InputStreamReader( sock.getInputStream()));
             out = new PrintWriter( sock.getOutputStream(), true );
             inputhandler = new InputHandlerThread(this, in);
             inputhandler.start();
+
         }
 
         catch(Exception e)
@@ -48,7 +59,7 @@ public class ChessServerConnection
 
     public synchronized void reply(String line)
     {
-        chessboard.receiveData(line);
+        clientState.processMSG(line);
     }
 
 

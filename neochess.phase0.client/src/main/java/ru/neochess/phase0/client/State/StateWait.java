@@ -1,11 +1,26 @@
 package ru.neochess.phase0.client.State;
 
+import ru.neochess.phase0.client.ChessBoard;
+
 /**
  * Created by TiJi on 03.12.16.
  */
-public class StateWait implements ClientState {
+public class StateWait extends State  implements ClientState {
+
     @Override
-    public void receiveMove() {
+    public void sendMove(String line) {
+
+    }
+
+    @Override
+    public void receiveMove(ChessBoard chessboard, String line) {
+        chessboard.decodeBoard(line);
+        chessboard.repaint();
+        wrapper.setCurrent(new StateMove());
+    }
+
+    @Override
+    public void receiveState() {
 
     }
 
@@ -15,17 +30,8 @@ public class StateWait implements ClientState {
     }
 
     @Override
-    public void recieveColor() {
+    public void recieveColor( char color) {
 
     }
 
-    @Override
-    public void sendMove() {
-
-    }
-
-    @Override
-    public void receiveState() {
-
-    }
 }

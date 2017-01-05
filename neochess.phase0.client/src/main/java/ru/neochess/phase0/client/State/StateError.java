@@ -1,17 +1,19 @@
 package ru.neochess.phase0.client.State;
 
+import ru.neochess.phase0.client.ChessBoard;
+
 /**
  * Created by TiJi on 03.12.16.
  */
-public class StateError implements ClientState {
+public class StateError extends State  implements ClientState {
 
     @Override
-    public void sendMove() {
+    public void sendMove( String line) {
 
     }
 
     @Override
-    public void receiveMove() {
+    public void receiveMove( ChessBoard chessboard, String line) {
 
     }
 
@@ -21,12 +23,12 @@ public class StateError implements ClientState {
     }
 
     @Override
-    public void recieveColor() {
+    public void sendState() {
 
     }
 
     @Override
-    public void sendState() {
+    public void recieveColor( char color) {
 
     }
 }
