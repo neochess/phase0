@@ -11,14 +11,18 @@ import java.util.function.BiFunction;
  * Created by for on 01.11.16.
  */
 public class Figure {
+
+   //статичные
     private ImageIcon img;
     private String code;
     private String race;
     private String state;
-
+    private Board board;
     private ArrayList<BoardCell> cells = new ArrayList<>(); // массив клеток, которые занимает фигура
-
     private LibItem lib;
+
+    //отвечающие за перемещение
+    private int MousePos = 0;
 
     public Figure(LibItem lib) {
         this.lib = lib;
@@ -33,20 +37,25 @@ public class Figure {
         }
     }
 
-    public Figure(String race, String state) {
-        setRace(race);
-        setState(state);
+    public void setMousePos (BoardCell c) //(int row, int col)
+    {
+         // BoardCell c = cells.stream().filter(c1 -> c1.getRow() == row && c1.getCol() == col).findAny().orElse(null);
+        MousePos = cells.indexOf(c);
     }
 
+    public int getMousePos ()
+    {return MousePos;}
 
     public void setRace(String race) {
         this.race = race;
+
     }
 
     public String getRace() { return this.race;}
 
     public void setState(String state) {
         this.state = state;
+
     }
 
     public  void setCode(String code){
@@ -76,36 +85,28 @@ public class Figure {
 
     //костыль для слоника
     public int getCol() {
-        int Col = 9;
-        for(BoardCell c : cells){
-            Col = c.getCol() < Col ? c.getCol(): Col;
-        }
-        return Col;
+
+        return cells.get(0).getCol();
     }
 
     public int getRow() {
-        int Row = 9;
-        for(BoardCell c : cells){
-            Row = c.getCol() < Row ? c.getRow(): Row;
-        }
-        return Row;
+
+        return cells.get(0).getRow();
     }
 
     public int getxCoord() {
-        int minX = 10*50; // правый столбец
-        for(BoardCell c : cells){
-            minX = c.getCol()*50 < minX ? c.getCol()*50 : minX;
-        }
-        return minX;
+
+
+        int X = cells.get(0).getCol()*50;
+        return X;
+
     }
 
     public int getyCoord() {
-        int maxY = 10*50; // нижняя строка
-        for(BoardCell c : cells){
-            maxY = c.getRow()*50 < maxY ? c.getRow()*50 : maxY;
-        }
-        return maxY;
-    }    //костыль для слоника end
+
+        int Y = cells.get(0).getRow()*50;
+        return Y;
+    }
 
     public void intoCell(BoardCell c){
         this.cells.add(c);
@@ -134,7 +135,6 @@ public class Figure {
         //копия массива клеток
         ArrayList<BoardCell> copy = (ArrayList)cells.clone();
 
-
         copy.forEach(boardCell -> boardCell.clear());
 
         copy = null;
@@ -150,6 +150,7 @@ public class Figure {
 
     public Board placeOnBoard(Board board, Map<String,Integer> row_col) {
         PlacementInterface pf = this.lib.getPlacementFunc();
+
         return (Board) pf.operation(board, row_col, this);
     }
 

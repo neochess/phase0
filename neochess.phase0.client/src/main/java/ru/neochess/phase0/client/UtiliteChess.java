@@ -64,7 +64,7 @@ public class UtiliteChess {
     protected void createDefaultProperties()
     {
         _properties.setProperty("Port", "5000");
-        _properties.setProperty("Host", "neochess.divizdev.ru");
+        _properties.setProperty("Host", "localhost");
         _properties.setProperty("Initial", _initialBoard);
         OutputStream output;
         try {

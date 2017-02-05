@@ -9,12 +9,14 @@ import java.util.function.BiFunction;
 public class LibItem {
     private String code;
     private String desc;
+
     private String imgPath;
     private PlacementInterface placementFunc;
 
     public LibItem(String code, String desc, String imgPath, PlacementInterface p) {
         this.code = code;
         this.desc = desc;
+
         this.imgPath = imgPath;
         this.placementFunc = p;
     }

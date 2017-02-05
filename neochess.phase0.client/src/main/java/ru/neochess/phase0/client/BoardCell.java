@@ -32,6 +32,13 @@ public class BoardCell {
     }
 
     public Figure getFigure() {
+      /* try {
+
+           this.figure.setMousePos(this);
+       } catch (Exception ex) {
+            System.out.println(ex.toString());
+
+        }*/
         return figure;
     }
 

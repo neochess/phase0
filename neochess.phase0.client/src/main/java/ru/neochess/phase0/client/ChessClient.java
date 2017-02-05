@@ -24,7 +24,8 @@ public class ChessClient extends JFrame
 			
 		layout = new BorderLayout(1,1);
 		cont.setLayout(layout);		
-		
+
+		//клиент создает объект доска и передает себя в него
 		board = new ChessBoard(this);			
 		cont.add(board, BorderLayout.CENTER);
 
@@ -46,6 +47,7 @@ public class ChessClient extends JFrame
 
 	public static void main(String[] args)
 	{
+		//клиент - начало
 		ChessClient cc = new ChessClient();
 		
 		cc.addWindowListener(new WindowAdapter() 

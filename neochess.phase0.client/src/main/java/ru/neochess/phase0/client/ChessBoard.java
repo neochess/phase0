@@ -18,9 +18,6 @@ import java.util.Map;
 public class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMotionListener {
 
     BufferedImage image_buffer;
-  //  ChessServerConnection serverconnection;
-
-
     //chessboard params
 
     int gap = 50;
@@ -43,15 +40,10 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
 
     private boolean myTurn;
 
-   // private currentRace
-
     private int grabbed_piece, from_row, from_col, to_row, to_col;
 
     private Figure grabbed_figure;
-    private Figure replaced_figure;
-
-    //    private int chess_matrix[][] = new int[10][10];
-//    private String chess_matrix[][] = new String[3][3];
+   // private Figure replaced_figure;
     private Figure chess_matrix[][] = new Figure[10][10];
 
     private Board board = new Board();
@@ -63,23 +55,21 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
     public ClientStateWrapper clientState;
 
 
+    /*конструктор доски
+    0 рисует доску:
+    1 добавляет лисенер мышки,
+    2 расставляет фигуры в начальное положение
+    3 создает объект обертку для состояний и передается в нее */
     public ChessBoard(ChessClient cc) {
 
         clientState = new ClientStateWrapper(this);
         chessclient = cc;
         this.setSize(boardsize , boardsize );
 
-//        initChessMatrix();
-
-        //CreateChessmenImages();
         image_buffer = new BufferedImage(boardsize , boardsize , BufferedImage.TYPE_INT_RGB);
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
         setInitialBoard();
-       // serverconnection = new ChessServerConnection(this , clientState);
-
-//        processCommand("@BLACK");
-//        processCommand("@TOKEN");
 
         grabbed_piece = ChessMen.NOTHING;
 
@@ -125,7 +115,6 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
         gfx.drawImage(image_buffer, 0, 0, this);
     }
 
-
     private void drawOffscreen() {
         Graphics2D gfx = image_buffer.createGraphics();
 
@@ -144,31 +133,10 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
     private void renderChessBoard(Graphics2D gfx) {
 
 
-
         boolean b = false;
 
         gfx.setColor(Color.black);
         gfx.fillRect(0, 0, boardsize, boardsize);
-
-      //  setBackground(Color.lightGray);
-      //  setForeground(Color.white);
-        //gfx.setBackground(Color.white);
-
-       /* int gap = 50;
-        int cellsize = 50;
-        int cellnum = 10;
-        int txtleft = 25;
-        int txtright = 15;
-        int txtop = 35;
-        int txtbottom = 20;*/
-        //gfx.setColor(Color.CYAN);
-
-     //   Text t = new Text (10, 20, "This is a text sample");
-       // Font trb = new Font("TimesRoman", Font.BOLD, 18);
-
-
-     //  gfx.drawString("jfkdjfdkjfjk", x, y);
-    //   FontMetrics metrics = gfx.getFontMetrics(trb);
 
         gfx.setColor(Color.white);
 
@@ -196,7 +164,8 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
             y += cellsize;
 
         }
-       // x = 50;
+
+
         y = gap;
         for (int i = 0; i < cellnum; i++) {
             x = gap;
@@ -223,23 +192,6 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
         board.paintFigures(gfx, this);
 
     }
-
-
-    //    private void paintChessMan(int piece, int x, int y, Graphics2D gfx)
-   /* private void paintChessMan(Figure fig, int x, int y, Graphics2D gfx) {
-        int gap = 50;
-        if (fig != null) {
-
-            try {
-                gfx.drawImage(fig.getImage(), x + gap + 2, y + gap + 2, this);
-            } catch (Exception ex) {
-                System.out.println("Не нашел картинку для фигуры " + fig.getDesc());
-            }
-
-        }
-
-    }*/
-
 
     public void mouseClicked(MouseEvent e) {
         if((e.getButton() == MouseEvent.BUTTON3 || e.getButton() == MouseEvent.BUTTON2 ) )
@@ -558,97 +510,30 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
 
         Map<String,Integer> row_col = new HashMap();
 
-        //if (encoding.length() < 100) return;
-
-//        Figure prevF = null;
+        board.Clear();
 
         for (int i = 0; i < encoding.length(); i += 3) {
 
             row = i / 30;
             col = (i / 3) % 10;
-            pieceRace = encoding.substring(i, i + 1); //encoding.charAt(i);
-            pieceCode = encoding.substring(i + 1, i + 2); //encoding.charAt(i+1);
-            pieceState = encoding.substring(i + 2, i + 3); //encoding.charAt(i+2);
+            pieceRace = encoding.substring(i, i + 1);
+            pieceCode = encoding.substring(i + 1, i + 2);
+            pieceState = encoding.substring(i + 2, i + 3);
 
-            //очищаем всю доску по завещанию Антана и перерисовываем все фигурки
-       /*    board.getCellByIndex(row, col).clear();
+
+
 
             if (!pieceCode.equalsIgnoreCase("Z")) {
-                Figure currentFigure = fl.getFigureByCode(pieceCode);
-                currentFigure.setState(pieceState);
-                currentFigure.setRace(pieceRace);
+
                 row_col.put("row", row);
                 row_col.put("col", col);
-                if (pieceCode.equals("H"))
-                    {if (!slon) slon = true;
-                     else continue;}
-                board.saveFigure(currentFigure);
-                currentFigure.placeOnBoard(board, row_col);
-            }*/
+                Figure currentFigure =  board.putFigure(pieceRace,pieceState,pieceCode, fl, board, row_col);
 
-
-
-            //old version
-           //if (pieceCode.equals("H"))
-            //{if (!slon) slon = true;
-           // else continue;}
-
-
-
-           if (pieceCode.equalsIgnoreCase("Z")) {
-                //chess_matrix[row][col] = null;
-                board.getCellByIndex(row, col).clear();
-            } else {
-                Figure oldFigure =  board.getCellByIndex(row, col).getFigure();
-
-                if (oldFigure == null) {
-
-                    Figure currentFigure = fl.getFigureByCode(pieceCode);
-                    currentFigure.setState(pieceState);
-                    currentFigure.setRace(pieceRace);
-
-//                    if (currentFigure != null && currentFigure==prevF){
-//                        System.out.println("фигура в "+row+" "+col+"та же что и предыдущая --- и это ошибка!");
-//                    }
-//                    prevF = currentFigure;
-//                    if (currentFigure != null && currentFigure==prevF){
-//                        System.out.println("этот всегда должен сойтись");
-//                    }
-
-                    //chess_matrix[row][col] = currentFigure;
-
-                    row_col.put("row", row);
-                    row_col.put("col", col);
-                    board.saveFigure(currentFigure);
-                    currentFigure.placeOnBoard(board, row_col);
-
-                } else {
-
-
-                        //Figure oldFigure =  board.getCellByIndex(row, col).getFigure();
-                        if (!oldFigure.getRace().equals(pieceRace) || !oldFigure.getState().equals(pieceState) || !oldFigure.getCode().equals(pieceCode))
-
-                        //  Figure oldFigure = board.getCellByIndex(row, col).getFigure();
-
-                        {
-                            board.removeFigure(oldFigure);
-
-                            Figure currentFigure = fl.getFigureByCode(pieceCode);
-                            currentFigure.setState(pieceState);
-                            currentFigure.setRace(pieceRace);
-
-                            row_col.put("row", row);
-                            row_col.put("col", col);
-                            board.saveFigure(currentFigure);
-                            currentFigure.placeOnBoard(board, row_col);
-
-                        }
-
-//                    if (chess_matrix[row][col] != null && chess_matrix[row][col]==prevF){
-//                        System.out.println("фигура в "+row+" "+col+"та же что и предыдущая");
-//                    }
-                }
             }
+
+
+
+
 
         }
 
