@@ -27,18 +27,13 @@ public class BoardCell {
             this.figure.beaten();
         }
 
-        fig.intoCell(this);
-        this.figure = fig;
+    fig.intoCell(this);
+    this.figure = fig;
+
     }
 
     public Figure getFigure() {
-      /* try {
 
-           this.figure.setMousePos(this);
-       } catch (Exception ex) {
-            System.out.println(ex.toString());
-
-        }*/
         return figure;
     }
 

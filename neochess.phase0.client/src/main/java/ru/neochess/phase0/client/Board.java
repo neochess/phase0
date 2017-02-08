@@ -99,9 +99,9 @@ public class Board {
     public void paintFigures(Graphics2D gfx, ChessBoard observer) {
         int gap = 50;
         int cell = 50;
+        int a = 0;
 
         for(Figure f : figures) {
-
             try {
                  gfx.drawImage(f.getImage(), f.getxCoord() + gap + 2, f.getyCoord() + gap + 2, observer);
             } catch (Exception ex) {

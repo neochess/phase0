@@ -22,7 +22,7 @@ public class Figure {
     private LibItem lib;
 
     //отвечающие за перемещение
-    private int MousePos = 0;
+    private int MousePos = -1;
 
     public Figure(LibItem lib) {
         this.lib = lib;
@@ -39,6 +39,8 @@ public class Figure {
 
     public void setMousePos (BoardCell c) //(int row, int col)
     {
+
+
          // BoardCell c = cells.stream().filter(c1 -> c1.getRow() == row && c1.getCol() == col).findAny().orElse(null);
         MousePos = cells.indexOf(c);
     }
@@ -83,29 +85,72 @@ public class Figure {
         return this.race+this.getCode()+this.state;
     }
 
-    //костыль для слоника
+    public int getImageXshift()
+    {
+        int xshift = 0;
+        switch (MousePos) {
+            case -1: xshift = 0; break;
+
+            case 0: xshift = 0; break;
+            case 1: xshift = 1; break;
+            case 2: xshift = 0; break;
+            case 3: xshift = 1; break;
+
+        }
+
+    return xshift;}
+
+    public int getImageYshift()
+    { int a;
+        if (this.getCode() == "H")
+        a = 1;
+
+        int yshift = 0;
+        switch (MousePos) {
+            case -1: yshift = 0; break;
+
+            case 0: yshift = 0; break;
+            case 1: yshift = 0; break;
+            case 2: yshift = 1; break;
+            case 3: yshift = 1; break;
+
+        }
+
+        return yshift;}
+  /*  //для слоника
     public int getCol() {
 
+        int a;
+        if (MousePos > -1){
+           // if (this.getCode() == "H")
+               // a = 1;
+        return cells.get(MousePos).getCol();}
+        else
         return cells.get(0).getCol();
     }
 
-    public int getRow() {
 
+    public int getRow() {
+       if (MousePos > -1)
+            return cells.get(MousePos).getRow();
+        else
         return cells.get(0).getRow();
-    }
+    }*/
 
     public int getxCoord() {
-
-
-        int X = cells.get(0).getCol()*50;
-        return X;
-
+        int minX = 10*50 + 50; // правый столбец
+        for(BoardCell c : cells){
+            minX = c.getCol()*50 < minX ? c.getCol()*50 : minX;
+        }
+        return minX;
     }
 
     public int getyCoord() {
-
-        int Y = cells.get(0).getRow()*50;
-        return Y;
+        int maxY = 10*50 + 50; // нижняя строка
+        for(BoardCell c : cells){
+            maxY = c.getRow()*50 < maxY ? c.getRow()*50 : maxY;
+        }
+        return maxY;
     }
 
     public void intoCell(BoardCell c){

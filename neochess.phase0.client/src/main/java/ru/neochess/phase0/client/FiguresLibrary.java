@@ -49,7 +49,54 @@ public class FiguresLibrary {
 
             add(new LibItem("H", "Слон", "/figures/animals/slon.png", (board, rc, figure) -> {
                // figure = board.findFigureByCode();
-                board.getCellByIndex(rc.get("row"), rc.get("col")).placeIn(figure);
+
+                int pos = figure.getMousePos();
+                switch(pos)
+                {
+                    case 0:
+
+
+
+
+                        board.getCellByIndex(rc.get("row"), rc.get("col")).placeIn(figure);
+                        board.getCellByIndex(rc.get("row"), rc.get("col") + 1).placeIn(figure);
+                        board.getCellByIndex(rc.get("row") + 1, rc.get("col")).placeIn(figure);
+                        board.getCellByIndex(rc.get("row") + 1, rc.get("col") + 1).placeIn(figure);
+                        break;
+
+                    case 1:
+
+                        board.getCellByIndex(rc.get("row"), rc.get("col") - 1).placeIn(figure);
+                        board.getCellByIndex(rc.get("row"), rc.get("col")).placeIn(figure);
+                        board.getCellByIndex(rc.get("row") + 1, rc.get("col") - 1).placeIn(figure);
+                        board.getCellByIndex(rc.get("row") + 1, rc.get("col")).placeIn(figure);
+
+                        break;
+                    case 2:
+                        board.getCellByIndex(rc.get("row") - 1, rc.get("col")).placeIn(figure);
+                        board.getCellByIndex(rc.get("row") - 1, rc.get("col") + 1).placeIn(figure);
+                        board.getCellByIndex(rc.get("row"), rc.get("col")).placeIn(figure);
+                        board.getCellByIndex(rc.get("row") , rc.get("col") + 1).placeIn(figure);
+
+                        break;
+                   // default:
+
+                    case 3:
+
+                        board.getCellByIndex(rc.get("row") - 1, rc.get("col") - 1).placeIn(figure);
+                        board.getCellByIndex(rc.get("row") - 1, rc.get("col")).placeIn(figure);
+                        board.getCellByIndex(rc.get("row"), rc.get("col") - 1).placeIn(figure);
+                        board.getCellByIndex(rc.get("row"), rc.get("col")).placeIn(figure);
+
+                        break;
+
+                    case -1:
+                         board.getCellByIndex(rc.get("row"), rc.get("col")).placeIn(figure);
+
+                }
+
+                // board.getCellByIndex(rc.get("row"), rc.get("col")).placeIn(figure);
+
                //  board.getCellByIndex(rc.get("row") + 1, rc.get("col")).placeIn(figure);
                //  board.getCellByIndex(rc.get("row"), rc.get("col") + 1).placeIn(figure);
                //  board.getCellByIndex(rc.get("row") + 1, rc.get("col") + 1).placeIn(figure);

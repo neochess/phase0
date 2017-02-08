@@ -1,5 +1,6 @@
 package ru.neochess.phase0.client;
 
+import ru.neochess.phase0.client.MoveHandler.MoveHandler;
 import ru.neochess.phase0.client.State.ClientStateWrapper;
 
 import javax.swing.*;
@@ -20,14 +21,14 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
     BufferedImage image_buffer;
     //chessboard params
 
-    int gap = 50;
-    int cellsize = 50;
-    int cellnum = 10;
-    int txtleft = 25;
-    int txtright = 15;
-    int txtop = 35;
-    int txtbottom = 20;
-    int boardsize = 600;
+    public int gap = 50;
+    public int cellsize = 50;
+    public int cellnum = 10;
+    public int txtleft = 25;
+    public int txtright = 15;
+    public int txtop = 35;
+    public int txtbottom = 20;
+    public int boardsize = 600;
 
     //chessboard params end
 
@@ -42,18 +43,19 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
 
     private int grabbed_piece, from_row, from_col, to_row, to_col;
 
-    private Figure grabbed_figure;
+    public Figure grabbed_figure;
    // private Figure replaced_figure;
     private Figure chess_matrix[][] = new Figure[10][10];
 
-    private Board board = new Board();
+    public Board board = new Board();
 
-    FiguresLibrary fl = FiguresLibrary.init();
+    public FiguresLibrary fl = FiguresLibrary.init();
 
     private ImageIcon chessmen_images[] = new ImageIcon[16];
 
     public ClientStateWrapper clientState;
 
+    private MoveHandler moveHandler = new MoveHandler();
 
     /*конструктор доски
     0 рисует доску:
@@ -70,6 +72,7 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
         setInitialBoard();
+
 
         grabbed_piece = ChessMen.NOTHING;
 
@@ -109,26 +112,28 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
     }
 
 
-    public void paint(Graphics g) {
+    public void paint(Graphics g)
+    {
         Graphics2D gfx = (Graphics2D) g;
         drawOffscreen();
         gfx.drawImage(image_buffer, 0, 0, this);
     }
 
-    private void drawOffscreen() {
+    private void drawOffscreen()
+    {
         Graphics2D gfx = image_buffer.createGraphics();
 
         renderChessBoard(gfx);
 
-//        if (grabbed_piece != ChessMen.NOTHING)
-        if (grabbed_figure != null) {
-//            gfx.drawImage(chessmen_images[grabbed_piece].getImage(), x - 22, y - 22, this);
-            gfx.drawImage(grabbed_figure.getImage(), x - 22, y - 22, this);
+        if (grabbed_figure != null)
+        {
+            gfx.drawImage(grabbed_figure.getImage(),
+                   - cellsize * grabbed_figure.getImageXshift() + x - 22,
+                   - cellsize * grabbed_figure.getImageYshift() +
+                            y - 22, this);
         }
 
-
     }
-
 
     private void renderChessBoard(Graphics2D gfx) {
 
@@ -197,61 +202,13 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
         if((e.getButton() == MouseEvent.BUTTON3 || e.getButton() == MouseEvent.BUTTON2 ) )
                 //&& myTurn)
         {
-            Map<String,Integer> row_col = new HashMap();
-            Figure selectFigure;
-            Figure newFigure;
-
-            from_row = (e.getY() - gap) / cellsize;
-            from_col = (e.getX() - gap) / cellsize;
-
-            if (from_row < 0 || from_row > 9) return;
-            if (from_col < 0 || from_col > 9) return;
-
-
-
-            selectFigure = board.getCellByIndex(from_row, from_col).getFigure();
-
-            //обычная пешка
-            if (selectFigure != null &&
-                    selectFigure.getCode().compareTo("O") == 0) {
-
-                    newFigure = fl.getFigureByCode("R"); //Боевая пешка
-                    newFigure.setState(selectFigure.getState());
-                    newFigure.setRace(selectFigure.getRace());
-
-                    row_col.put("row", from_row);
-                    row_col.put("col", from_col);
-                    newFigure.placeOnBoard(board, row_col);
-                    board.saveFigure(newFigure);
-
-                    board.removeFigure(selectFigure);
-
-                    selectFigure = null;
-                    //myTurn = false; // изменнение пешки считается ходом.
+          if (moveHandler.figureTransform(e.getX(),e.getY(), this) == true) {
                     repaint();
-
-                newFigure.printCells();
-                newFigure = null;
-
                 //отправляем ход
                 String encoding = encodeBoard();
                 System.out.println(encoding);
-
-
-                clientState.getCurrent().sendMove( encoding);
-
-           /*     try {
-                    serverconnection.send(encoding);
-                    serverconnection.send("@TOKEN");
-                } catch (Exception ex) {
-
-                }*/
-            }
-
-
+                clientState.getCurrent().sendMove( encoding);}
         }
-
-
     }
 
     public void mouseEntered(MouseEvent e) {
@@ -264,38 +221,15 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
         if (e.getButton() != MouseEvent.BUTTON1){
             return;
         }
-        from_row = (e.getY() - gap) / cellsize;
-        from_col = (e.getX() - gap) / cellsize;
 
-        if (from_row < 0 || from_row > 9) return;
-        if (from_col < 0 || from_col > 9) return;
+        if (moveHandler.moveBegin(e.getX(),e.getY(), this) == true) {
+            x = e.getX();
+            y = e.getY();
 
-//        grabbed_piece = chess_matrix[from_row][from_col];
-//        grabbed_figure = chess_matrix[from_row][from_col];
-        grabbed_figure = board.getCellByIndex(from_row, from_col).getFigure();
+            repaint();
 
-        if(grabbed_figure==null) return;
+           }
 
-//        if ((getPieceType(grabbed_piece) != myColor) || !myTurn)
-//        {
-//            grabbed_piece = ChessMen.NOTHING;
-//            return;
-//        }
-
-//        chess_matrix[from_row][from_col] = null; //fl.getEmptyFigure(); //ChessMen.NOTHING;
-        if (grabbed_figure.getCode().equals("H"))
-        {
-            from_row = grabbed_figure.getRow();
-            from_col =  grabbed_figure.getCol();
-        }
-
-
-        board.removeFigure(grabbed_figure);
-
-        x = e.getX();
-        y = e.getY();
-
-        repaint();
     }
 
 
@@ -305,92 +239,14 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
             return;
         }
 
-        Map<String,Integer> row_col = new HashMap();
-
-//        if (grabbed_piece == ChessMen.NOTHING) return;
-        if(grabbed_figure == null) return;
-
-        to_row = (e.getY() - gap) / cellsize;
-        to_col = (e.getX() - gap) / cellsize;
-
-        if (to_row < 0 || to_row > 9 || to_col < 0 || to_col > 9) {
-//            chess_matrix[from_row][from_col] = grabbed_figure; //grabbed_piece;
-
-            //board.getCellByIndex(from_row, from_col).placeIn(grabbed_figure);
-
-//        public Board placeOnBoard(Board board, Map<String,Integer> row_col) {
-
-            row_col.put("row", from_row);
-            row_col.put("col", from_col);
-            grabbed_figure.placeOnBoard(board, row_col);
-
-            //grabbed_piece = ChessMen.NOTHING;
-            grabbed_figure = null;
-
-            repaint();
-            return;
-        }
-
-        if ((from_row == to_row && from_col == to_col)
-                ||
-                !isLegalMove(grabbed_piece, from_row, from_col, to_row, to_col)) {
-//            chess_matrix[from_row][from_col] = grabbed_figure; //grabbed_piece;
-            board.saveFigure(grabbed_figure);
-            //board.getCellByIndex(from_row, from_col).placeIn(grabbed_figure);
-
-            row_col.put("row", from_row);
-            row_col.put("col", from_col);
-            grabbed_figure.placeOnBoard(board, row_col);
-
-
-            //grabbed_piece = ChessMen.NOTHING;
-            grabbed_figure = null;
-            repaint();
-            return;
-        }
-
-        if (isLegalMove(grabbed_piece, from_row, from_col, to_row, to_col)) {
-//            chess_matrix[to_row][to_col] = grabbed_figure; //grabbed_piece;
-            board.saveFigure(grabbed_figure);
-            //board.getCellByIndex(to_row, to_col).placeIn(grabbed_figure);
-
-            row_col.put("row", to_row);
-            row_col.put("col", to_col);
-            grabbed_figure.placeOnBoard(board, row_col);
-
-        } else {
-//            chess_matrix[from_row][from_col] = grabbed_figure; // grabbed_piece;
-            board.saveFigure(grabbed_figure);
-            //board.getCellByIndex(from_row, from_col).placeIn(grabbed_figure);
-
-            row_col.put("row", from_row);
-            row_col.put("col", from_col);
-            grabbed_figure.placeOnBoard(board, row_col);
-
-        }
-
-        //System.out.println(grabbed_figure.getDesc()+" : x="+grabbed_figure.getxCoord()/50+", y="+grabbed_figure.getyCoord()/50);
-        grabbed_figure.printCells();
-
-        //grabbed_piece = ChessMen.NOTHING;
-        grabbed_figure = null;
-       // myTurn = false;
-
+   boolean moveDone = moveHandler.moveEnd(e.getX(),e.getY(), this);
         repaint();
 
-        String encoding = encodeBoard();
+    if (moveDone == true)
+        {String encoding = encodeBoard();
         System.out.println(encoding);
 
-        clientState.getCurrent().sendMove( encoding);
-
-     /*   try {
-            serverconnection.send(encoding);
-            serverconnection.send("@TOKEN");
-        } catch (Exception ex) {
-
-        }*/
-
-        //myTurn = false;
+        clientState.getCurrent().sendMove( encoding);}
 
     }
 
@@ -443,45 +299,6 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
     }
 
 
-  //  public synchronized void receiveData(String line) {
-
-
-  //   clientState.processMSG(line);
-
-      /* if (line.charAt(0) == '@') {
-
-
-           processCommand(line);
-            return;
-        }
-        decodeBoard(line);
-        repaint();
-        myTurn = true;*/
-
-   // }
-
-
-  /*private void processCommand(String command) {
-        if (command.compareTo("@BLACK") == 0) {
-
-            myColor = ChessMen.BLACK;
-            myRace = "B";
-           // chessclient.setTitle("Chess Client - BLACK");
-            resetBoard();
-        } else if (command.compareTo("@WHITE") == 0) {
-            System.out.println("I am WHITE");
-            myColor = ChessMen.WHITE;
-            myRace = "W";
-            chessclient.setTitle("Chess Client - WHITE");
-            resetBoard();
-            myTurn = true;
-        }
-        if (command.compareTo("@RESET") == 0) {
-            if (myColor == ChessMen.WHITE) myTurn = true;
-        } else if (command.compareTo("@TOKEN") == 0) myTurn = true;
-    }*/
-
-
     public String encodeBoard() {
         StringBuilder encoding = new StringBuilder();
         for (int i = 0; i < 10; i++) {
@@ -520,9 +337,6 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
             pieceCode = encoding.substring(i + 1, i + 2);
             pieceState = encoding.substring(i + 2, i + 3);
 
-
-
-
             if (!pieceCode.equalsIgnoreCase("Z")) {
 
                 row_col.put("row", row);
@@ -530,10 +344,6 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
                 Figure currentFigure =  board.putFigure(pieceRace,pieceState,pieceCode, fl, board, row_col);
 
             }
-
-
-
-
 
         }
 
