@@ -2,10 +2,18 @@ package ru.neochess.phase0.client.State;
 
 import ru.neochess.phase0.client.ChessBoard;
 
+import javax.swing.*;
+
 /**
  * Created by TiJi on 03.12.16.
  */
 public class StateReady extends State  implements ClientState {
+   // private String UserName;
+
+    public StateReady() {
+       UserName =  JOptionPane.showInputDialog("UserName");
+
+    }
 
 
 
@@ -20,7 +28,13 @@ public class StateReady extends State  implements ClientState {
     }
 
     @Override
-    public void receiveState() {
+    public void receiveState(String state) {
+
+        switch (state)
+        {
+            case "ERROR": wrapper.setCurrent(new StateError()); break;
+            case "END": wrapper.setCurrent(new StateEnd()); break;
+        }
 
     }
 
@@ -32,9 +46,19 @@ public class StateReady extends State  implements ClientState {
     @Override
     public void recieveColor( char color) {
         if (color == 'W')
-        { wrapper.setCurrent(new StateMove());}
+        { wrapper.setCurrent(new StateMove());
+            System.out.println("I am W");
+            wrapper.chessBoard.chessclient.setTitle("NeoChess. " + UserName + " playing for people");
+            JOptionPane.showMessageDialog(null,"People is your race!","Hi, " + UserName + "! Welcome to NeoChess", JOptionPane.PLAIN_MESSAGE);
+
+        }
         else if (color == 'B')
-        { wrapper.setCurrent(new StateWait());}
+        { wrapper.setCurrent(new StateWait());
+            System.out.println("I am B");
+            wrapper.chessBoard.chessclient.setTitle("NeoChess. " + UserName + " playing for animals");
+            JOptionPane.showMessageDialog(null, "Your race is Animal!","Hi, " + UserName + "! Welcome to NeoChess", JOptionPane.PLAIN_MESSAGE);
+
+        }
 
     }
 

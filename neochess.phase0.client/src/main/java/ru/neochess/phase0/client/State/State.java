@@ -5,6 +5,7 @@ package ru.neochess.phase0.client.State;
  */
 public class State {
     public ClientStateWrapper wrapper;
+    public String UserName;
     public void setWrapper (ClientStateWrapper wr)
     {
         wrapper = wr;

@@ -45,7 +45,26 @@ public class ClientStateWrapper {
 
     public void processCommand(ChessClient chessclient, String command){
 //пока так -  исправить!!!
-        if (command.compareTo("@BLACK") == 0) {
+
+        switch (command){
+            case "@BLACK":
+                myRace = 'B';
+                currentState.recieveColor(myRace);
+                break;
+            case "@WHITE":
+                myRace = 'W';
+                currentState.recieveColor(myRace);
+                break;
+            case "@ERROR":
+                currentState.receiveState("ERROR");
+                break;
+            case "@END":
+                currentState.receiveState("END");
+                break;
+
+
+        }
+       /* if (command.compareTo("@BLACK") == 0) {
 
             myRace = 'B';
             System.out.println("I am B");
@@ -59,7 +78,7 @@ public class ClientStateWrapper {
             //chessBoard.resetBoard();
 
         }
-        currentState.recieveColor(myRace);
+        currentState.recieveColor(myRace);*/
 
     }
 

@@ -20,7 +20,13 @@ public class StateWait extends State  implements ClientState {
     }
 
     @Override
-    public void receiveState() {
+    public void receiveState(String state) {
+
+        switch (state)
+        {
+            case "ERROR": wrapper.setCurrent(new StateError()); break;
+            case "END": wrapper.setCurrent(new StateEnd()); break;
+        }
 
     }
 

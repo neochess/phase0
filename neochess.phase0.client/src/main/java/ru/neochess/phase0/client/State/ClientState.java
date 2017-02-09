@@ -10,7 +10,7 @@ public interface ClientState {
     public void setWrapper (ClientStateWrapper wr);
     public void sendMove( String board);
     public void receiveMove(ChessBoard chessboard, String line);
-    public void receiveState();
+    public void receiveState(String state);
     public void sendState();
     public void recieveColor( char color);
 
