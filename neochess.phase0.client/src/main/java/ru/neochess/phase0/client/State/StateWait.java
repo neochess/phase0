@@ -25,7 +25,7 @@ public class StateWait extends State  implements ClientState {
         switch (state)
         {
             case "ERROR": wrapper.setCurrent(new StateError()); break;
-            case "END": wrapper.setCurrent(new StateEnd()); break;
+            case "END": finishGame(); break;
         }
 
     }
@@ -38,6 +38,11 @@ public class StateWait extends State  implements ClientState {
     @Override
     public void recieveColor( char color) {
 
+    }
+
+    @Override
+    public void finishGame() {
+        wrapper.setCurrent(new StateEnd());
     }
 
 }

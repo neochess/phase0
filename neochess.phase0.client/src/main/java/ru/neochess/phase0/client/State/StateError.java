@@ -40,4 +40,9 @@ public class StateError extends State  implements ClientState {
     public void recieveColor( char color) {
 
     }
+
+    @Override
+    public void finishGame() {
+
+    }
 }

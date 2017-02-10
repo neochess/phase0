@@ -11,7 +11,10 @@ public class StateReady extends State  implements ClientState {
    // private String UserName;
 
     public StateReady() {
-       UserName =  JOptionPane.showInputDialog("UserName");
+
+       if (UserName.isEmpty()) {
+            UserName = JOptionPane.showInputDialog("UserName");
+        }
 
     }
 
@@ -33,7 +36,7 @@ public class StateReady extends State  implements ClientState {
         switch (state)
         {
             case "ERROR": wrapper.setCurrent(new StateError()); break;
-            case "END": wrapper.setCurrent(new StateEnd()); break;
+            case "END": finishGame(); break;
         }
 
     }
@@ -45,21 +48,27 @@ public class StateReady extends State  implements ClientState {
 
     @Override
     public void recieveColor( char color) {
-        if (color == 'W')
-        { wrapper.setCurrent(new StateMove());
+        if (color == 'W') {
+            wrapper.setCurrent(new StateMove());
             System.out.println("I am W");
             wrapper.chessBoard.chessclient.setTitle("NeoChess. " + UserName + " playing for people");
-            JOptionPane.showMessageDialog(null,"People is your race!","Hi, " + UserName + "! Welcome to NeoChess", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, "People is your race!", "Hi, " + UserName + "! Welcome to NeoChess", JOptionPane.PLAIN_MESSAGE);
 
-        }
-        else if (color == 'B')
-        { wrapper.setCurrent(new StateWait());
+        } else if (color == 'B') {
+            wrapper.setCurrent(new StateWait());
             System.out.println("I am B");
             wrapper.chessBoard.chessclient.setTitle("NeoChess. " + UserName + " playing for animals");
-            JOptionPane.showMessageDialog(null, "Your race is Animal!","Hi, " + UserName + "! Welcome to NeoChess", JOptionPane.PLAIN_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Your race is Animal!", "Hi, " + UserName + "! Welcome to NeoChess", JOptionPane.PLAIN_MESSAGE);
+
+        }
+    }
+
+        @Override
+        public void finishGame() {
+            wrapper.setCurrent(new StateEnd());
 
         }
 
-    }
+
 
 }

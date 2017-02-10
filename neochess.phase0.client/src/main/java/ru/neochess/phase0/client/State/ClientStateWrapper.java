@@ -58,27 +58,12 @@ public class ClientStateWrapper {
             case "@ERROR":
                 currentState.receiveState("ERROR");
                 break;
-            case "@END":
+            case "@GameEND":
                 currentState.receiveState("END");
+                chessBoard.setInitialBoard();
                 break;
 
-
         }
-       /* if (command.compareTo("@BLACK") == 0) {
-
-            myRace = 'B';
-            System.out.println("I am B");
-            chessclient.setTitle("NeoChess - B");
-
-        } else if (command.compareTo("@WHITE") == 0) {
-            System.out.println("I am W");
-
-            myRace = 'W';
-            chessclient.setTitle("NeoChess - W");
-            //chessBoard.resetBoard();
-
-        }
-        currentState.recieveColor(myRace);*/
 
     }
 
@@ -90,4 +75,14 @@ public class ClientStateWrapper {
 
         }
     }
+
+    public void sendST (String line) {
+        try {
+           serverconnection.send(line);
+        } catch (Exception ex) {
+
+        }
+    }
+
+
 }

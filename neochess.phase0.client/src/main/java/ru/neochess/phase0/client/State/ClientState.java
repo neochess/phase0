@@ -13,5 +13,6 @@ public interface ClientState {
     public void receiveState(String state);
     public void sendState();
     public void recieveColor( char color);
+    public void finishGame();
 
 }

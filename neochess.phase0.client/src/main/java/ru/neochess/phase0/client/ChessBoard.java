@@ -78,32 +78,23 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
 
 
     }
+    public void exitBoard() {
+        clientState.getCurrent().finishGame();
+        clientState.getCurrent().sendState();
+        System.exit(0);
+    }
 
     public void resetBoard() {
-      /*  setInitialBoard();
-        repaint();
-        String encoding = encodeBoard();
-
-        try {
-            serverconnection.send(encoding);
-            serverconnection.send("@RESET");
-        } catch (Exception ex) {
-
-        }*/
+       // setInitialBoard();
+        clientState.getCurrent().finishGame();
+        clientState.getCurrent().sendState();
     }
 
 
-    private void setInitialBoard() {
-
-        //  1     2        3       4    5   6   7   8   9   10
-        // King Queen King(error) King  Z   Z   Z   Z   Z   Z
-        //  Z
-        //
-
-//        decodeBoard("WA1WS1WA1WA1ZZZZZZZZZZZZZZZZZZZZZ");
-        //decodeBoard("WA1WS1WS1WA1ZZZZZZZZZZZZZZZZZZZZZ");
+    public void setInitialBoard() {
 
         decodeBoard( UtiliteChess.getInstance().getInitialBoard());
+        repaint();
     }
 
 

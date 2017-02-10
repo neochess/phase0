@@ -36,7 +36,7 @@ public class ChessClient extends JFrame
 
 		bar.add(gameMenu);
 
-		exitItem.addActionListener(e -> System.exit(0));
+		exitItem.addActionListener(e -> board.exitBoard());
 
 		resetItem.addActionListener(e -> board.resetBoard());
 
