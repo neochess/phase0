@@ -8,16 +8,12 @@ import javax.swing.JOptionPane;
  */
 
 public class StateEnd extends State implements ClientState {
-
-    public StateEnd(ClientStateWrapper wrapper ) {
+    public void process() {
         JOptionPane.showMessageDialog(null, "END OF GAME", "InfoBox: " + "GAME END", JOptionPane.INFORMATION_MESSAGE);
+        wrapper.setCurrent(new StateReady());
 
     }
 
-    public StateEnd() {
-        JOptionPane.showMessageDialog(null, "END OF GAME", "InfoBox: " + "GAME END", JOptionPane.INFORMATION_MESSAGE);
-
-    }
 
     @Override
     public void sendMove(String line) {
@@ -47,10 +43,6 @@ public class StateEnd extends State implements ClientState {
         wrapper.sendST("@GameEND");
 
         System.out.println("@@GameEND");
-
-       // wrapper.setCurrent(new StateReady());
-
-        wrapper.chessBoard.setInitialBoard();
 
     }
 

@@ -64,7 +64,7 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
     3 создает объект обертку для состояний и передается в нее */
     public ChessBoard(ChessClient cc) {
 
-        clientState = new ClientStateWrapper(this);
+
         chessclient = cc;
         this.setSize(boardsize , boardsize );
 
@@ -74,7 +74,7 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
         setInitialBoard();
 
 
-        grabbed_piece = ChessMen.NOTHING;
+        clientState = new ClientStateWrapper(this);
 
 
     }

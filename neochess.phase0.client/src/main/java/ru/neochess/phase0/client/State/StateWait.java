@@ -8,6 +8,11 @@ import ru.neochess.phase0.client.ChessBoard;
 public class StateWait extends State  implements ClientState {
 
     @Override
+    public void process() {
+
+    }
+
+    @Override
     public void sendMove(String line) {
 
     }

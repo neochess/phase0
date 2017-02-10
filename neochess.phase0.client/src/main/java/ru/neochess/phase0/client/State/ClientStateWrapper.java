@@ -3,6 +3,7 @@ package ru.neochess.phase0.client.State;
 import ru.neochess.phase0.client.ChessBoard;
 import ru.neochess.phase0.client.ChessClient;
 import ru.neochess.phase0.client.ChessServerConnection;
+import ru.neochess.phase0.client.ConnectionData.SessionData;
 
 /**
  * Created by TiJi on 04.01.17.
@@ -10,6 +11,7 @@ import ru.neochess.phase0.client.ChessServerConnection;
 public class ClientStateWrapper {
     public ClientState currentState;
     public ChessBoard chessBoard;
+    public SessionData sessionData;
 
     ChessServerConnection serverconnection;
 
@@ -18,13 +20,15 @@ public class ClientStateWrapper {
 
     public ClientStateWrapper(ChessBoard c) {
 
-        setCurrent(new StateReady());
         chessBoard = c;
         serverconnection = new ChessServerConnection(chessBoard , this);
+        sessionData = new SessionData();
+        setCurrent(new StateReady());
     }
 
     public void setCurrent( ClientState s ) { currentState = s;
         currentState.setWrapper(this);
+        currentState.process();
 
     }
     public ClientState getCurrent( ) { return  currentState;}
@@ -60,7 +64,6 @@ public class ClientStateWrapper {
                 break;
             case "@GameEND":
                 currentState.receiveState("END");
-                chessBoard.setInitialBoard();
                 break;
 
         }

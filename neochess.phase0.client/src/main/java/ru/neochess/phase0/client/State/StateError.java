@@ -8,8 +8,9 @@ import javax.swing.JOptionPane;
  */
 public class StateError extends State  implements ClientState {
 
-    public StateError () {
+    public void process() {
         JOptionPane.showMessageDialog(null, "END OF GAME", "InfoBox: " + "GAME ERROR", JOptionPane.INFORMATION_MESSAGE);
+
     }
 
     @Override

@@ -7,6 +7,8 @@ import ru.neochess.phase0.client.ChessBoard;
  */
 public interface ClientState {
 
+    public void  process();
+
     public void setWrapper (ClientStateWrapper wr);
     public void sendMove( String board);
     public void receiveMove(ChessBoard chessboard, String line);
