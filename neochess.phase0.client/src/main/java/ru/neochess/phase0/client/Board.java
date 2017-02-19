@@ -7,6 +7,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.google.protobuf.*;
+
 /**
  * Created by for on 05.11.16.
  */
@@ -26,7 +28,6 @@ public class Board {
 
             }
         }
-
         figures.clear();
     }
 

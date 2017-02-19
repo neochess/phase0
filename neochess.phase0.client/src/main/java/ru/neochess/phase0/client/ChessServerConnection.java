@@ -1,4 +1,5 @@
 package ru.neochess.phase0.client;
+import ru.neochess.phase0.client.CheMessage.ChessMessage;
 import ru.neochess.phase0.client.State.ClientStateWrapper;
 
 import java.io.BufferedReader;
@@ -54,6 +55,10 @@ public class ChessServerConnection
     public void send(String line)
     {
         out.println(line);
+    }
+    public void sendMessage(ChessMessage.NeoCheMessage message)
+    {
+        out.println(message);
     }
 
 

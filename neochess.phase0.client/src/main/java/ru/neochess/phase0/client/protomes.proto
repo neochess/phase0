@@ -1,0 +1,22 @@
+package phase0.client;
+
+option java_package = "ru.neochess.phase0.client.CheMessage";
+option java_outer_classname = "ChessMessage";
+
+message User {
+  optional string name = 1;
+  optional int32 id = 2;
+  optional string race = 3;
+}
+
+
+message NeoCheMessage {
+  optional int32 messageId = 1;
+  optional int32 sessionId = 2;
+  optional string state = 3;
+  optional string board = 4;
+
+  repeated User user = 5;
+
+}
+

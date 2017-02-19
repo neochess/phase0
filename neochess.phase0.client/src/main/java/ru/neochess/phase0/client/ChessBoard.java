@@ -74,7 +74,7 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
         setInitialBoard();
 
 
-        grabbed_piece = ChessMen.NOTHING;
+      //  grabbed_piece = ChessMen.NOTHING;
 
 
     }

@@ -1,6 +1,11 @@
 package ru.neochess.phase0.client.State;
 
+import ru.neochess.phase0.client.CheMessage.ChessMessage.User.*;
+import ru.neochess.phase0.client.CheMessage.ChessMessage.NeoCheMessage.*;
+import ru.neochess.phase0.client.CheMessage.ChessMessage;
 import ru.neochess.phase0.client.ChessBoard;
+import ru.neochess.phase0.client.SessionData.SessionData;
+
 
 import javax.swing.*;
 
@@ -43,6 +48,15 @@ public class StateReady extends State  implements ClientState {
 
     @Override
     public void sendState() {
+
+        wrapper.sessionData.userName = UserName;
+
+        ChessMessage.User.Builder user = ChessMessage.User.newBuilder();
+        user.setName(UserName);
+
+        ChessMessage.NeoCheMessage.Builder message = ChessMessage.NeoCheMessage.newBuilder();
+        message.addUser(user);
+        message.build();
 
     }
 
