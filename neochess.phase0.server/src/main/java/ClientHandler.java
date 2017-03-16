@@ -55,8 +55,8 @@ public class ClientHandler extends Thread
             System.out.println(messageIn.toString());*/
 
            // if(is.available() > 0) while((is.read()) > -1) {
-              //  messageIn = ChessMessage.NeoCheMessage.parseFrom(is);
-            messageIn = ChessMessage.NeoCheMessage.parseDelimitedFrom(is);
+               messageIn = ChessMessage.NeoCheMessage.parseFrom(is);
+           // messageIn = ChessMessage.NeoCheMessage.parseDelimitedFrom(is);
                 System.out.println(messageIn.toString());
                 messageOut = processMessage(messageIn);
            // }
