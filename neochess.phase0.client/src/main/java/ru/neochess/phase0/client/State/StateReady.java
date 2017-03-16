@@ -1,13 +1,9 @@
 package ru.neochess.phase0.client.State;
 
-import ru.neochess.phase0.client.CheMessage.ChessMessage.User.*;
-import ru.neochess.phase0.client.CheMessage.ChessMessage.NeoCheMessage.*;
-import ru.neochess.phase0.client.CheMessage.ChessMessage;
 import ru.neochess.phase0.client.ChessBoard;
-import ru.neochess.phase0.client.SessionData.SessionData;
-
-
+import ru.neochess.phase0.client.CheMessage.*;
 import javax.swing.*;
+
 
 /**
  * Created by TiJi on 03.12.16.
@@ -22,8 +18,6 @@ public class StateReady extends State  implements ClientState {
         }
 
     }
-
-
 
     @Override
     public void sendMove(String board) {
@@ -49,32 +43,35 @@ public class StateReady extends State  implements ClientState {
     @Override
     public void sendState() {
 
-        wrapper.sessionData.userName = UserName;
+     //  wrapper.sessionData.userName = UserName;
 
-        ChessMessage.User.Builder user = ChessMessage.User.newBuilder();
+      ChessMessage.User.Builder user = ChessMessage.User.newBuilder();
         user.setName(UserName);
 
-        ChessMessage.NeoCheMessage.Builder message = ChessMessage.NeoCheMessage.newBuilder();
-        message.addUser(user);
-        message.build();
+        ChessMessage.NeoCheMessage.Builder messageBuilder = ChessMessage.NeoCheMessage.newBuilder();
+        messageBuilder.addUser(user);
+        messageBuilder.setState("ready");
+        ChessMessage.NeoCheMessage message =  messageBuilder.build();
+        System.out.println(message);
+        wrapper.sendToServer(message.toByteArray());
 
     }
 
     @Override
     public void recieveColor( char color) {
-        if (color == 'W') {
-            wrapper.setCurrent(new StateMove());
+    /*    if (color == 'W') {
+        //    wrapper.setCurrent(new StateMove());
             System.out.println("I am W");
             wrapper.chessBoard.chessclient.setTitle("NeoChess. " + UserName + " playing for people");
             JOptionPane.showMessageDialog(null, "People is your race!", "Hi, " + UserName + "! Welcome to NeoChess", JOptionPane.PLAIN_MESSAGE);
 
         } else if (color == 'B') {
-            wrapper.setCurrent(new StateWait());
+          //  wrapper.setCurrent(new StateWait());
             System.out.println("I am B");
             wrapper.chessBoard.chessclient.setTitle("NeoChess. " + UserName + " playing for animals");
             JOptionPane.showMessageDialog(null, "Your race is Animal!", "Hi, " + UserName + "! Welcome to NeoChess", JOptionPane.PLAIN_MESSAGE);
 
-        }
+        }*/
     }
 
         @Override

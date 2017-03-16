@@ -1,4 +1,7 @@
-import java.io.PrintWriter;
+import CheMessage.ChessMessage;
+import Game.ChessGame;
+
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Enumeration;
@@ -11,6 +14,7 @@ public class QuizServer {
 
     private static final int PORT = 5000;     // TCP Port
     Vector client_socks = new Vector(1);
+    ChessGame games [] = new ChessGame[2];
 
     public QuizServer(ChessServer chessServer) {
 
@@ -54,9 +58,9 @@ public class QuizServer {
 
             sock = (Socket) client_socks.get(0);
             try {
-                out = new PrintWriter(sock.getOutputStream(), true);
-                out.println("@WHITE");
-                out.flush();
+          //      out = new PrintWriter(sock.getOutputStream(), true);
+            //    out.println("@WHITE");
+              //  out.flush();
             } catch (Exception e) {
                 System.out.println(e);
             }
@@ -66,9 +70,9 @@ public class QuizServer {
 
             sock = (Socket) client_socks.get(1);
             try {
-                out = new PrintWriter(sock.getOutputStream(), true);
-                out.println("@BLACK");
-                out.flush();
+            //    out = new PrintWriter(sock.getOutputStream(), true);
+             //   out.println("@BLACK");
+              //  out.flush();
 
             } catch (Exception e) {
                 System.out.println(e);
@@ -97,7 +101,23 @@ public class QuizServer {
         }
     }
 
+    public synchronized void sendMSG (Socket clientsock, ChessMessage.NeoCheMessage messageOut)
+    {
+        try {
+            PrintWriter out = new PrintWriter(clientsock.getOutputStream(), true);
+            System.out.println("sending " + messageOut);
+           // OutputStream os = clientsock.getOutputStream();
+            byte mes [] = messageOut.toByteArray();
+            System.out.println("sendingByte " + mes);
+           // os.write(mes);
 
+            out.println(mes);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 	/*sock = (Socket) client_socks.get(0);
     try
 	{

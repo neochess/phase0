@@ -24,7 +24,7 @@ public  SessionData sessionData;
         chessBoard = c;
         serverconnection = new ChessServerConnection(chessBoard , this);
         SessionData sessionData = new SessionData();
-        currentState.sendState();
+
     }
 
     public void setCurrent( ClientState s ) { currentState = s;
@@ -33,7 +33,7 @@ public  SessionData sessionData;
     }
     public ClientState getCurrent( ) { return  currentState;}
 
-    synchronized public void processMSG(String line) {
+  /*  synchronized public void processMSG(String line) {
 
         if (line.charAt(0) == '@') {
 
@@ -44,6 +44,14 @@ public  SessionData sessionData;
         currentState.receiveMove( chessBoard, line);
        // chessBoard.decodeBoard(line);
       //  chessBoard.repaint();
+
+    }*/
+
+    synchronized public void processMessage(ChessMessage.NeoCheMessage message) {
+
+
+
+
 
     }
 
@@ -66,9 +74,7 @@ public  SessionData sessionData;
                 currentState.receiveState("END");
                 chessBoard.setInitialBoard();
                 break;
-
         }
-
     }
 
     public void sendMSG (String line) {
@@ -87,9 +93,10 @@ public  SessionData sessionData;
 
         }
     }
-    public void sendToServer(ChessMessage.NeoCheMessage message)
+    public void sendToServer(byte[] message)
     {
        serverconnection.sendMessage(message);
+
     }
 
 }

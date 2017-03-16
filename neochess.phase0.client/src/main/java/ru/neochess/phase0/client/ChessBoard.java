@@ -65,6 +65,7 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
     public ChessBoard(ChessClient cc) {
 
         clientState = new ClientStateWrapper(this);
+
         chessclient = cc;
         this.setSize(boardsize , boardsize );
 
@@ -73,7 +74,7 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
         this.addMouseMotionListener(this);
         setInitialBoard();
 
-
+        clientState.getCurrent().sendState();
       //  grabbed_piece = ChessMen.NOTHING;
 
 

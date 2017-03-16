@@ -1,10 +1,7 @@
 package ru.neochess.phase0.client;
-import ru.neochess.phase0.client.CheMessage.ChessMessage;
 import ru.neochess.phase0.client.State.ClientStateWrapper;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 
 
@@ -17,13 +14,14 @@ public class ChessServerConnection
     private static final String HOST = UtiliteChess.getInstance().getHost();
     private InputHandlerThread inputhandler;
 
-
     ChessBoard chessboard;
 
 
     private Socket sock;
     private BufferedReader in;
     private PrintWriter out;
+    private DataOutputStream os;
+    private DataInputStream is;
    private ClientStateWrapper clientState;
 
     public ChessServerConnection(ChessBoard cb , ClientStateWrapper cs)
@@ -40,7 +38,9 @@ public class ChessServerConnection
             sock = new Socket(HOST, PORT);
             in  = new BufferedReader(new InputStreamReader( sock.getInputStream()));
             out = new PrintWriter( sock.getOutputStream(), true );
-            inputhandler = new InputHandlerThread(this, in);
+            os = new DataOutputStream(sock.getOutputStream());
+            is = new DataInputStream(sock.getInputStream());
+            inputhandler = new InputHandlerThread(this, in, is);
             inputhandler.start();
 
         }
@@ -56,15 +56,21 @@ public class ChessServerConnection
     {
         out.println(line);
     }
-    public void sendMessage(ChessMessage.NeoCheMessage message)
+   public void sendMessage(byte[] message)
     {
-        out.println(message);
+
+        try {
+            os.write(message);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
     public synchronized void reply(String line)
     {
-        clientState.processMSG(line);
+       // clientState.processMSG(line);
     }
 
 
