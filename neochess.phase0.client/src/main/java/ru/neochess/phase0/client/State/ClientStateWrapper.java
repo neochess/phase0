@@ -98,5 +98,10 @@ public  SessionData sessionData;
        serverconnection.sendMessage(message);
 
     }
+    public void sendToServer(ChessMessage.NeoCheMessage message)
+    {
+        serverconnection.sendMessage(message);
+
+    }
 
 }

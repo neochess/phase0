@@ -54,9 +54,14 @@ public class ClientHandler extends Thread
             messageIn = ChessMessage.NeoCheMessage.parseFrom(buffer);
             System.out.println(messageIn.toString());*/
 
-           // if(is.available() > 0) while((is.read()) > -1) {
-               messageIn = ChessMessage.NeoCheMessage.parseFrom(is);
-           // messageIn = ChessMessage.NeoCheMessage.parseDelimitedFrom(is);
+          // if(is.available() > 0)
+
+              // while((is.read()) > -1) {
+                 //  System.out.println(is.read());
+
+         //   while ((is.readChar()) != 'n') {
+              //  messageIn = ChessMessage.NeoCheMessage.parseFrom(is);
+                 messageIn = ChessMessage.NeoCheMessage.parseDelimitedFrom(is);
                 System.out.println(messageIn.toString());
                 messageOut = processMessage(messageIn);
            // }
@@ -76,7 +81,7 @@ public class ClientHandler extends Thread
             //processClient(in, out);
 
             clientSock.close();
-            System.out.println("Client (" + cliAddr + ") connection closed\n");
+            System.out.println("Client (" + cliAddr + ") connection closed 1 1\n");
             server.removeClient(clientSock);
         }
 

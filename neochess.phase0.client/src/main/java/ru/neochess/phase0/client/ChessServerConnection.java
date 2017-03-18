@@ -1,8 +1,10 @@
 package ru.neochess.phase0.client;
+import ru.neochess.phase0.client.CheMessage.ChessMessage;
 import ru.neochess.phase0.client.State.ClientStateWrapper;
 
 import java.io.*;
 import java.net.Socket;
+import ru.neochess.phase0.client.CheMessage.*;
 
 
 /**
@@ -58,9 +60,17 @@ public class ChessServerConnection
     }
    public void sendMessage(byte[] message)
     {
+      /*  try { os = new DataOutputStream(sock.getOutputStream());
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }*/
 
         try {
             os.write(message);
+        //    os.close();
+
+            // os.writeChar('n');
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -73,6 +83,17 @@ public class ChessServerConnection
        // clientState.processMSG(line);
     }
 
+    public void sendMessage(ChessMessage.NeoCheMessage message)
+    {
 
+
+        try {
+          message.writeDelimitedTo(os);
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }

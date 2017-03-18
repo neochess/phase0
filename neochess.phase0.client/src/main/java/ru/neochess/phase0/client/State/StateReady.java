@@ -53,7 +53,8 @@ public class StateReady extends State  implements ClientState {
         messageBuilder.setState("ready");
         ChessMessage.NeoCheMessage message =  messageBuilder.build();
         System.out.println(message);
-        wrapper.sendToServer(message.toByteArray());
+        wrapper.sendToServer(message);
+
 
     }
 
