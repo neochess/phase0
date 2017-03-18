@@ -31,25 +31,12 @@ public class InputHandlerThread extends Thread
 
     public void run()
     {
-
-        byte[] buffer = new byte[4];
-        int read = 0;
-
         try {
-            while ((read = is.read(buffer, 0, buffer.length)) != -1) {
-                is.read(buffer);
-                System.out.println("Server says " + Arrays.toString(buffer));
-            }
+            messageIn = ChessMessage.NeoCheMessage.parseDelimitedFrom(is);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-       /*    try {
-            messageIn = ChessMessage.NeoCheMessage.parseFrom(is);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println(messageIn.toString());*/
+        System.out.println(messageIn.toString());
 
 
         String line;
