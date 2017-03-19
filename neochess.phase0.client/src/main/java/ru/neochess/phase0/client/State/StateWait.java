@@ -1,5 +1,6 @@
 package ru.neochess.phase0.client.State;
 
+import ru.neochess.phase0.client.CheMessage.ChessMessage;
 import ru.neochess.phase0.client.ChessBoard;
 
 /**
@@ -27,6 +28,11 @@ public class StateWait extends State  implements ClientState {
             case "ERROR": wrapper.setCurrent(new StateError()); break;
             case "END": finishGame(); break;
         }
+
+    }
+
+    @Override
+    public void receiveConfirm(ChessMessage.NeoCheMessage msg) {
 
     }
 

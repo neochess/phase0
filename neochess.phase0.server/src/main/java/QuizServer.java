@@ -4,6 +4,7 @@ import Game.ChessGame;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Vector;
 
@@ -14,7 +15,7 @@ public class QuizServer {
 
     private static final int PORT = 5000;     // TCP Port
     Vector client_socks = new Vector(1);
-    ChessGame games [] = new ChessGame[2];
+    public ArrayList<ChessGame> games = new ArrayList<ChessGame>();
 
     public QuizServer(ChessServer chessServer) {
 
@@ -27,7 +28,7 @@ public class QuizServer {
                 System.out.println("Waiting for a client...");
                 clientSock = serverSock.accept();
 
-                if (client_socks.size() >= 2) {
+                if (client_socks.size() >= 10) {
                     System.out.println("Server connection capacity reached.");
                     clientSock.close();
                     continue;
@@ -35,7 +36,7 @@ public class QuizServer {
 
                 client_socks.addElement(clientSock);
 
-                sendIdentity();
+              //  sendIdentity();
 
                 cliAddr = clientSock.getInetAddress().getHostAddress();
                 new ClientHandler(clientSock, cliAddr, this).start();
@@ -48,7 +49,7 @@ public class QuizServer {
     }
 
 
-    private void sendIdentity() {
+  /*  private void sendIdentity() {
         PrintWriter out;
         Socket sock;
 
@@ -78,10 +79,10 @@ public class QuizServer {
                 System.out.println(e);
             }
         }
-    }
+    }*/
 
 
-    public synchronized void broadcastLine(Socket clientsock, String line) {
+  /*  public synchronized void broadcastLine(Socket clientsock, String line) {
         Enumeration en = client_socks.elements();
         Socket sock;
         PrintWriter out;
@@ -99,37 +100,23 @@ public class QuizServer {
             }
 
         }
-    }
+    }*/
 
     public synchronized void sendMSG (Socket clientsock, ChessMessage.NeoCheMessage messageOut)
     {
         try {
-            PrintWriter out = new PrintWriter(clientsock.getOutputStream(), true);
+            DataOutputStream out = new DataOutputStream (clientsock.getOutputStream());
             System.out.println("sending " + messageOut);
-           // OutputStream os = clientsock.getOutputStream();
-            byte mes [] = messageOut.toByteArray();
-            System.out.println("sendingByte " + mes);
-           // os.write(mes);
 
-            out.println(mes);
+            messageOut.writeDelimitedTo(out);
+            out.flush();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
-	/*sock = (Socket) client_socks.get(0);
-    try
-	{
-		out = new PrintWriter( sock.getOutputStream(), true );
-		out.println("@WHITE");
-		out.flush();
-	}
 
-	catch(Exception e)
-    	{
- 		System.out.println(e);
-    	}*/
 
     public synchronized void removeClient(Socket clientSock) {
         client_socks.removeElement(clientSock);

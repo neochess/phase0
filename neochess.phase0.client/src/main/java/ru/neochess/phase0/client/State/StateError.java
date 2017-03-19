@@ -1,5 +1,6 @@
 package ru.neochess.phase0.client.State;
 
+import ru.neochess.phase0.client.CheMessage.ChessMessage;
 import ru.neochess.phase0.client.ChessBoard;
 import javax.swing.JOptionPane;
 
@@ -33,6 +34,11 @@ public class StateError extends State  implements ClientState {
 
     @Override
     public void sendState() {
+
+    }
+
+    @Override
+    public void receiveConfirm(ChessMessage.NeoCheMessage msg) {
 
     }
 

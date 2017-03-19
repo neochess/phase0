@@ -3,6 +3,9 @@
 
 package CheMessage;
 
+import java.io.DataInputStream;
+import java.io.InputStream;
+
 public final class ChessMessage {
   private ChessMessage() {}
   public static void registerAllExtensions(
@@ -1289,7 +1292,7 @@ public final class ChessMessage {
     }
 
     public static CheMessage.ChessMessage.NeoCheMessage parseFrom(
-        com.google.protobuf.ByteString data)
+            DataInputStream data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
@@ -1309,7 +1312,7 @@ public final class ChessMessage {
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static CheMessage.ChessMessage.NeoCheMessage parseFrom(java.io.InputStream input)
+    public static CheMessage.ChessMessage.NeoCheMessage parseFrom(InputStream input, int i, int readInt)
         throws java.io.IOException {
       return PARSER.parseFrom(input);
     }

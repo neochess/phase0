@@ -41,6 +41,50 @@ public class StateReady extends State  implements ClientState {
     }
 
     @Override
+    public void receiveConfirm(ChessMessage.NeoCheMessage msg) {
+        wrapper.sessionData.gameID = msg.getSessionId();
+
+
+        if (msg.getUser(0).getName().equals(UserName))
+        {
+            wrapper.sessionData.userID = msg.getUser(0).getId();
+            wrapper.sessionData.userName = msg.getUser(0).getName();
+            wrapper.sessionData.race = msg.getUser(0).getRace();
+
+           wrapper.sessionData.enemyID = msg.getUser(1).getId();
+           Enemy = wrapper.sessionData.enemyName = msg.getUser(1).getName();
+
+        }
+
+       else if (msg.getUser(1).getName().equals(UserName))
+        {
+            wrapper.sessionData.userID = msg.getUser(1).getId();
+            wrapper.sessionData.userName = msg.getUser(1).getName();
+            wrapper.sessionData.race = msg.getUser(1).getRace();
+
+            wrapper.sessionData.enemyID = msg.getUser(0).getId();
+            Enemy = wrapper.sessionData.enemyName = msg.getUser(0).getName();
+        }
+
+        if (wrapper.sessionData.race.equals("P"))
+        {
+            wrapper.setCurrent(new StateMove());
+            System.out.println("I am P");
+            wrapper.chessBoard.chessclient.setTitle("|NeoChess| " + UserName + " playing for people");
+            JOptionPane.showMessageDialog(null, "Welcome to NeoChess! People is your race!", "Hi, " + UserName + ". Your enemy is " + Enemy, JOptionPane.PLAIN_MESSAGE);
+
+        }
+        else if (wrapper.sessionData.race.equals("A")) {
+            wrapper.setCurrent(new StateWait());
+            System.out.println("I am A");
+            wrapper.chessBoard.chessclient.setTitle("|NeoChess| " + UserName + " playing for animals");
+            JOptionPane.showMessageDialog(null, "Welcome to NeoChess! Your race is Animal!", "Hi, " + UserName + ". Your enemy is " + Enemy, JOptionPane.PLAIN_MESSAGE);
+
+        }
+
+    }
+
+    @Override
     public void sendState() {
 
      //  wrapper.sessionData.userName = UserName;
@@ -52,9 +96,10 @@ public class StateReady extends State  implements ClientState {
         messageBuilder.addUser(user);
         messageBuilder.setState("ready");
         ChessMessage.NeoCheMessage message =  messageBuilder.build();
-        System.out.println(message);
+       // System.out.println(message);
         wrapper.sendToServer(message);
 
+        wrapper.chessBoard.chessclient.setTitle("|NeoChess| " + UserName + " waiting for enemy...");
 
     }
 

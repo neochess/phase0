@@ -83,12 +83,19 @@ public class ChessServerConnection
        // clientState.processMSG(line);
     }
 
+    public synchronized void reply(ChessMessage.NeoCheMessage msg)
+    {
+         clientState.processMSG(msg);
+    }
+
     public void sendMessage(ChessMessage.NeoCheMessage message)
     {
 
 
         try {
-          message.writeDelimitedTo(os);
+            System.out.println(message);
+            message.writeDelimitedTo(os);
+            os.flush();
 
 
         } catch (IOException e) {

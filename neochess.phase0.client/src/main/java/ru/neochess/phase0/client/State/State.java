@@ -7,6 +7,7 @@ public class State {
 
     public ClientStateWrapper wrapper;
     public String UserName = new String();
+    public String Enemy = new String();
     public void setWrapper (ClientStateWrapper wr)
     {
         wrapper = wr;

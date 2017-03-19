@@ -29,17 +29,25 @@ public class InputHandlerThread extends Thread
     }
 
 
-    public void run()
-    {
-        try {
-            messageIn = ChessMessage.NeoCheMessage.parseDelimitedFrom(is);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println(messageIn.toString());
+        public void run()
+        {
+            try {
+                while (!done) {
+
+                    messageIn = ChessMessage.NeoCheMessage.parseDelimitedFrom(is);
+                    System.out.println(messageIn.toString());
+
+                    if (messageIn != null)
+                        srvcon.reply(messageIn );
+                }
+            } catch (IOException e) {
+                System.out.println("some disconnect");
+                e.printStackTrace();
+            }
 
 
-        String line;
+
+       /* String line;
         try
         {
             while (!done)
@@ -53,7 +61,7 @@ public class InputHandlerThread extends Thread
         catch(Exception e)
         {
             System.out.println(e);
-        }
+        }*/
     }
 
 }

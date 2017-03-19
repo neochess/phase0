@@ -12,7 +12,7 @@ import ru.neochess.phase0.client.SessionData.SessionData;
 public class ClientStateWrapper {
     public ClientState currentState;
     public ChessBoard chessBoard;
-public  SessionData sessionData;
+    public  SessionData sessionData;
     ChessServerConnection serverconnection;
 
 
@@ -23,7 +23,7 @@ public  SessionData sessionData;
         setCurrent(new StateReady());
         chessBoard = c;
         serverconnection = new ChessServerConnection(chessBoard , this);
-        SessionData sessionData = new SessionData();
+        sessionData = new SessionData();
 
     }
 
@@ -47,11 +47,13 @@ public  SessionData sessionData;
 
     }*/
 
-    synchronized public void processMessage(ChessMessage.NeoCheMessage message) {
+    synchronized public void processMSG(ChessMessage.NeoCheMessage message) {
 
+       switch (message.getState()) {
 
-
-
+           case "steady": currentState.receiveConfirm(message); break;
+           case "move": currentState.receiveMove(chessBoard, message.getBoard()); break;
+       }
 
     }
 
@@ -77,27 +79,23 @@ public  SessionData sessionData;
         }
     }
 
-    public void sendMSG (String line) {
+ /*   public void sendMSG (String line) {
         try {
             serverconnection.send(line);
             serverconnection.send("@TOKEN");
         } catch (Exception ex) {
 
         }
-    }
+    }*/
 
-    public void sendST (String line) {
+  /*  public void sendST (String line) {
         try {
            serverconnection.send(line);
         } catch (Exception ex) {
 
         }
-    }
-    public void sendToServer(byte[] message)
-    {
-       serverconnection.sendMessage(message);
+    }*/
 
-    }
     public void sendToServer(ChessMessage.NeoCheMessage message)
     {
         serverconnection.sendMessage(message);

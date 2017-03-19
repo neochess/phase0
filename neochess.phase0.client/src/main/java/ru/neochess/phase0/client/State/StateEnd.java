@@ -1,5 +1,6 @@
 package ru.neochess.phase0.client.State;
 
+import ru.neochess.phase0.client.CheMessage.ChessMessage;
 import ru.neochess.phase0.client.ChessBoard;
 import javax.swing.JOptionPane;
 
@@ -44,13 +45,16 @@ public class StateEnd extends State implements ClientState {
 
         System.out.println("GameEND");
 
-        wrapper.sendST("@GameEND");
+       // wrapper.sendST("@GameEND");
 
         System.out.println("@@GameEND");
 
-       // wrapper.setCurrent(new StateReady());
-
         wrapper.chessBoard.setInitialBoard();
+
+    }
+
+    @Override
+    public void receiveConfirm(ChessMessage.NeoCheMessage msg) {
 
     }
 
