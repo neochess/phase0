@@ -1,4 +1,5 @@
 package ru.neochess.phase0.client.State;
+import ru.neochess.phase0.client.CheMessage.ChessMessage.*;
 
 import ru.neochess.phase0.client.ChessBoard;
 import ru.neochess.phase0.client.CheMessage.*;
@@ -20,12 +21,12 @@ public class StateReady extends State  implements ClientState {
     }
 
     @Override
-    public void sendMove(String board) {
+    public void sendMove(String board, String move) {
 
     }
 
     @Override
-    public void receiveMove(ChessBoard chessboard, String line) {
+    public void receiveMove(ChessBoard chessboard, String line, String move) {
 
     }
 
@@ -41,9 +42,9 @@ public class StateReady extends State  implements ClientState {
     }
 
     @Override
-    public void receiveConfirm(ChessMessage.NeoCheMessage msg) {
+    public void receiveConfirm(NeoCheMessage msg) {
         wrapper.sessionData.gameID = msg.getSessionId();
-
+        wrapper.chessBoard.addTextArea1(msg.getUser(0).getName() + " vs " + msg.getUser(1).getName());
 
         if (msg.getUser(0).getName().equals(UserName))
         {

@@ -1,8 +1,6 @@
 package ru.neochess.phase0.client.State;
-
-import ru.neochess.phase0.client.CheMessage.ChessMessage;
+import ru.neochess.phase0.client.CheMessage.ChessMessage.*;
 import ru.neochess.phase0.client.ChessBoard;
-import ru.neochess.phase0.client.ChessClient;
 import ru.neochess.phase0.client.ChessServerConnection;
 import ru.neochess.phase0.client.SessionData.SessionData;
 
@@ -47,17 +45,22 @@ public class ClientStateWrapper {
 
     }*/
 
-    synchronized public void processMSG(ChessMessage.NeoCheMessage message) {
+    synchronized public void processMSG(NeoCheMessage message) {
 
        switch (message.getState()) {
 
            case "steady": currentState.receiveConfirm(message); break;
-           case "move": currentState.receiveMove(chessBoard, message.getBoard()); break;
+           case "move":
+             //  chessBoard.addTextArea1(chessBoard.grabbed_figure.printNotation());
+               currentState.receiveMove(chessBoard, message.getBoard(),message.getMove());
+
+               break;
+           case "end": currentState.receiveState("END"); chessBoard.addTextArea1("GAME END"); break;
        }
 
     }
 
-    public void processCommand(ChessClient chessclient, String command){
+   /* public void processCommand(ChessClient chessclient, String command){
 //пока так -  исправить!!!
 
         switch (command){
@@ -77,7 +80,7 @@ public class ClientStateWrapper {
                 chessBoard.setInitialBoard();
                 break;
         }
-    }
+    }*/
 
  /*   public void sendMSG (String line) {
         try {
@@ -96,7 +99,7 @@ public class ClientStateWrapper {
         }
     }*/
 
-    public void sendToServer(ChessMessage.NeoCheMessage message)
+    public void sendToServer(NeoCheMessage message)
     {
         serverconnection.sendMessage(message);
 

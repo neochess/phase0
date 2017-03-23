@@ -46,6 +46,8 @@ public class MoveHandler {
 
             selectFigure = null;
             newFigure.printCells();
+            chessBoard.move = newFigure.printNotation();
+            chessBoard.addTextArea1(newFigure.printNotation());
             newFigure = null;
 
             //myTurn = false; // изменнение пешки считается ходом.
@@ -93,8 +95,9 @@ public class MoveHandler {
 //
             row_col.put("row", from_row);
             row_col.put("col", from_col);
+           // chessBoard.addTextArea1(chessBoard.grabbed_figure.printNotation());
             chessBoard.grabbed_figure.placeOnBoard(chessBoard.board, row_col);
-
+           // chessBoard.addTextArea1(chessBoard.grabbed_figure.printNotation());
 
             chessBoard.grabbed_figure = null;
 
@@ -120,9 +123,13 @@ public class MoveHandler {
 
             row_col.put("row", to_row);
             row_col.put("col", to_col);
+
+      //  chessBoard.addTextArea1(chessBoard.grabbed_figure.printNotation());
             chessBoard.grabbed_figure.placeOnBoard(chessBoard.board, row_col);
 
         chessBoard.grabbed_figure.printCells();
+        chessBoard.move = chessBoard.grabbed_figure.printNotation();
+        chessBoard.addTextArea1(chessBoard.grabbed_figure.printNotation());
 
         chessBoard.grabbed_figure = null;
      return true;

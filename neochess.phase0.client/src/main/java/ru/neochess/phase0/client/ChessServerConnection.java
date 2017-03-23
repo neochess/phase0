@@ -1,5 +1,4 @@
 package ru.neochess.phase0.client;
-import ru.neochess.phase0.client.CheMessage.ChessMessage;
 import ru.neochess.phase0.client.State.ClientStateWrapper;
 
 import java.io.*;

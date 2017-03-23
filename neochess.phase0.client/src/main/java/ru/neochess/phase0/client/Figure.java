@@ -172,6 +172,21 @@ public class Figure {
 
         System.out.println(mess);
     }
+    public String printNotation() {
+        String mess = ""+this.getCode();
+
+        if(cells==null || cells.isEmpty()) {
+            mess += "клеток нет";
+            System.out.println(mess);
+            return mess;
+        }
+
+        for(BoardCell c : cells) {
+            mess += String.valueOf((char)(c.getCol() + 'A')) + (10 - c.getRow());
+        }
+
+        return mess;
+    }
 
     public void beaten() {
         // говорит всем своим клеткам очиститься

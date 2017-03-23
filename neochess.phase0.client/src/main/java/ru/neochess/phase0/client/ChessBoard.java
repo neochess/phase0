@@ -19,6 +19,8 @@ import java.util.Map;
 public class ChessBoard extends JPanel implements ImageObserver, MouseListener, MouseMotionListener {
 
     BufferedImage image_buffer;
+    int  linecounter = -1;
+    int  linenum = 1;
     //chessboard params
 
     public int gap = 50;
@@ -36,10 +38,10 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
 
     public ChessClient chessclient;
 
-    private int myColor;
-    private String myRace;
+    //private int myColor;
+    //private String myRace;
 
-    private boolean myTurn;
+    //private boolean myTurn;
 
     private int grabbed_piece, from_row, from_col, to_row, to_col;
 
@@ -48,6 +50,8 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
     private Figure chess_matrix[][] = new Figure[10][10];
 
     public Board board = new Board();
+
+    public String move = new String();
 
     public FiguresLibrary fl = FiguresLibrary.init();
 
@@ -199,7 +203,7 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
                 //отправляем ход
                 String encoding = encodeBoard();
                 System.out.println(encoding);
-                clientState.getCurrent().sendMove( encoding);}
+                clientState.getCurrent().sendMove( encoding, move);}
         }
     }
 
@@ -231,14 +235,14 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
             return;
         }
 
-   boolean moveDone = moveHandler.moveEnd(e.getX(),e.getY(), this);
+   Boolean moveDone = moveHandler.moveEnd(e.getX(),e.getY(), this);
         repaint();
 
-    if (moveDone == true)
+    if (moveDone)
         {String encoding = encodeBoard();
         System.out.println(encoding);
 
-        clientState.getCurrent().sendMove( encoding);}
+        clientState.getCurrent().sendMove( encoding, move);}
 
     }
 
@@ -338,6 +342,28 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
             }
 
         }
+
+
+    }
+
+    public void addTextArea1(String line)
+    {
+
+        linecounter++;
+        if (linecounter <= 0)
+        chessclient.addTextToArea1("\n");
+
+        else if ((linecounter % 2) == 0)
+            chessclient.addTextToArea1(" - ");
+
+        else if ((linecounter % 2) != 0) {
+            chessclient.addTextToArea1("\n" + (linenum) + ". ");
+            linenum++;
+        }
+
+        chessclient.addTextToArea1(line);
+
+
 
     }
 

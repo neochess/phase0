@@ -15,8 +15,9 @@ message NeoCheMessage {
   optional string sessionId = 2;
   optional string state = 3;
   optional string board = 4;
+  optional string move = 5;
 
-  repeated User user = 5;
+  repeated User user = 6;
 
 }
 

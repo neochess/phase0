@@ -1,13 +1,9 @@
 package ru.neochess.phase0.client;
 
-import ru.neochess.phase0.client.CheMessage.ChessMessage;
-
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-
+import ru.neochess.phase0.client.CheMessage.ChessMessage.*;
 /**
  * Created by for on 29.10.16.
  */
@@ -16,7 +12,7 @@ public class InputHandlerThread extends Thread
 
     private BufferedReader in;
     ChessServerConnection srvcon;
-    ChessMessage.NeoCheMessage messageIn;
+    NeoCheMessage messageIn;
     boolean done;
     InputStream is;
 
@@ -34,7 +30,7 @@ public class InputHandlerThread extends Thread
             try {
                 while (!done) {
 
-                    messageIn = ChessMessage.NeoCheMessage.parseDelimitedFrom(is);
+                    messageIn = NeoCheMessage.parseDelimitedFrom(is);
                     System.out.println(messageIn.toString());
 
                     if (messageIn != null)

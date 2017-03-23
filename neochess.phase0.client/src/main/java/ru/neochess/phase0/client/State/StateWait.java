@@ -1,6 +1,6 @@
 package ru.neochess.phase0.client.State;
+import ru.neochess.phase0.client.CheMessage.ChessMessage.*;
 
-import ru.neochess.phase0.client.CheMessage.ChessMessage;
 import ru.neochess.phase0.client.ChessBoard;
 
 /**
@@ -9,12 +9,13 @@ import ru.neochess.phase0.client.ChessBoard;
 public class StateWait extends State  implements ClientState {
 
     @Override
-    public void sendMove(String line) {
+    public void sendMove(String line, String move) {
 
     }
 
     @Override
-    public void receiveMove(ChessBoard chessboard, String line) {
+    public void receiveMove(ChessBoard chessboard, String line, String move) {
+        chessboard.addTextArea1(move);
         chessboard.decodeBoard(line);
         chessboard.repaint();
         wrapper.setCurrent(new StateMove());
@@ -32,7 +33,7 @@ public class StateWait extends State  implements ClientState {
     }
 
     @Override
-    public void receiveConfirm(ChessMessage.NeoCheMessage msg) {
+    public void receiveConfirm(NeoCheMessage msg) {
 
     }
 

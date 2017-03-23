@@ -1,10 +1,12 @@
 import java.io.*;
 import java.net.Socket;
 
-import CheMessage.ChessMessage;
+
 import Game.*;
 import CheMessage.*;
-import ru.neochess.phase0.client.CheMessage.*;
+import CheMessage.ChessMessage.*;
+
+
 
 /**
  * Created by for on 29.10.16.
@@ -14,8 +16,8 @@ public class ClientHandler extends Thread
     private Socket clientSock;
     private String cliAddr;
     private QuizServer server;
-    public ChessMessage.NeoCheMessage messageIn;
-    public ChessMessage.NeoCheMessage messageOut;
+    public NeoCheMessage messageIn;
+    public NeoCheMessage messageOut;
 
     ChessGame game;
     Player player;
@@ -43,7 +45,7 @@ public class ClientHandler extends Thread
             while (!done) {
 
                 if (clientSock.isConnected()) {
-                    messageIn = ChessMessage.NeoCheMessage.parseDelimitedFrom(is);
+                    messageIn = NeoCheMessage.parseDelimitedFrom(is);
                     System.out.println(messageIn.toString());
                     processMessage(messageIn);
                 }else
@@ -61,10 +63,21 @@ public class ClientHandler extends Thread
 
         catch(Exception e)
         {
+           if ( messageIn.getState().equals("end")) {
+               game = server.games.stream().filter(game1 -> messageIn.getSessionId().equals(game1.gameID)).findAny().orElse(null);
+
+               System.out.println("game end for gameID: " + game.gameID);
+               if (game != null) {
+                   server.sendMSG(game.getEnemy(messageIn.getUser(0).getId()).sock, messageIn);// мы просто пересылаем прешедшее сообщение сопернику (возможно стоет пересобрать и поменть статус на moved)
+               }
+           }
+
             System.out.println("some disconnect :");
             System.out.println(e);
             System.out.println("Client (" + cliAddr + ") connection closed \n");
             server.removeClient(clientSock);
+            server.games.remove(game);
+
         }
     }
 
@@ -97,7 +110,7 @@ public class ClientHandler extends Thread
 
     }*/
 
-    private void processMessage(ChessMessage.NeoCheMessage messageIn)
+    private void processMessage(NeoCheMessage messageIn)
     {
         String clientState = messageIn.getState();
         switch (clientState) {
@@ -116,14 +129,16 @@ public class ClientHandler extends Thread
                 player = game.setPlayer(messageIn.getUser(0).getName(), clientSock);
 
                 if (game.isFull()) {
-                    ChessMessage.NeoCheMessage.Builder messageBuilder = ChessMessage.NeoCheMessage.newBuilder();
+                    NeoCheMessage.Builder messageBuilder = NeoCheMessage.newBuilder();
 
                     ChessMessage.User.Builder user = ChessMessage.User.newBuilder();
+                   // User.Builder user = User.newBuilder();
                     user.setName(game.getPlayer1().name);
                     user.setId(game.getPlayer1().ID);
                     user.setRace(String.valueOf(game.getPlayer1().race));
                     messageBuilder.addUser(user);
 
+                    //user = User.newBuilder();
                     user = ChessMessage.User.newBuilder();
                     user.setName(game.getPlayer2().name);
                     user.setId(game.getPlayer2().ID);
@@ -132,7 +147,7 @@ public class ClientHandler extends Thread
 
                     messageBuilder.setState("steady");
                     messageBuilder.setSessionId(game.gameID);
-                    ChessMessage.NeoCheMessage messageOut = messageBuilder.build();
+                    NeoCheMessage messageOut = messageBuilder.build();
                    // System.out.println(messageOut);
                     server.sendMSG(game.getPlayer1().sock, messageOut);
                     server.sendMSG(game.getPlayer2().sock, messageOut);
@@ -141,6 +156,15 @@ public class ClientHandler extends Thread
             case "move":
                 game = server.games.stream().filter(game1 -> messageIn.getSessionId().equals(game1.gameID)).findAny().orElse(null);
                 System.out.println("move getted for gameID: " + game.gameID);
+                if (game != null)
+                {
+                    server.sendMSG(game.getEnemy(messageIn.getUser(0).getId()).sock, messageIn);// мы просто пересылаем прешедшее сообщение сопернику (возможно стоет пересобрать и поменть статус на moved)
+                }
+
+                break;
+            case "end":
+                game = server.games.stream().filter(game1 -> messageIn.getSessionId().equals(game1.gameID)).findAny().orElse(null);
+                System.out.println("game end for gameID: " + game.gameID);
                 if (game != null)
                 {
                     server.sendMSG(game.getEnemy(messageIn.getUser(0).getId()).sock, messageIn);// мы просто пересылаем прешедшее сообщение сопернику (возможно стоет пересобрать и поменть статус на moved)
