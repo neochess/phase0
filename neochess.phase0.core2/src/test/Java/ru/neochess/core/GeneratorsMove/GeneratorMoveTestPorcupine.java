@@ -1,9 +1,9 @@
 package ru.neochess.core.GeneratorsMove;
 
 import org.junit.Test;
-import ru.neochess.core.Board;
+import ru.neochess.core.CoreBoard;
 import ru.neochess.core.CellBoard;
-import ru.neochess.core.Figure;
+import ru.neochess.core.CoreFigure;
 import ru.neochess.core.Move.Move;
 import ru.neochess.core.TypeGamer;
 
@@ -16,58 +16,58 @@ import static org.junit.Assert.assertTrue;
  */
 public class GeneratorMoveTestPorcupine {
 
-    Board board;
+    CoreBoard coreBoard;
     private CellBoard getCellEndLine() {
-        board = new Board();
+        coreBoard = new CoreBoard();
 
-        return board.getCellByIndex(2, 0);
+        return coreBoard.getCellByIndex(2, 0);
     }
 
 
-    private CellBoard getDisposition(Figure leftUpFigure, Figure upFigure,
-                                     Figure rightUpFigure, Figure centerFigure) {
+    private CellBoard getDisposition(CoreFigure leftUpCoreFigure, CoreFigure upCoreFigure,
+                                     CoreFigure rightUpCoreFigure, CoreFigure centerCoreFigure) {
 
-        board = new Board();
+        coreBoard = new CoreBoard();
         CellBoard leftUp, up, rightUp, center;
 
-        leftUp = board.getCellByIndex(4, 4);
-        leftUp.setFigure(leftUpFigure);
+        leftUp = coreBoard.getCellByIndex(4, 4);
+        leftUp.setCoreFigure(leftUpCoreFigure);
 
-        rightUp = board.getCellByIndex(6, 6);
-        rightUp.setFigure(rightUpFigure);
+        rightUp = coreBoard.getCellByIndex(6, 6);
+        rightUp.setCoreFigure(rightUpCoreFigure);
 
-        up = board.getCellByIndex(5, 4);
-        up.setFigure(upFigure);
+        up = coreBoard.getCellByIndex(5, 4);
+        up.setCoreFigure(upCoreFigure);
 
-        center = board.getCellByIndex(5, 5);
-        center.setFigure(centerFigure);
+        center = coreBoard.getCellByIndex(5, 5);
+        center.setCoreFigure(centerCoreFigure);
         return center;
     }
-    private CellBoard getDisposition(Integer x, Integer y, Figure leftUpFigure, Figure upFigure,
-                                     Figure rightUpFigure, Figure centerFigure) {
+    private CellBoard getDisposition(Integer x, Integer y, CoreFigure leftUpCoreFigure, CoreFigure upCoreFigure,
+                                     CoreFigure rightUpCoreFigure, CoreFigure centerCoreFigure) {
 
-        board = new Board();
+        coreBoard = new CoreBoard();
         CellBoard leftUp, up, rightUp, center;
 
-        leftUp = board.getCellByIndex(4, 4);
-        leftUp.setFigure(leftUpFigure);
+        leftUp = coreBoard.getCellByIndex(4, 4);
+        leftUp.setCoreFigure(leftUpCoreFigure);
 
-        rightUp = board.getCellByIndex(6, 6);
-        rightUp.setFigure(rightUpFigure);
+        rightUp = coreBoard.getCellByIndex(6, 6);
+        rightUp.setCoreFigure(rightUpCoreFigure);
 
-        up = board.getCellByIndex(7, 7);
-        up.setFigure(upFigure);
+        up = coreBoard.getCellByIndex(7, 7);
+        up.setCoreFigure(upCoreFigure);
 
-        center = board.getCellByIndex(x, y);
-        center.setFigure(centerFigure);
+        center = coreBoard.getCellByIndex(x, y);
+        center.setCoreFigure(centerCoreFigure);
         return center;
     }
 
-    private CellBoard getDispositionFree(int x , int y , Figure centerFigure) {
+    private CellBoard getDispositionFree(int x , int y , CoreFigure centerCoreFigure) {
 
-        board = new Board();
-        CellBoard center = board.getCellByIndex(x, y);
-        center.setFigure(centerFigure);
+        coreBoard = new CoreBoard();
+        CellBoard center = coreBoard.getCellByIndex(x, y);
+        center.setCoreFigure(centerCoreFigure);
         return center;
 
     }
@@ -75,7 +75,7 @@ public class GeneratorMoveTestPorcupine {
     @Test
     public void testGetMovePorcupine() throws Exception {
 
-        CellBoard currCell = getDispositionFree(5,5, new Figure(TypeGamer.White));
+        CellBoard currCell = getDispositionFree(5,5, new CoreFigure(TypeGamer.White));
         IGeneratorMove generationMove = new GeneratorMovePorcupine();
         List<Move> moves = generationMove.getMove(currCell, TypeGamer.White);
         assertTrue(moves.size() == 4);
@@ -84,8 +84,8 @@ public class GeneratorMoveTestPorcupine {
     @Test
     public void testGetMovePorcupineAttackOpponent() throws Exception {
 
-        CellBoard currCell = getDisposition(new Figure(TypeGamer.Black), new Figure(TypeGamer.Black),
-                new Figure(TypeGamer.Black), new Figure(TypeGamer.White));
+        CellBoard currCell = getDisposition(new CoreFigure(TypeGamer.Black), new CoreFigure(TypeGamer.Black),
+                new CoreFigure(TypeGamer.Black), new CoreFigure(TypeGamer.White));
         IGeneratorMove generationMove = new GeneratorMovePorcupine();
         List<Move> moves = generationMove.getMove(currCell, TypeGamer.White);
         assertTrue("у дикообраза 4 хода и 1 выстрел - всего 5 ходов",moves.size() == 5);
@@ -94,8 +94,8 @@ public class GeneratorMoveTestPorcupine {
     @Test
     public void testGetMovePorcupineAttackDistance() throws Exception {
 
-        CellBoard currCell = getDisposition( 7, 1, new Figure(TypeGamer.Black), new Figure(TypeGamer.Black),
-                new Figure(TypeGamer.Black), new Figure(TypeGamer.White));
+        CellBoard currCell = getDisposition( 7, 1, new CoreFigure(TypeGamer.Black), new CoreFigure(TypeGamer.Black),
+                new CoreFigure(TypeGamer.Black), new CoreFigure(TypeGamer.White));
         IGeneratorMove generationMove = new GeneratorMovePorcupine();
         List<Move> moves = generationMove.getMove(currCell, TypeGamer.White);
         assertTrue("дикообраз не должен достреливать до фигуры расположенной дальше расстояния выстрела",moves.size() == 4);

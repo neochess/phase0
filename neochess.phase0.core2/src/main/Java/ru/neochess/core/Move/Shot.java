@@ -1,7 +1,7 @@
 package ru.neochess.core.Move;
 
 import ru.neochess.core.CellBoard;
-import ru.neochess.core.Figure;
+import ru.neochess.core.CoreFigure;
 
 /**
  * Created by TiJi on 12.04.17.
@@ -9,11 +9,11 @@ import ru.neochess.core.Figure;
 public class Shot extends Move{
 
     private final CellBoard killerCell, aimCell;
-    private final Figure killer;
-    private final Figure aim;
+    private final CoreFigure killer;
+    private final CoreFigure aim;
 
 
-    public Shot (CellBoard killerCell, CellBoard aimCell, Figure killer, Figure aim)
+    public Shot (CellBoard killerCell, CellBoard aimCell, CoreFigure killer, CoreFigure aim)
     {
         this.aim = aim;
         this.killer = killer;
@@ -25,13 +25,13 @@ public class Shot extends Move{
 
     @Override
     public void make() {
-        aimCell.setFigure(null);
+        aimCell.setCoreFigure(null);
 
     }
 
     @Override
     public void cancel() {
-        aimCell.setFigure(aim);
+        aimCell.setCoreFigure(aim);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class Shot extends Move{
     }
 
     @Override
-    public Figure getFigureTo() {
+    public CoreFigure getCoreFigureTo() {
         return null;
     }
 

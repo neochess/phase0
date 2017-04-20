@@ -1,9 +1,9 @@
 package ru.neochess.core.GeneratorsMove;
 
 import org.junit.Test;
-import ru.neochess.core.Board;
+import ru.neochess.core.CoreBoard;
 import ru.neochess.core.CellBoard;
-import ru.neochess.core.Figure;
+import ru.neochess.core.CoreFigure;
 import ru.neochess.core.Move.Move;
 import ru.neochess.core.TypeGamer;
 
@@ -20,39 +20,39 @@ public class GeneratorMoveTestPawn {
 
 //    @Before
 
-    Board board;
+    CoreBoard coreBoard;
     private CellBoard getCellEndLine() {
-        board = new Board();
+        coreBoard = new CoreBoard();
 
-        return board.getCellByIndex(2, 0);
+        return coreBoard.getCellByIndex(2, 0);
     }
 
 
-    private CellBoard getDisposition(Figure leftUpFigure, Figure upFigure,
-                                     Figure rightUpFigure, Figure centerFigure) {
+    private CellBoard getDisposition(CoreFigure leftUpCoreFigure, CoreFigure upCoreFigure,
+                                     CoreFigure rightUpCoreFigure, CoreFigure centerCoreFigure) {
 
-        board = new Board();
+        coreBoard = new CoreBoard();
         CellBoard leftUp, up, rightUp, center;
 
-        leftUp = board.getCellByIndex(0, 0);
-        leftUp.setFigure(leftUpFigure);
+        leftUp = coreBoard.getCellByIndex(0, 0);
+        leftUp.setCoreFigure(leftUpCoreFigure);
 
-        up = board.getCellByIndex(1, 0);
-        up.setFigure(upFigure);
+        up = coreBoard.getCellByIndex(1, 0);
+        up.setCoreFigure(upCoreFigure);
 
-        rightUp = board.getCellByIndex(2, 0);
-        rightUp.setFigure(rightUpFigure);
+        rightUp = coreBoard.getCellByIndex(2, 0);
+        rightUp.setCoreFigure(rightUpCoreFigure);
 
-        center = board.getCellByIndex(1, 1);
-        center.setFigure(centerFigure);
+        center = coreBoard.getCellByIndex(1, 1);
+        center.setCoreFigure(centerCoreFigure);
         return center;
     }
 
-    private CellBoard getDispositionFree(int x , int y , Figure centerFigure) {
+    private CellBoard getDispositionFree(int x , int y , CoreFigure centerCoreFigure) {
 
-        board = new Board();
-        CellBoard center = board.getCellByIndex(x, y);
-        center.setFigure(centerFigure);
+        coreBoard = new CoreBoard();
+        CellBoard center = coreBoard.getCellByIndex(x, y);
+        center.setCoreFigure(centerCoreFigure);
         return center;
 
     }
@@ -75,8 +75,8 @@ public class GeneratorMoveTestPawn {
 
     @Test
     public void testGetMovePawnCellLineOpponent() throws Exception {
-        CellBoard currCell = getDisposition(new Figure(TypeGamer.White), new Figure(TypeGamer.White),
-                new Figure(TypeGamer.White), new Figure(TypeGamer.Black));
+        CellBoard currCell = getDisposition(new CoreFigure(TypeGamer.White), new CoreFigure(TypeGamer.White),
+                new CoreFigure(TypeGamer.White), new CoreFigure(TypeGamer.Black));
 
         IGeneratorMove generationMove = new GeneratorMovePawn();
         List<Move> moves = generationMove.getMove(currCell, TypeGamer.White);
@@ -89,7 +89,7 @@ public class GeneratorMoveTestPawn {
     public void testGetMoveFirstline() throws Exception {
 
         //с первой (2й) линии можно ходить на 2 клетки
-        CellBoard currCell = getDispositionFree(1, 8 , new Figure( TypeGamer.White ));
+        CellBoard currCell = getDispositionFree(1, 8 , new CoreFigure( TypeGamer.White ));
         IGeneratorMove generationMove = new GeneratorMovePawn();
         List<Move> moves = generationMove.getMove(currCell, TypeGamer.White);
         assertTrue("У пешки должно быть 2 хода от 2й линии + превращение", moves.size() == 3);
@@ -99,8 +99,8 @@ public class GeneratorMoveTestPawn {
     @Test
     public void testGetMovePawnAttackLineOpponent() throws Exception {
 
-        CellBoard currCell = getDisposition(new Figure(TypeGamer.White), new Figure(TypeGamer.White),
-                new Figure(TypeGamer.White), new Figure(TypeGamer.Black));
+        CellBoard currCell = getDisposition(new CoreFigure(TypeGamer.White), new CoreFigure(TypeGamer.White),
+                new CoreFigure(TypeGamer.White), new CoreFigure(TypeGamer.Black));
         IGeneratorMove generationMove = new GeneratorMovePawn();
         List<Move> moves = generationMove.getMove(currCell, TypeGamer.White);
         assertTrue("Пешка должна рубить соперников по диагонали перед собой - 2 возможности + превращение",moves.size() == 3);

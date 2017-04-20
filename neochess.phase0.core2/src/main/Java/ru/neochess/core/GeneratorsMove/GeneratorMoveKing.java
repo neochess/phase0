@@ -33,7 +33,7 @@ public class GeneratorMoveKing implements IGeneratorMove {
             next = down.next();
             //   if (next.getFigure() == null) {
             result.add(new Move(currentCell, next,
-                    currentCell.getFigure()));
+                    currentCell.getCoreFigure()));
             //  }
         }
 
@@ -41,7 +41,7 @@ public class GeneratorMoveKing implements IGeneratorMove {
             next = up.next();
             //  if (next.getFigure() == null) {
             result.add(new Move(currentCell, next,
-                    currentCell.getFigure()));
+                    currentCell.getCoreFigure()));
             //   }
         }
 
@@ -49,7 +49,7 @@ public class GeneratorMoveKing implements IGeneratorMove {
             next = left.next();
             //   if (next.getFigure() == null) {
             result.add(new Move(currentCell, next,
-                    currentCell.getFigure()));
+                    currentCell.getCoreFigure()));
             //  }
         }
 
@@ -57,7 +57,7 @@ public class GeneratorMoveKing implements IGeneratorMove {
             next = right.next();
             //  if (next.getFigure() == null) {
             result.add(new Move(currentCell, next,
-                    currentCell.getFigure()));
+                    currentCell.getCoreFigure()));
             // }
         }
 
@@ -65,31 +65,31 @@ public class GeneratorMoveKing implements IGeneratorMove {
             next = leftdown.next();
             // if (next.getFigure() != null) {
             result.add(new Move(currentCell, next,
-                    currentCell.getFigure()));
+                    currentCell.getCoreFigure()));
             //  }
         }
 
         if (rightdown.hasNext()) {
-            next = leftdown.next();
+            next = rightdown.next();
             // if (next.getFigure() != null) {
             result.add(new Move(currentCell, next,
-                    currentCell.getFigure()));
+                    currentCell.getCoreFigure()));
             //  }
         }
 
         if (leftUp.hasNext()) {
-            next = leftdown.next();
+            next = leftUp.next();
             // if (next.getFigure() != null) {
             result.add(new Move(currentCell, next,
-                    currentCell.getFigure()));
+                    currentCell.getCoreFigure()));
             //  }
         }
 
         if (rightUp.hasNext()) {
-            next = leftdown.next();
+            next = rightUp.next();
             // if (next.getFigure() != null) {
             result.add(new Move(currentCell, next,
-                    currentCell.getFigure()));
+                    currentCell.getCoreFigure()));
             //  }
         }
 

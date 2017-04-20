@@ -2,10 +2,22 @@ package ru.neochess.phase0.client;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
+import java.util.List;
 import java.util.function.BiFunction;
+import java.io.File.*;
+import java.lang.Class;
+import java.lang.reflect.Method;
+import java.util.*;
+
+
+import ru.neochess.core.*;
+import ru.neochess.core.GeneratorsMove.*;
+import ru.neochess.core.GeneratorsMove.GeneratorMovePorcupine;
+import ru.neochess.core.Move.Move;
+import ru.neochess.core.CoreBoard;
+
 
 /**
  * Created by for on 01.11.16.
@@ -17,7 +29,13 @@ public class Figure {
     private String code;
     private String race;
     private String state;
-    private Board board;
+    private String moveGenerator;
+    private Object moveGeneratorObj;
+    private Class moveGeneratorClass;
+
+    private ru.neochess.phase0.client.Board board;
+    private ru.neochess.core.CoreBoard coreBoard;
+
     private ArrayList<BoardCell> cells = new ArrayList<>(); // массив клеток, которые занимает фигура
     private LibItem lib;
 
@@ -35,12 +53,54 @@ public class Figure {
         } catch (Exception e) {
             this.img = null;
         }
+        this.moveGenerator = lib.getMoveGenerator();
+
+      /*  CustomClassLoader ccl = new CustomClassLoader();
+        Object o;
+        Class c;
+        c = ccl.loadClass("someNewClass");*/
+
+        try {
+            moveGeneratorClass = Class.forName("ru.neochess.core.GeneratorsMove." + moveGenerator);
+
+            // Class<?> movetstClass = Class.forName("Board");
+              moveGeneratorObj = moveGeneratorClass.newInstance();
+            // Object moveGeneratorObj = movetstClass.newInstance();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
+    catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
+
+   public java.util.List<Move> getMoveGenerator(int x, int y)
+   {
+       java.util.List<Move> result = null;
+       CellBoard cell;
+       coreBoard = new CoreBoard();
+       try {
+
+       Method m = moveGeneratorClass.getMethod("getMove", CellBoard.class , TypeGamer.class );
+          cell = coreBoard.getCellByIndex(x, y );
+           try {
+              result = (List<Move>) m.invoke(moveGeneratorObj, cell, TypeGamer.Black);
+           } catch (IllegalAccessException e) {
+               e.printStackTrace();
+           } catch (InvocationTargetException e) {
+               e.printStackTrace();
+           }
+
+       } catch (NoSuchMethodException e) {
+       e.printStackTrace();
+   }
+
+       return result;}
 
     public void setMousePos (BoardCell c) //(int row, int col)
     {
-
-
          // BoardCell c = cells.stream().filter(c1 -> c1.getRow() == row && c1.getCol() == col).findAny().orElse(null);
         MousePos = cells.indexOf(c);
     }
@@ -57,7 +117,6 @@ public class Figure {
 
     public void setState(String state) {
         this.state = state;
-
     }
 
     public  void setCode(String code){

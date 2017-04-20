@@ -14,52 +14,52 @@ import static org.junit.Assert.assertTrue;
  */
 public class GeneratorMoveTestAgr {
 
-    Board board;
+    CoreBoard coreBoard;
     private CellBoard getCellEndLine() {
-        board = new Board();
+        coreBoard = new CoreBoard();
 
-        return board.getCellByIndex(2, 0);
+        return coreBoard.getCellByIndex(2, 0);
     }
 
-    private CellBoard getDispositionFree(int x , int y , Figure centerFigure) {
+    private CellBoard getDispositionFree(int x , int y , CoreFigure centerCoreFigure) {
 
-        board = new Board();
-        CellBoard center = board.getCellByIndex(x, y);
-        center.setFigure(centerFigure);
+        coreBoard = new CoreBoard();
+        CellBoard center = coreBoard.getCellByIndex(x, y);
+        center.setCoreFigure(centerCoreFigure);
         return center;
 
     }
-    private CellBoard getDispositionLeader(Figure centerFigure)
+    private CellBoard getDispositionLeader(CoreFigure centerCoreFigure)
     {
-        board = new Board();
+        coreBoard = new CoreBoard();
         CellBoard up, center;
 
-        up = board.getCellByIndex(1, 0);
-        up.setFigure(new Figure(TypeGamer.Black, TypeFigure.Leader));
+        up = coreBoard.getCellByIndex(1, 0);
+        up.setCoreFigure(new CoreFigure(TypeGamer.Black, TypeFigure.Leader));
 
 
-        center = board.getCellByIndex(1, 1);
-        center.setFigure(centerFigure);
+        center = coreBoard.getCellByIndex(1, 1);
+        center.setCoreFigure(centerCoreFigure);
         return center;
     }
 
-    private CellBoard getDisposition(Figure leftDownFigure, Figure downFigure,
-                                     Figure rightDownFigure, Figure centerFigure) {
+    private CellBoard getDisposition(CoreFigure leftDownCoreFigure, CoreFigure downCoreFigure,
+                                     CoreFigure rightDownCoreFigure, CoreFigure centerCoreFigure) {
 
-        board = new Board();
+        coreBoard = new CoreBoard();
         CellBoard leftUp, up, rightUp, center;
 
-        leftUp = board.getCellByIndex(0, 2);
-        leftUp.setFigure(leftDownFigure);
+        leftUp = coreBoard.getCellByIndex(0, 2);
+        leftUp.setCoreFigure(leftDownCoreFigure);
 
-        up = board.getCellByIndex(1, 2);
-        up.setFigure(downFigure);
+        up = coreBoard.getCellByIndex(1, 2);
+        up.setCoreFigure(downCoreFigure);
 
-        rightUp = board.getCellByIndex(2, 2);
-        rightUp.setFigure(rightDownFigure);
+        rightUp = coreBoard.getCellByIndex(2, 2);
+        rightUp.setCoreFigure(rightDownCoreFigure);
 
-        center = board.getCellByIndex(1, 1);
-        center.setFigure(centerFigure);
+        center = coreBoard.getCellByIndex(1, 1);
+        center.setCoreFigure(centerCoreFigure);
         return center;
     }
 
@@ -104,7 +104,7 @@ public class GeneratorMoveTestAgr {
 
     @Test
     public void testGetMoveAgrCell() throws Exception {
-        CellBoard currCell = getDispositionFree(5, 5, new Figure(TypeGamer.Black) );
+        CellBoard currCell = getDispositionFree(5, 5, new CoreFigure(TypeGamer.Black) );
         IGeneratorMove generationMove = new GeneratorMoveAgr();
         List<Move> moves = generationMove.getMove(currCell, TypeGamer.Black);
         assertNotNull(moves.size());
@@ -115,7 +115,7 @@ public class GeneratorMoveTestAgr {
     public void testGetMoveFirstline() throws Exception {
 
         //сo первой (2й) (8й) линии можно ходить на 2 клетки
-        CellBoard currCell = getDispositionFree(1, 1 , new Figure( TypeGamer.Black ));
+        CellBoard currCell = getDispositionFree(1, 1 , new CoreFigure( TypeGamer.Black ));
         IGeneratorMove generationMove = new GeneratorMoveAgr();
         List<Move> moves = generationMove.getMove(currCell, TypeGamer.Black);
         assertTrue("С начальной позиции агр должен ходить на 2 клетки",moves.size() == 2);
@@ -126,7 +126,7 @@ public class GeneratorMoveTestAgr {
     public void testGetMoveFirstlineLeader() throws Exception {
 
         //от вожака можно ходить на три клетки
-        CellBoard currCell = getDispositionLeader(new Figure( TypeGamer.Black ));
+        CellBoard currCell = getDispositionLeader(new CoreFigure( TypeGamer.Black ));
         IGeneratorMove generationMove = new GeneratorMoveAgr();
         List<Move> moves = generationMove.getMove(currCell, TypeGamer.Black);
         assertTrue("От вожака агр должен ходить на 3 клетки",moves.size() == 3);
@@ -136,8 +136,8 @@ public class GeneratorMoveTestAgr {
     @Test
     public void testGetMovePawnAttackLineOpponent() throws Exception {
 
-        CellBoard currCell = getDisposition(new Figure(TypeGamer.White), new Figure(TypeGamer.White),
-                new Figure(TypeGamer.White), new Figure(TypeGamer.Black));
+        CellBoard currCell = getDisposition(new CoreFigure(TypeGamer.White), new CoreFigure(TypeGamer.White),
+                new CoreFigure(TypeGamer.White), new CoreFigure(TypeGamer.Black));
         IGeneratorMove generationMove = new GeneratorMoveAgr();
         List<Move> moves = generationMove.getMove(currCell, TypeGamer.Black);
         assertTrue("Агр должен рубить 3 клетки перед собой",moves.size() == 3);

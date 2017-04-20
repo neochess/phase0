@@ -4,6 +4,9 @@ import ru.neochess.phase0.client.Figure;
 import java.util.HashMap;
 import java.util.Map;
 
+
+
+
 /**
  * Created by TiJi on 05.02.17.
  */
@@ -58,11 +61,16 @@ public class MoveHandler {
     }
     public boolean moveBegin(int X, int Y, ChessBoard chessBoard)
     {
+        MoveLiting liting;
+
         from_row = (Y - chessBoard.gap) / chessBoard.cellsize;
         from_col = (X - chessBoard.gap) / chessBoard.cellsize;
 
         if (from_row < 0 || from_row > 9) return false;
         if (from_col < 0 || from_col > 9) return false;
+
+
+        //liting = new MoveLiting(chessBoard , from_col, from_row);
 
         chessBoard.grabbed_figure = chessBoard.board.getCellByIndex(from_row, from_col).getFigure();
 
@@ -70,12 +78,7 @@ public class MoveHandler {
 
         if(chessBoard.grabbed_figure==null) return false;
 
-       /* if (grabbed_figure.getCode().equals("H"))
-        {
-            from_row = grabbed_figure.getRow();
-            from_col =  grabbed_figure.getCol();
-        }*/
-       // chessBoard.grabbed_figure.removeFromCell(chessBoard.board.getCellByIndex(from_row, from_col));
+        liting = new MoveLiting(chessBoard , from_col, from_row);
 
         chessBoard.board.removeFigure(chessBoard.grabbed_figure);
 
@@ -95,9 +98,8 @@ public class MoveHandler {
 //
             row_col.put("row", from_row);
             row_col.put("col", from_col);
-           // chessBoard.addTextArea1(chessBoard.grabbed_figure.printNotation());
+
             chessBoard.grabbed_figure.placeOnBoard(chessBoard.board, row_col);
-           // chessBoard.addTextArea1(chessBoard.grabbed_figure.printNotation());
 
             chessBoard.grabbed_figure = null;
 
@@ -119,12 +121,11 @@ public class MoveHandler {
         }
 
             chessBoard.board.saveFigure(chessBoard.grabbed_figure);
-            //board.getCellByIndex(to_row, to_col).placeIn(grabbed_figure);
+
 
             row_col.put("row", to_row);
             row_col.put("col", to_col);
 
-      //  chessBoard.addTextArea1(chessBoard.grabbed_figure.printNotation());
             chessBoard.grabbed_figure.placeOnBoard(chessBoard.board, row_col);
 
         chessBoard.grabbed_figure.printCells();

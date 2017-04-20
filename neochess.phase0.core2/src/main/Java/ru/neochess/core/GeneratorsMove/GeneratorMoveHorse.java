@@ -34,16 +34,18 @@ public class GeneratorMoveHorse implements IGeneratorMove {
 
         if (down.hasNext()) {
             next = down.next();
-
+                    //вниз влево
                 leftdown = next.getIterator(AdjacentCell.LeftDown);
                 if (leftdown.hasNext()) {
                     next2 = leftdown.next();
-                        result.add(new Move(currentCell, next2, currentCell.getFigure()));
+                        result.add(new Move(currentCell, next2, currentCell.getCoreFigure()));
                     }
+
+                    //вниз вправо
                 rightdown = next.getIterator(AdjacentCell.RightDown);
                 if (rightdown.hasNext()) {
                     next2 = rightdown.next();
-                    result.add(new Move(currentCell, next2, currentCell.getFigure()));
+                    result.add(new Move(currentCell, next2, currentCell.getCoreFigure()));
 
             }
         }
@@ -51,46 +53,52 @@ public class GeneratorMoveHorse implements IGeneratorMove {
         if (up.hasNext()) {
             next = up.next();
 
-
+                //вверх влево
                 leftUp = next.getIterator(AdjacentCell.LeftUp);
                 if (leftdown.hasNext()) {
                     next2 = leftUp.next();
-                    result.add(new Move(currentCell, next2, currentCell.getFigure()));
+                    result.add(new Move(currentCell, next2, currentCell.getCoreFigure()));
                 }
+
+                //вверх вправо
                 rightUp = next.getIterator(AdjacentCell.RightUp);
                 if (rightdown.hasNext()) {
                     next2 = rightUp.next();
-                    result.add(new Move(currentCell, next2, currentCell.getFigure()));
+                    result.add(new Move(currentCell, next2, currentCell.getCoreFigure()));
                 }
             }
 
         if (right.hasNext()) {
             next = right.next();
 
+            //вправо вверх
             rightUp = next.getIterator(AdjacentCell.RightUp);
             if (rightUp.hasNext()) {
                 next2 = rightUp.next();
-                result.add(new Move(currentCell, next2, currentCell.getFigure()));
+                result.add(new Move(currentCell, next2, currentCell.getCoreFigure()));
             }
+
+            //вправо вниз
             rightdown = next.getIterator(AdjacentCell.RightDown);
             if (rightdown.hasNext()) {
                 next2 = rightdown.next();
-                result.add(new Move(currentCell, next2, currentCell.getFigure()));
+                result.add(new Move(currentCell, next2, currentCell.getCoreFigure()));
             }
         }
 
         if (left.hasNext()) {
             next = left.next();
-
+            // влево вверх
             leftUp = next.getIterator(AdjacentCell.LeftUp);
             if (leftUp.hasNext()) {
                 next2 = leftUp.next();
-                result.add(new Move(currentCell, next2, currentCell.getFigure()));
+                result.add(new Move(currentCell, next2, currentCell.getCoreFigure()));
             }
+            //влево вниз
             leftdown = next.getIterator(AdjacentCell.LeftDown);
-            if (rightdown.hasNext()) {
+            if (leftdown.hasNext()) {
                 next2 = leftdown.next();
-                result.add(new Move(currentCell, next2, currentCell.getFigure()));
+                result.add(new Move(currentCell, next2, currentCell.getCoreFigure()));
             }
         }
 

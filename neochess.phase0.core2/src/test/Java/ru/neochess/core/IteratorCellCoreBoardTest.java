@@ -15,18 +15,18 @@ import static org.junit.Assert.*;
  * @version 1.0
  * @since <pre>??? 10, 2016</pre>
  */
-public class IteratorCellBoardTest {
-    Board board = new Board();
-    private CellBoard cellBoardLeft = board.getCellByIndex(0, 1);
-    private CellBoard cellBoardLeftUp = board.getCellByIndex(0, 0);
-    private CellBoard cellBoardLeftDown = board.getCellByIndex(0, 2);
-    private CellBoard cellBoardRight = board.getCellByIndex(2, 1);
-    private CellBoard cellBoardRightUp = board.getCellByIndex(2, 0);
-    private CellBoard cellBoardRightDown = board.getCellByIndex(2, 2);
-    private CellBoard cellBoardUp = board.getCellByIndex(1, 0);
-    private CellBoard cellBoardDown = board.getCellByIndex(1, 2);
+public class IteratorCellCoreBoardTest {
+    CoreBoard coreBoard = new CoreBoard();
+    private CellBoard cellBoardLeft = coreBoard.getCellByIndex(0, 1);
+    private CellBoard cellBoardLeftUp = coreBoard.getCellByIndex(0, 0);
+    private CellBoard cellBoardLeftDown = coreBoard.getCellByIndex(0, 2);
+    private CellBoard cellBoardRight = coreBoard.getCellByIndex(2, 1);
+    private CellBoard cellBoardRightUp = coreBoard.getCellByIndex(2, 0);
+    private CellBoard cellBoardRightDown = coreBoard.getCellByIndex(2, 2);
+    private CellBoard cellBoardUp = coreBoard.getCellByIndex(1, 0);
+    private CellBoard cellBoardDown = coreBoard.getCellByIndex(1, 2);
 
-    private CellBoard core = board.getCellByIndex(1, 1);
+    private CellBoard core = coreBoard.getCellByIndex(1, 1);
 
     @Before
     public void before() throws Exception {

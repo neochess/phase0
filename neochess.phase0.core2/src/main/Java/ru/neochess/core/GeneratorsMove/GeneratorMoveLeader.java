@@ -34,7 +34,7 @@ public class GeneratorMoveLeader implements IGeneratorMove {
             next = down.next();
             //   if (next.getFigure() == null) {
             result.add(new Move(currentCell, next,
-                    currentCell.getFigure()));
+                    currentCell.getCoreFigure()));
             //  }
         }
 
@@ -42,7 +42,7 @@ public class GeneratorMoveLeader implements IGeneratorMove {
             next = up.next();
             //  if (next.getFigure() == null) {
             result.add(new Move(currentCell, next,
-                    currentCell.getFigure()));
+                    currentCell.getCoreFigure()));
             //   }
         }
 
@@ -50,7 +50,7 @@ public class GeneratorMoveLeader implements IGeneratorMove {
             next = left.next();
             //   if (next.getFigure() == null) {
             result.add(new Move(currentCell, next,
-                    currentCell.getFigure()));
+                    currentCell.getCoreFigure()));
             //  }
         }
 
@@ -58,7 +58,7 @@ public class GeneratorMoveLeader implements IGeneratorMove {
             next = right.next();
             //  if (next.getFigure() == null) {
             result.add(new Move(currentCell, next,
-                    currentCell.getFigure()));
+                    currentCell.getCoreFigure()));
             // }
         }
 

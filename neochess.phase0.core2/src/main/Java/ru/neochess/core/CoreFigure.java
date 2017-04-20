@@ -10,19 +10,19 @@ import java.util.List;
  * Фигура на игровом поле
  * Created by diviz on 10.12.2016.
  */
-public class Figure {
+public class CoreFigure {
     private List<IGeneratorMove> listGeneratorMove = new ArrayList<>();
     private TypeGamer typeGamer;
     private TypeFigure typeFigure;
 
 
-    public Figure(ArrayList<IGeneratorMove> generatorMove, TypeGamer typeGamer, TypeFigure typeFigure) {
+    public CoreFigure(ArrayList<IGeneratorMove> generatorMove, TypeGamer typeGamer, TypeFigure typeFigure) {
         this.listGeneratorMove = generatorMove;
         this.typeGamer = typeGamer;
         this.typeFigure = typeFigure;
     }
 
-    public Figure(TypeGamer typeGamer, TypeFigure typeFigure) {
+    public CoreFigure(TypeGamer typeGamer, TypeFigure typeFigure) {
         this(null, typeGamer, typeFigure);
     }
 
@@ -34,7 +34,7 @@ public class Figure {
         this.typeFigure = typeFigure;
     }
 
-    public Figure(TypeGamer typeGamer) {
+    public CoreFigure(TypeGamer typeGamer) {
         this(null, typeGamer, null);
     }
 
@@ -77,12 +77,12 @@ public class Figure {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Figure figure = (Figure) o;
+        CoreFigure coreFigure = (CoreFigure) o;
 
-        if (getListGeneratorMove() != null ? !getListGeneratorMove().equals(figure.getListGeneratorMove()) : figure.getListGeneratorMove() != null)
+        if (getListGeneratorMove() != null ? !getListGeneratorMove().equals(coreFigure.getListGeneratorMove()) : coreFigure.getListGeneratorMove() != null)
             return false;
-        if (getTypeGamer() != figure.getTypeGamer()) return false;
-        return getTypeFigure() == figure.getTypeFigure();
+        if (getTypeGamer() != coreFigure.getTypeGamer()) return false;
+        return getTypeFigure() == coreFigure.getTypeFigure();
     }
 
     @Override

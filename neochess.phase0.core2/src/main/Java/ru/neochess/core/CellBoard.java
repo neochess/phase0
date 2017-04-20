@@ -6,8 +6,8 @@ package ru.neochess.core;
  */
 public class CellBoard {
 
-    private Board board;
-    private Figure figure;
+    private CoreBoard coreBoard;
+    private CoreFigure coreFigure;
     private final Cell cell;
     private CellBoard left,
             right,
@@ -18,15 +18,15 @@ public class CellBoard {
             leftUp,
             rightUp;
 
-    public CellBoard(int x, int y, Board board) {
-        this(x, y, board, null);
+    public CellBoard(int x, int y, CoreBoard coreBoard) {
+        this(x, y, coreBoard, null);
                 //this(x, y, null, null, null, null, null, null, null, null, null);
     }
 
-    public CellBoard(int x, int y,Board board, Figure figure) {
+    public CellBoard(int x, int y, CoreBoard coreBoard, CoreFigure coreFigure) {
         cell = new Cell(x, y);
-        this.figure = figure;
-        this.board = board;
+        this.coreFigure = coreFigure;
+        this.coreBoard = coreBoard;
         //this(x, y, figure, null, null, null, null, null, null, null, null);
     }
 
@@ -70,17 +70,17 @@ public class CellBoard {
      *
      * @return Value for property 'figure'.
      */
-    public Figure getFigure() {
-        return figure;
+    public CoreFigure getCoreFigure() {
+        return coreFigure;
     }
 
     /**
      * Устанавливаем в клетку фигуру,
      *
-     * @param figure - фигура
+     * @param coreFigure - фигура
      */
-    public void setFigure(Figure figure) {
-        this.figure = figure;
+    public void setCoreFigure(CoreFigure coreFigure) {
+        this.coreFigure = coreFigure;
     }
 
     /**
@@ -91,7 +91,7 @@ public class CellBoard {
     public CellBoard getLeft() {
 
             if (this.cell.getX() > 0)
-                left = board.getCellByIndex(this.cell.getX() - 1, this.cell.getY());
+                left = coreBoard.getCellByIndex(this.cell.getX() - 1, this.cell.getY());
             else left = null;
 
         return left;
@@ -106,7 +106,7 @@ public class CellBoard {
      */
     public CellBoard getRight() {
         if (this.cell.getX() < 9)
-            right = board.getCellByIndex(this.cell.getX() + 1, this.cell.getY());
+            right = coreBoard.getCellByIndex(this.cell.getX() + 1, this.cell.getY());
         else right = null;
 
         return right;
@@ -121,7 +121,7 @@ public class CellBoard {
      */
     public CellBoard getUp() {
         if (this.cell.getY() > 0)
-            up = board.getCellByIndex(this.cell.getX(), this.cell.getY() - 1);
+            up = coreBoard.getCellByIndex(this.cell.getX(), this.cell.getY() - 1);
         else up = null;
 
         return up;
@@ -138,7 +138,7 @@ public class CellBoard {
     public CellBoard getDown() {
 
         if (this.cell.getY() < 9)
-            down = board.getCellByIndex(this.cell.getX(), this.cell.getY() + 1);
+            down = coreBoard.getCellByIndex(this.cell.getX(), this.cell.getY() + 1);
         else down = null;
 
         return down;
@@ -155,7 +155,7 @@ public class CellBoard {
 
         if ((this.cell.getY() < 9) && (this.cell.getX() > 0))
         {
-        leftDown = board.getCellByIndex(this.cell.getX() - 1, this.cell.getY() + 1);}
+        leftDown = coreBoard.getCellByIndex(this.cell.getX() - 1, this.cell.getY() + 1);}
         else leftDown = null;
 
         return leftDown;
@@ -173,7 +173,7 @@ public class CellBoard {
 
         if ((this.cell.getY() < 9) && (this.cell.getX() < 9))
         {
-            rightDown = board.getCellByIndex(this.cell.getX() + 1, this.cell.getY() + 1);}
+            rightDown = coreBoard.getCellByIndex(this.cell.getX() + 1, this.cell.getY() + 1);}
         else rightDown = null;
         return rightDown;
     }
@@ -186,7 +186,7 @@ public class CellBoard {
     public CellBoard getLeftUp() {
         if ((this.cell.getY() > 0) && (this.cell.getX() > 0))
         {
-            leftUp = board.getCellByIndex(this.cell.getX() - 1, this.cell.getY() - 1);}
+            leftUp = coreBoard.getCellByIndex(this.cell.getX() - 1, this.cell.getY() - 1);}
         else leftUp = null;
 
         return leftUp;
@@ -203,7 +203,7 @@ public class CellBoard {
     public CellBoard getRightUp() {
         if ((this.cell.getY() > 0) && (this.cell.getX() < 9))
         {
-            rightUp = board.getCellByIndex(this.cell.getX() + 1, this.cell.getY() - 1);}
+            rightUp = coreBoard.getCellByIndex(this.cell.getX() + 1, this.cell.getY() - 1);}
         else rightUp = null;
         return rightUp;
         // Y идет сверху вниз (тогда ка кнумирация на доске снизу вверх)

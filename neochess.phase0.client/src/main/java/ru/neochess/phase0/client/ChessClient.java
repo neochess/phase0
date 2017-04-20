@@ -23,10 +23,6 @@ public class ChessClient extends JFrame
 
 	//JScrollPane editorScrollPane = new JScrollPane(editorPane);
 
-
-
-
-
 	public ChessClient()
 	{
 

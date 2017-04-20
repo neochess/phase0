@@ -1,5 +1,6 @@
 package ru.neochess.phase0.client;
 
+import ru.neochess.core.Move.Move;
 import ru.neochess.phase0.client.MoveHandler.MoveHandler;
 import ru.neochess.phase0.client.State.ClientStateWrapper;
 
@@ -10,8 +11,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by for on 29.10.16.
@@ -38,16 +38,11 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
 
     public ChessClient chessclient;
 
-    //private int myColor;
-    //private String myRace;
-
-    //private boolean myTurn;
-
-    private int grabbed_piece, from_row, from_col, to_row, to_col;
+   // private int grabbed_piece, from_row, from_col, to_row, to_col;
 
     public Figure grabbed_figure;
-   // private Figure replaced_figure;
-    private Figure chess_matrix[][] = new Figure[10][10];
+
+   // private Figure chess_matrix[][] = new Figure[10][10];
 
     public Board board = new Board();
 
@@ -55,7 +50,7 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
 
     public FiguresLibrary fl = FiguresLibrary.init();
 
-    private ImageIcon chessmen_images[] = new ImageIcon[16];
+    private java.util.List<Move> moveList = new ArrayList<>();
 
     public ClientStateWrapper clientState;
 
@@ -82,6 +77,10 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
       //  grabbed_piece = ChessMen.NOTHING;
 
 
+    }
+    public void setMoveList(java.util.List<Move> moveList)
+    {
+        this.moveList = moveList;
     }
     public void exitBoard() {
         clientState.getCurrent().finishGame();
@@ -127,7 +126,13 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
                    - cellsize * grabbed_figure.getImageXshift() + x - 22,
                    - cellsize * grabbed_figure.getImageYshift() +
                             y - 22, this);
+
+            if (moveList != null)
+            {
+                renderCellLiting(gfx);
+            }
         }
+
 
     }
 
@@ -192,6 +197,23 @@ public class ChessBoard extends JPanel implements ImageObserver, MouseListener, 
 
         board.paintFigures(gfx, this);
 
+    }
+    private void renderCellLiting(Graphics2D gfx)
+    {
+        Move move;
+        int x;
+        int y;
+        gfx.setColor(new Color(255, 255, 0, 50));
+            for (int i = 0; i < moveList.size(); i++)
+            {
+               move =  moveList.get(i);
+                if (move.getTo() != null) {
+                    x = move.getTo().getCell().getX();
+                    y = move.getTo().getCell().getY();
+
+                    gfx.fillRect(x * cellsize + gap, y * cellsize + gap, cellsize, cellsize);
+                }
+            }
     }
 
     public void mouseClicked(MouseEvent e) {

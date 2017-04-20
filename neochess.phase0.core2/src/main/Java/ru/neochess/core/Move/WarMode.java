@@ -1,22 +1,22 @@
 package ru.neochess.core.Move;
 
 import ru.neochess.core.CellBoard;
-import ru.neochess.core.Figure;
+import ru.neochess.core.CoreFigure;
 
 /**
  * Created by TiJi on 13.04.17.
  */
 public class WarMode extends Move {
     private final CellBoard warCell;
-    private final Figure warFigure;
+    private final CoreFigure warCoreFigure;
    // private final Figure simpleFigure;
 
 
-    public WarMode (CellBoard warCell, Figure warFigure)
+    public WarMode (CellBoard warCell, CoreFigure warCoreFigure)
     {
 
        this.warCell = warCell;
-        this.warFigure = warFigure;
+        this.warCoreFigure = warCoreFigure;
        // simpleFigure = warCell.getFigure();
 
     }
@@ -41,7 +41,7 @@ public class WarMode extends Move {
     }
 
     @Override
-    public Figure getFigureTo() {
+    public CoreFigure getCoreFigureTo() {
         return null;
     }
 
@@ -52,6 +52,6 @@ public class WarMode extends Move {
 
     @Override
     public String toString() {
-        return warFigure + ":" + warCell + ">>";
+        return warCoreFigure + ":" + warCell + ">>";
     }
 }

@@ -1,9 +1,9 @@
 package ru.neochess.core.GeneratorsMove;
 
 import org.junit.Test;
-import ru.neochess.core.Board;
+import ru.neochess.core.CoreBoard;
 import ru.neochess.core.CellBoard;
-import ru.neochess.core.Figure;
+import ru.neochess.core.CoreFigure;
 import ru.neochess.core.Move.Move;
 import ru.neochess.core.TypeGamer;
 
@@ -15,25 +15,25 @@ import static org.junit.Assert.assertTrue;
  * Created by TiJi on 11.04.17.
  */
 public class GeneratorMoveTestHorse {
-    Board board;
+    CoreBoard coreBoard;
     private CellBoard getCellEndLine() {
-        board = new Board();
+        coreBoard = new CoreBoard();
 
-        return board.getCellByIndex(2, 0);
+        return coreBoard.getCellByIndex(2, 0);
     }
 
-    private CellBoard getDispositionFree(int x , int y , Figure centerFigure) {
+    private CellBoard getDispositionFree(int x , int y , CoreFigure centerCoreFigure) {
 
-        board = new Board();
-        CellBoard center = board.getCellByIndex(x, y);
-        center.setFigure(centerFigure);
+        coreBoard = new CoreBoard();
+        CellBoard center = coreBoard.getCellByIndex(x, y);
+        center.setCoreFigure(centerCoreFigure);
         return center;
 
     }
 
     @Test
     public void testGetMoveHorseCell() throws Exception {
-        CellBoard currCell = getDispositionFree(5, 5, new Figure(TypeGamer.Black) );
+        CellBoard currCell = getDispositionFree(5, 5, new CoreFigure(TypeGamer.Black) );
         // IGeneratorMove generationMove = new GeneratorMoveAgr();
         IGeneratorMove generationMove = new GeneratorMoveHorse();
         List<Move> moves = generationMove.getMove(currCell, TypeGamer.Black);

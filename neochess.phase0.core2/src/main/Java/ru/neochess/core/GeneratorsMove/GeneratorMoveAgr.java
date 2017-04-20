@@ -31,7 +31,7 @@ public class GeneratorMoveAgr  implements IGeneratorMove {
             firstStep = true;
 
             CellBoard prev = up.next();
-            Figure prevF = prev.getFigure();
+            CoreFigure prevF = prev.getCoreFigure();
           //  if (prev.getFigure().getTypeFigure().equals(TypeFigure.Leader)) // ход от вожака
             if (prevF  != null) // ход от вожака
             if (prevF.getTypeFigure().equals(TypeFigure.Leader))
@@ -42,9 +42,9 @@ public class GeneratorMoveAgr  implements IGeneratorMove {
         //ход
         if (down.hasNext()) {
             CellBoard next = down.next();
-            if (next.getFigure() == null) {
+            if (next.getCoreFigure() == null) {
                 result.add(new Move(currentCell, next,
-                        currentCell.getFigure()));
+                        currentCell.getCoreFigure()));
             }
 
             if (firstStep) {
@@ -53,17 +53,17 @@ public class GeneratorMoveAgr  implements IGeneratorMove {
 
                 if (down.hasNext()) {
                 CellBoard next2 = down.next();
-                if (next2.getFigure() == null) {
+                if (next2.getCoreFigure() == null) {
                     result.add(new Move(currentCell, next2,
-                            currentCell.getFigure()));
+                            currentCell.getCoreFigure()));
                 }
             }
            if( firstStepFromLeader)
            {
                CellBoard next3 = down.next();
-               if (next3.getFigure() == null) {
+               if (next3.getCoreFigure() == null) {
                    result.add(new Move(currentCell, next3,
-                           currentCell.getFigure()));
+                           currentCell.getCoreFigure()));
                }
            }
 
@@ -74,24 +74,24 @@ public class GeneratorMoveAgr  implements IGeneratorMove {
         //аттака
         if (down.hasNext()) {
             CellBoard next = down.next();
-            if (next.getFigure() != null) {
+            if (next.getCoreFigure() != null) {
                 result.add(new Move(currentCell, next,
-                        currentCell.getFigure()));
+                        currentCell.getCoreFigure()));
             }
         }
 
         if (leftdown.hasNext()) {
             CellBoard next = leftdown.next();
-            if (next.getFigure() != null) {
+            if (next.getCoreFigure() != null) {
                 result.add(new Move(currentCell, next,
-                        currentCell.getFigure()));
+                        currentCell.getCoreFigure()));
             }
         }
         if (rightdown.hasNext()) {
             CellBoard next = rightdown.next();
-            if (next.getFigure() != null) {
+            if (next.getCoreFigure() != null) {
                 result.add(new Move(currentCell, next,
-                        currentCell.getFigure()));
+                        currentCell.getCoreFigure()));
             }
         }
         return result;

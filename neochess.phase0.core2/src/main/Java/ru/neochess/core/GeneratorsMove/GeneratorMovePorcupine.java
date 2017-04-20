@@ -4,7 +4,6 @@ import ru.neochess.core.AdjacentCell;
 import ru.neochess.core.CellBoard;
 
 import ru.neochess.core.Move.*;
-import ru.neochess.core.Move.IMove;
 
 import ru.neochess.core.TypeGamer;
 
@@ -48,7 +47,7 @@ public class GeneratorMovePorcupine implements IGeneratorMove {
             next = down.next();
             //   if (next.getFigure() == null) {
             result.add(new Move(currentCell, next,
-                    currentCell.getFigure()));
+                    currentCell.getCoreFigure()));
             //  }
         }
 
@@ -56,7 +55,7 @@ public class GeneratorMovePorcupine implements IGeneratorMove {
             next = up.next();
             //  if (next.getFigure() == null) {
             result.add(new Move(currentCell, next,
-                    currentCell.getFigure()));
+                    currentCell.getCoreFigure()));
             //   }
         }
 
@@ -64,7 +63,7 @@ public class GeneratorMovePorcupine implements IGeneratorMove {
             next = left.next();
             //   if (next.getFigure() == null) {
             result.add(new Move(currentCell, next,
-                    currentCell.getFigure()));
+                    currentCell.getCoreFigure()));
             //  }
         }
 
@@ -72,7 +71,7 @@ public class GeneratorMovePorcupine implements IGeneratorMove {
             next = right.next();
             //  if (next.getFigure() == null) {
             result.add(new Move(currentCell, next,
-                    currentCell.getFigure()));
+                    currentCell.getCoreFigure()));
             // }
         }
 
@@ -128,17 +127,17 @@ public class GeneratorMovePorcupine implements IGeneratorMove {
 
     protected Move createMove(CellBoard currentCell, CellBoard next) {
 
-        if (next.getFigure() == null) {
-            return (new Move(currentCell, next, currentCell.getFigure()));
+        if (next.getCoreFigure() == null) {
+            return (new Move(currentCell, next, currentCell.getCoreFigure()));
         }
-        else if (next.getFigure() != null)
+        else if (next.getCoreFigure() != null)
             AttackMove(currentCell, next);
 
         return null;
     }
 
     protected void AttackMove(CellBoard currentCell, CellBoard next) {
-        result.add(new Shot(currentCell, next, currentCell.getFigure(), next.getFigure()));
+        result.add(new Shot(currentCell, next, currentCell.getCoreFigure(), next.getCoreFigure()));
 
     }
 }

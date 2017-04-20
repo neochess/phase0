@@ -33,7 +33,7 @@ public class GeneratorMoveElephant implements IGeneratorMove {
             next = down.next();
             //   if (next.getFigure() == null) {
             result.add(new Move(currentCell, next,
-                    currentCell.getFigure()));
+                    currentCell.getCoreFigure()));
             //  }
         }
 
@@ -41,7 +41,7 @@ public class GeneratorMoveElephant implements IGeneratorMove {
             next = up.next();
             //  if (next.getFigure() == null) {
             result.add(new Move(currentCell, next,
-                    currentCell.getFigure()));
+                    currentCell.getCoreFigure()));
             //   }
         }
 
@@ -49,7 +49,7 @@ public class GeneratorMoveElephant implements IGeneratorMove {
             next = left.next();
             //   if (next.getFigure() == null) {
             result.add(new Move(currentCell, next,
-                    currentCell.getFigure()));
+                    currentCell.getCoreFigure()));
             //  }
         }
 
@@ -57,7 +57,7 @@ public class GeneratorMoveElephant implements IGeneratorMove {
             next = right.next();
             //  if (next.getFigure() == null) {
             result.add(new Move(currentCell, next,
-                    currentCell.getFigure()));
+                    currentCell.getCoreFigure()));
             // }
         }
 

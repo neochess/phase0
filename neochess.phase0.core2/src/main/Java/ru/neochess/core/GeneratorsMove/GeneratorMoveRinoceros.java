@@ -75,8 +75,8 @@ public class GeneratorMoveRinoceros implements IGeneratorMove {
 
     protected Move createMove(CellBoard currentCell, CellBoard next, Iterator<CellBoard> it) {
 
-        if (next.getFigure() == null) {
-            return (new Move(currentCell, next, currentCell.getFigure()));
+        if (next.getCoreFigure() == null) {
+            return (new Move(currentCell, next, currentCell.getCoreFigure()));
         } else AttackMove(currentCell, next, it);
 
         return null;
@@ -86,7 +86,7 @@ public class GeneratorMoveRinoceros implements IGeneratorMove {
         if (it.hasNext())
         next = it.next();
 
-        result.add(new Move(currentCell, next, currentCell.getFigure()));
+        result.add(new Move(currentCell, next, currentCell.getCoreFigure()));
 
     }
 }

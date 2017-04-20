@@ -75,15 +75,15 @@ public class GeneratorMoveRook implements IGeneratorMove {
 
     protected Move createMove(CellBoard currentCell, CellBoard next) {
 
-        if (next.getFigure() == null) {
-            return (new Move(currentCell, next, currentCell.getFigure()));
+        if (next.getCoreFigure() == null) {
+            return (new Move(currentCell, next, currentCell.getCoreFigure()));
         } else AttackMove(currentCell, next);
 
         return null;
     }
 
     protected void AttackMove(CellBoard currentCell, CellBoard next) {
-        result.add(new Move(currentCell, next, currentCell.getFigure()));
+        result.add(new Move(currentCell, next, currentCell.getCoreFigure()));
 
     }
 }

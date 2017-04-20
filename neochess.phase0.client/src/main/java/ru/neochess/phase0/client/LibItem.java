@@ -9,13 +9,15 @@ import java.util.function.BiFunction;
 public class LibItem {
     private String code;
     private String desc;
+    private String moveGenerator;
 
     private String imgPath;
     private PlacementInterface placementFunc;
 
-    public LibItem(String code, String desc, String imgPath, PlacementInterface p) {
+    public LibItem(String code, String desc, String imgPath, String moveGenerator, PlacementInterface p) {
         this.code = code;
         this.desc = desc;
+        this.moveGenerator = moveGenerator;
 
         this.imgPath = imgPath;
         this.placementFunc = p;
@@ -36,4 +38,7 @@ public class LibItem {
     public PlacementInterface getPlacementFunc() {
         return placementFunc;
     }
+public String getMoveGenerator()
+    {return moveGenerator;}
+
 }

@@ -4,6 +4,8 @@ import ru.neochess.phase0.client.CheMessage.ChessMessage.*;
 import ru.neochess.phase0.client.ChessBoard;
 import ru.neochess.phase0.client.CheMessage.*;
 import javax.swing.*;
+import ru.neochess.core.*;
+
 
 
 /**

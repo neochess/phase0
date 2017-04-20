@@ -32,6 +32,7 @@ public class InputHandlerThread extends Thread
 
                     messageIn = NeoCheMessage.parseDelimitedFrom(is);
                     System.out.println(messageIn.toString());
+                   // System.out.println(messageIn);
 
                     if (messageIn != null)
                         srvcon.reply(messageIn );

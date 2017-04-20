@@ -34,33 +34,33 @@ public class GeneratorMoveWerewolf implements IGeneratorMove {
 
         if (down.hasNext()) {
             next = down.next();
-            if (next.getFigure() == null) {
+            if (next.getCoreFigure() == null) {
                 result.add(new Move(currentCell, next,
-                        currentCell.getFigure()));
+                        currentCell.getCoreFigure()));
             }
         }
 
         if (up.hasNext()) {
             next = up.next();
-            if (next.getFigure() == null) {
+            if (next.getCoreFigure() == null) {
                 result.add(new Move(currentCell, next,
-                        currentCell.getFigure()));
+                        currentCell.getCoreFigure()));
             }
         }
 
         if (left.hasNext()) {
             next = left.next();
-            if (next.getFigure() == null) {
+            if (next.getCoreFigure() == null) {
                 result.add(new Move(currentCell, next,
-                        currentCell.getFigure()));
+                        currentCell.getCoreFigure()));
             }
         }
 
         if (right.hasNext()) {
             next = right.next();
-            if (next.getFigure() == null) {
+            if (next.getCoreFigure() == null) {
                 result.add(new Move(currentCell, next,
-                        currentCell.getFigure()));
+                        currentCell.getCoreFigure()));
             }
         }
 
@@ -109,15 +109,15 @@ public class GeneratorMoveWerewolf implements IGeneratorMove {
 
     protected Move createMove(CellBoard currentCell, CellBoard next) {
 
-        if (next.getFigure() == null) {
-            return (new Move(currentCell, next, currentCell.getFigure()));
+        if (next.getCoreFigure() == null) {
+            return (new Move(currentCell, next, currentCell.getCoreFigure()));
         } else AttackMove(currentCell, next);
 
         return null;
     }
 
     protected void AttackMove(CellBoard currentCell, CellBoard next) {
-        result.add(new Move(currentCell, next, currentCell.getFigure()));
+        result.add(new Move(currentCell, next, currentCell.getCoreFigure()));
 
     }
 }

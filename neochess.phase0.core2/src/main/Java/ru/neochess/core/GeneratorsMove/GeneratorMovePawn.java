@@ -3,7 +3,6 @@ package ru.neochess.core.GeneratorsMove;
 import ru.neochess.core.AdjacentCell;
 import ru.neochess.core.CellBoard;
 import ru.neochess.core.Move.Move;
-import ru.neochess.core.Move.Shot;
 import ru.neochess.core.Move.WarMode;
 import ru.neochess.core.TypeGamer;
 
@@ -35,9 +34,9 @@ public class GeneratorMovePawn implements IGeneratorMove {
         //ход
         if (iterator.hasNext()) {
             next = iterator.next();
-            if (next.getFigure() == null) {
+            if (next.getCoreFigure() == null) {
                 result.add(new Move(currentCell, next,
-                        currentCell.getFigure()));
+                        currentCell.getCoreFigure()));
             }
 
             if (firstStep) {
@@ -46,9 +45,9 @@ public class GeneratorMovePawn implements IGeneratorMove {
 
                 if (iterator.hasNext()) {
                     CellBoard next2 = iterator.next();
-                    if (next2.getFigure() == null) {
+                    if (next2.getCoreFigure() == null) {
                         result.add(new Move(currentCell, next2,
-                                currentCell.getFigure()));
+                                currentCell.getCoreFigure()));
                     }
                 }
             }
@@ -77,7 +76,7 @@ public class GeneratorMovePawn implements IGeneratorMove {
 
         //превращение пешки
 
-        result.add(new WarMode(currentCell, currentCell.getFigure()));
+        result.add(new WarMode(currentCell, currentCell.getCoreFigure()));
 
         return result;
 
@@ -85,8 +84,8 @@ public class GeneratorMovePawn implements IGeneratorMove {
 
     protected Move createMove(CellBoard currentCell, CellBoard next) {
 
-        if (next.getFigure() != null) {
-            return (new Move(currentCell, next, currentCell.getFigure()));
+        if (next.getCoreFigure() != null) {
+            return (new Move(currentCell, next, currentCell.getCoreFigure()));
         }
 
         return null;
