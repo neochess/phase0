@@ -1,2 +1,5 @@
 rootProject.name = 'neochess.phase0.client'
 
+include(':neochess.phase0.core')
+project(':neochess.phase0.core').projectDir = new File('../neochess.phase0.core')
+
